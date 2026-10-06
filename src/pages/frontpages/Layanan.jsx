@@ -19,7 +19,7 @@ function TagIcon({ className = 'w-3.5 h-3.5' }) {
   );
 }
 
-function ClockIcon({ className = 'w-3.5 h-3.5' }) {
+function PaletteIcon({ className = 'w-5 h-5' }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -30,10 +30,53 @@ function ClockIcon({ className = 'w-3.5 h-3.5' }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
+      <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+      <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+      <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+      <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z" />
     </svg>
   );
+}
+
+function VideoIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.934a.5.5 0 0 0-.777-.416L16 11" />
+      <rect x="2" y="6" width="14" height="12" rx="0" />
+    </svg>
+  );
+}
+
+function CodeIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+    </svg>
+  );
+}
+
+function getPillarIcon(pillar, className = 'w-5 h-5') {
+  if (pillar === 'Desain Grafis') return <PaletteIcon className={className} />;
+  if (pillar === 'Video & Motion') return <VideoIcon className={className} />;
+  return <CodeIcon className={className} />;
 }
 
 function CheckIcon({ className = 'w-3.5 h-3.5' }) {
@@ -190,30 +233,30 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
 
         {/* Navigasi Mode Tampilan (Skema Paket vs Tarif Satuan) */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6">
-          <div className="inline-flex p-1 bg-white border border-slate-200 rounded-none shadow-xs">
+          <div className="inline-flex w-full sm:w-auto p-1 bg-white border border-slate-200 rounded-none shadow-xs">
             <button
               type="button"
               onClick={() => setViewMode('paket')}
-              className={`inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-bold rounded-none transition-colors ${
+              className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-none transition-colors ${
                 viewMode === 'paket'
                   ? 'bg-[#4F46E5] text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <LayersIcon className="w-4 h-4" />
-              <span>Skema Paket (Standar / Deluxe / Niat)</span>
+              <span>Skema Paket</span>
             </button>
             <button
               type="button"
               onClick={() => setViewMode('reguler')}
-              className={`inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-bold rounded-none transition-colors ${
+              className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-none transition-colors ${
                 viewMode === 'reguler'
                   ? 'bg-[#4F46E5] text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <ListIcon className="w-4 h-4" />
-              <span>Tarif Satuan (A La Carte)</span>
+              <span>Tarif Satuan</span>
             </button>
           </div>
 
@@ -249,92 +292,106 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
             {filteredPaket.map((pkg) => (
               <div
                 key={pkg.id}
-                className={`bg-white border p-6 sm:p-7 rounded-none flex flex-col justify-between transition duration-200 shadow-sm relative ${
+                onClick={() => handlePilihPaket(pkg.nama_paket, pkg.range_harga)}
+                className={`group relative bg-white border p-6 sm:p-7 rounded-none flex flex-col justify-between transition-all duration-300 hover:bg-[#6D28D9] hover:border-[#6D28D9] hover:shadow-xl hover:-translate-y-1 cursor-pointer ${
                   pkg.highlight
-                    ? 'border-[#4F46E5] ring-2 ring-[#4F46E5]/20'
-                    : 'border-slate-200 hover:border-[#6D28D9]'
+                    ? 'border-[#4F46E5] ring-1 ring-[#4F46E5]/25'
+                    : 'border-slate-200'
                 }`}
               >
                 <div>
-                  {/* Badge Tier & Pilar */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="font-mono text-[11px] font-bold text-[#4F46E5] uppercase tracking-wider">
-                      {pkg.pillar}
+                  {/* Baris Atas: Ikon Pilar & Badge Tier */}
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="w-10 h-10 border border-slate-200 text-[#4F46E5] bg-white group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white flex items-center justify-center rounded-none transition-colors duration-300">
+                      {getPillarIcon(pkg.pillar)}
                     </span>
                     <span
-                      className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-none border ${
-                        pkg.tier === 'Deluxe'
-                          ? 'bg-indigo-50 text-[#4F46E5] border-indigo-200'
-                          : pkg.tier === 'Niat'
-                          ? 'bg-purple-50 text-purple-700 border-purple-200'
-                          : 'bg-slate-100 text-slate-600 border-slate-200'
+                      className={`text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-none border transition-colors duration-300 ${
+                        pkg.highlight
+                          ? 'bg-violet-50 text-[#6D28D9] border-violet-200 group-hover:bg-white/20 group-hover:border-white/30 group-hover:text-white'
+                          : 'bg-slate-50 text-slate-500 border-slate-200 group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white'
                       }`}
                     >
-                      {pkg.tier.toUpperCase()} {pkg.highlight ? '★ FAVORIT' : ''}
+                      {pkg.tier} {pkg.highlight ? '★ FAVORIT' : ''}
                     </span>
                   </div>
 
-                  {/* Judul Paket & Tagline */}
-                  <h3 className="text-xl font-extrabold text-slate-900 tracking-tight leading-snug">
+                  {/* Identitas Paket */}
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-white transition-colors duration-300 mt-4 leading-snug">
                     {pkg.nama_paket}
                   </h3>
-                  <p className="text-xs font-semibold text-slate-500 mt-0.5 mb-4 font-mono">
-                    [{pkg.tagline}]
+                  <p className="font-mono text-violet-600 group-hover:text-violet-200 text-xs font-semibold mb-3 transition-colors duration-300">
+                    {pkg.pillar} • [{pkg.tagline}]
                   </p>
 
-                  {/* Rentang Harga & Estimasi Waktu */}
-                  <div className="border-y border-slate-100 py-3.5 mb-5 bg-slate-50/70 -mx-6 px-6 sm:-mx-7 sm:px-7">
-                    <div className="text-2xl font-black text-slate-900 tracking-tight">
-                      {pkg.range_harga}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs font-mono text-slate-600">
-                      <span className="inline-flex items-center gap-1">
-                        <ClockIcon className="w-3.5 h-3.5 text-[#4F46E5]" />
-                        <span>{pkg.durasi}</span>
-                      </span>
-                      <span>•</span>
-                      <span className="inline-flex items-center gap-1 text-slate-700 font-semibold">
-                        <CheckIcon className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>{pkg.revisi}</span>
-                      </span>
-                    </div>
+                  {/* Rentang Harga Utama */}
+                  <div className="text-2xl font-extrabold text-slate-900 group-hover:text-white tracking-tight mb-4 transition-colors duration-300">
+                    {pkg.range_harga}
                   </div>
 
-                  {/* Spesifikasi Parameter Teknis */}
-                  <div className="space-y-3 text-xs text-slate-600 leading-relaxed mb-6">
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-0.5 font-mono text-[11px] uppercase tracking-wider">
-                        Kesiapan Brief:
+                  {/* Garis Pembatas Halus */}
+                  <div className="border-t border-slate-200 group-hover:border-white/20 my-4 transition-colors duration-300"></div>
+
+                  {/* Checklist Poin Terstruktur */}
+                  <div className="space-y-2.5 my-4">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
                       </span>
-                      <p className="text-slate-600">{pkg.syarat_brief}</p>
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Waktu:</strong> {pkg.durasi}
+                      </span>
                     </div>
 
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-0.5 font-mono text-[11px] uppercase tracking-wider">
-                        Cakupan Pengerjaan:
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
                       </span>
-                      <p className="text-slate-600">{pkg.cakupan_teknis}</p>
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Revisi:</strong> {pkg.revisi}
+                      </span>
                     </div>
 
-                    <div>
-                      <span className="font-bold text-slate-800 block mb-0.5 font-mono text-[11px] uppercase tracking-wider">
-                        Format File Akhir:
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
                       </span>
-                      <p className="text-slate-700 font-medium bg-slate-50 p-2 border border-slate-200/80 font-mono text-[11px]">
-                        {pkg.file_akhir}
-                      </p>
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Brief:</strong> {pkg.syarat_brief}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Teknis:</strong> {pkg.cakupan_teknis}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Output:</strong> {pkg.file_akhir}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Tombol Pilih Paket */}
+                {/* Tombol Aksi Bawah */}
                 <button
                   type="button"
-                  onClick={() => handlePilihPaket(pkg.nama_paket, pkg.range_harga)}
-                  className={`w-full py-2.5 px-4 text-xs font-bold text-center border transition rounded-none shadow-xs mt-2 ${
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePilihPaket(pkg.nama_paket, pkg.range_harga);
+                  }}
+                  className={`w-full py-3 px-4 text-xs font-bold text-center border rounded-none shadow-xs mt-6 transition-all duration-300 group-hover:bg-white group-hover:text-[#6D28D9] group-hover:border-white ${
                     pkg.highlight
                       ? 'bg-[#4F46E5] text-white border-[#4F46E5] hover:bg-[#4338CA]'
-                      : 'bg-white text-[#4F46E5] border-[#4F46E5] hover:bg-[#4F46E5] hover:text-white'
+                      : 'bg-slate-50 text-slate-800 border-slate-300 hover:bg-slate-100'
                   }`}
                 >
                   Pilih Paket Ini →
@@ -350,60 +407,77 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
             {filteredReguler.map((item) => (
               <div
                 key={item.id}
-                className="bg-white border border-slate-200 p-6 rounded-none flex flex-col justify-between hover:border-[#6D28D9] transition duration-200 shadow-sm"
+                onClick={() => handlePilihPaket(item.nama_layanan, item.range_harga)}
+                className="group relative bg-white border border-slate-200 p-6 sm:p-7 rounded-none flex flex-col justify-between transition-all duration-300 hover:bg-[#6D28D9] hover:border-[#6D28D9] hover:shadow-xl hover:-translate-y-1 cursor-pointer"
               >
                 <div>
-                  {/* Pilar & Subkategori */}
+                  {/* Baris Atas: Ikon Pilar & Subkategori */}
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="font-mono text-xs font-semibold text-[#4F46E5] uppercase tracking-wider">
-                      {item.pillar}
+                    <span className="w-10 h-10 border border-slate-200 text-[#4F46E5] bg-white group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white flex items-center justify-center rounded-none transition-colors duration-300">
+                      {getPillarIcon(item.pillar)}
                     </span>
-                    <span className="bg-slate-100 text-slate-600 text-[10px] font-mono px-2 py-0.5 border border-slate-200 rounded-none">
+                    <span className="bg-slate-50 text-slate-500 border border-slate-200 group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-none transition-colors duration-300">
                       {item.sub_kategori}
                     </span>
                   </div>
 
                   {/* Nama Layanan */}
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-white transition-colors duration-300 mt-4 leading-snug">
                     {item.nama_layanan}
                   </h3>
+                  <p className="font-mono text-violet-600 group-hover:text-violet-200 text-xs font-semibold mb-3 transition-colors duration-300">
+                    {item.pillar}
+                  </p>
 
                   {/* Rentang Harga */}
-                  <div className="border-y border-slate-100 py-2.5 my-3 bg-slate-50/70 -mx-6 px-6">
-                    <div className="text-xl font-black text-slate-900 tracking-tight">
-                      {item.range_harga}
-                    </div>
-                    {item.durasi_opsional && (
-                      <p className="text-[11px] font-mono text-slate-500 mt-0.5">
-                        Durasi / Estimasi: <span className="font-semibold text-slate-700">{item.durasi_opsional}</span>
-                      </p>
-                    )}
+                  <div className="text-2xl font-extrabold text-slate-900 group-hover:text-white tracking-tight mb-4 transition-colors duration-300">
+                    {item.range_harga}
                   </div>
 
-                  {/* Detail Fokus & Output */}
-                  <div className="space-y-2.5 text-xs text-slate-600 my-4">
-                    <div>
-                      <span className="font-bold text-slate-800 block text-[11px] font-mono uppercase">
-                        Fokus Karya:
+                  {/* Garis Pembatas Halus */}
+                  <div className="border-t border-slate-200 group-hover:border-white/20 my-4 transition-colors duration-300"></div>
+
+                  {/* Checklist Spesifikasi */}
+                  <div className="space-y-2.5 my-4">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
                       </span>
-                      <p>{item.fokus}</p>
-                    </div>
-                    <div>
-                      <span className="font-bold text-slate-800 block text-[11px] font-mono uppercase">
-                        Output Yang Didapat:
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Fokus:</strong> {item.fokus}
                       </span>
-                      <p className="bg-slate-50 p-2 border border-slate-200/80 font-mono text-[11px] text-slate-700">
-                        {item.output}
-                      </p>
                     </div>
+
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                        <CheckIcon className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="leading-tight">
+                        <strong className="font-semibold text-slate-900 group-hover:text-white">Output:</strong> {item.output}
+                      </span>
+                    </div>
+
+                    {item.durasi_opsional && (
+                      <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
+                        <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                          <CheckIcon className="w-3.5 h-3.5" />
+                        </span>
+                        <span className="leading-tight">
+                          <strong className="font-semibold text-slate-900 group-hover:text-white">Waktu:</strong> {item.durasi_opsional}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Tombol Konsultasi */}
                 <button
                   type="button"
-                  onClick={() => handlePilihPaket(item.nama_layanan, item.range_harga)}
-                  className="w-full mt-4 py-2.5 px-4 text-xs font-bold text-center border border-[#4F46E5] text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white transition rounded-none shadow-xs"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePilihPaket(item.nama_layanan, item.range_harga);
+                  }}
+                  className="w-full py-3 px-4 text-xs font-bold text-center border border-slate-300 text-slate-800 bg-slate-50 hover:bg-slate-100 rounded-none shadow-xs mt-6 transition-all duration-300 group-hover:bg-white group-hover:text-[#6D28D9] group-hover:border-white"
                 >
                   Konsultasi Layanan Ini →
                 </button>
