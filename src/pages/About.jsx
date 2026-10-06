@@ -164,30 +164,88 @@ export default function About({ onNavigate }) {
     },
   ];
 
-  const achievements = [
+  const certifications = [
     {
-      badge: 'Sertifikasi Global',
       title: 'Google for Education – Gemini Certified Student',
-      organizer: 'Google for Education',
-      detail: 'Diterbitkan: 23 September 2026 | Berlaku s.d: 2029',
-      desc: 'Kualifikasi penguasaan AI dari Google (Google AI competencies).',
-      icon: GraduationCap,
+      issuer: 'Google for Education',
+      type: 'Sertifikasi Global',
+      date: '23 September 2026',
+      credentialId: null,
+      detail: 'Kualifikasi penguasaan AI dari Google (Google AI competencies) — Berlaku s.d: 2029',
+      recipient: 'Putu Agus Sumerta Yasa',
     },
     {
-      badge: 'Sertifikasi Resmi',
-      title: 'MySkill – Sertifikasi Desain Grafis (Canva for Design)',
-      organizer: 'MySkill Intensive Bootcamp',
-      detail: 'No. Sertifikat: MS-5/9/2024-cepfgXhOCNhO6B10QYA9',
-      desc: 'Menyelesaikan kelas intensif 10 jam bersertifikat dalam penyusunan visual promosi & branding komersial.',
-      icon: Award,
+      title: 'Graphic Design Fundamental',
+      issuer: 'MySkill',
+      type: 'Skill Specialization',
+      date: '5 Agustus 2024',
+      credentialId: null,
+      detail: 'Menyelesaikan topik spesialisasi Graphic Design (17 Courses)',
+      recipient: 'Putu Agus Sumerta Yasa',
     },
+    {
+      title: 'Canva for Design',
+      issuer: 'MySkill',
+      type: 'Skill Specialization',
+      date: '5 September 2024',
+      credentialId: 'MS-5/9/2024-cepfgXhOCNhO6B10QYA9',
+      detail: 'Menyelesaikan topik spesialisasi Canva for Design selama 10 jam (10 Courses)',
+      recipient: 'Putu Agus Sumerta Yasa',
+    },
+    {
+      title: 'Adobe Photoshop',
+      issuer: 'MySkill',
+      type: 'Skill Specialization',
+      date: '23 September 2025',
+      credentialId: null,
+      detail: 'Menyelesaikan topik spesialisasi Adobe Photoshop selama 15 jam (15 Courses)',
+      recipient: 'Putu Agus Sumerta Yasa',
+    },
+    {
+      title: 'Designing Using Canva',
+      issuer: 'MySkill',
+      type: 'Short Class',
+      date: '23 Juli 2024',
+      credentialId: null,
+      detail: 'Short class Graphic Design bertema Designing Using Canva',
+      recipient: 'Putu Agus Sumerta Yasa',
+    },
+    {
+      title: 'Graphic Design Essentials',
+      issuer: 'Canva Design School',
+      type: 'Certificate of Completion',
+      date: '22 Februari 2025',
+      credentialId: 'a8d16f',
+      detail: 'Penguasaan dasar elemen desain, tipografi, prinsip desain, teori warna, dan komposisi',
+      recipient: 'PUTU AGUS SUMERTA YASA',
+    },
+    {
+      title: 'Canva Essentials',
+      issuer: 'Canva Design School',
+      type: 'Certificate of Completion',
+      date: '22 Februari 2025',
+      credentialId: '5b46cf',
+      detail: 'Navigasi Canva, kustomisasi template, penggunaan elemen grafis, dasar editing foto, dan kolaborasi',
+      recipient: 'PUTU AGUS SUMERTA YASA',
+    },
+    {
+      title: 'Paket Social Media Course: Jago Social Media',
+      issuer: 'Udemy (Practiclass by Ngalup.co)',
+      type: 'Certificate of Completion',
+      date: '14 Juni 2025',
+      credentialId: null,
+      detail: 'Kursus strategi dan eksekusi media sosial terpadu (durasi 2 jam)',
+      recipient: 'Putu Agus Sumerta Yasa',
+    },
+  ];
+
+  const awards = [
     {
       badge: 'Juara 2',
       title: 'Juara 2 Lomba Poster Ilmiah',
       organizer: 'Dies Natalis Institut Desain & Bisnis (IDB) Bali',
       detail: 'Tahun 2023',
       desc: 'Visualisasi data ilmiah dengan struktur informasi yang estetik, komunikatif, dan tajam.',
-      icon: Award,
     },
     {
       badge: 'Juara 2',
@@ -195,7 +253,6 @@ export default function About({ onNavigate }) {
       organizer: 'Peringatan Bulan Bung Karno',
       detail: 'Tahun 2023',
       desc: 'Penyuntingan video dokumenter sejarah dengan penataan ritme cerita, audio narasi, dan grading visual.',
-      icon: Award,
     },
     {
       badge: 'Platform Internasional',
@@ -203,7 +260,6 @@ export default function About({ onNavigate }) {
       organizer: 'DesignCrowd International Contest',
       detail: 'Tahun 2024',
       desc: '2 desain lolos standar kurasi platform desain internasional bersaing dengan kreator global.',
-      icon: Award,
     },
   ];
 
@@ -375,56 +431,130 @@ export default function About({ onNavigate }) {
         </section>
 
         {/* Prestasi & Sertifikasi */}
-        <section className="space-y-8 pt-4">
+        <section className="space-y-10 pt-4">
           <div className="border-b border-slate-200 pb-4">
             <span className="font-mono text-xs text-primary font-semibold uppercase tracking-wider">
-              PENCAPAIAN NYATA
+              PENCAPAIAN & KREDENSIAL
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
               Prestasi & Sertifikasi
             </h2>
+            <p className="text-sm sm:text-base text-slate-600 mt-1">
+              Kredensial keahlian terverifikasi dan jejak pencapaian kompetisi nyata.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {achievements.map((item, idx) => (
-              <div
-                key={idx}
-                className="border border-slate-200 bg-white p-6 hover:border-primary/50 transition-colors shadow-sm flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-primary bg-primary-light px-2.5 py-1 border border-primary/20">
-                      <Award className="w-3.5 h-3.5" />
-                      <span>{item.badge}</span>
-                    </span>
-                    <span className="font-mono text-xs text-slate-400 font-medium">
-                      #0{idx + 1}
-                    </span>
+          {/* Subseksi 1: Lisensi & Sertifikasi Keahlian */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 bg-primary inline-block" />
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                Lisensi & Sertifikasi Keahlian
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {certifications.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-none border border-slate-200 bg-white p-4 sm:p-5 hover:border-primary/50 transition-colors shadow-sm flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-primary bg-primary-light px-2 py-0.5 border border-primary/20 rounded-none">
+                        <Award className="w-3.5 h-3.5" />
+                        <span>{item.type}</span>
+                      </span>
+                      <span className="font-mono text-[11px] text-slate-400 font-medium">
+                        #0{idx + 1}
+                      </span>
+                    </div>
+
+                    <h4 className="text-base font-bold text-slate-900 tracking-tight mb-1.5 leading-snug">
+                      {item.title}
+                    </h4>
+
+                    <div className="flex flex-wrap items-center gap-x-2 text-xs text-slate-500 mb-2.5 font-mono">
+                      <span className="font-semibold text-primary">{item.issuer}</span>
+                      <span>•</span>
+                      <span>{item.date}</span>
+                    </div>
+
+                    {item.credentialId && (
+                      <div className="mb-2.5">
+                        <span className="inline-block font-mono text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 border border-slate-200 rounded-none">
+                          Credential ID: <strong className="text-slate-900">{item.credentialId}</strong>
+                        </span>
+                      </div>
+                    )}
+
+                    <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed bg-slate-50 p-2.5 border border-slate-100 mb-3 rounded-none font-normal">
+                      {item.detail}
+                    </p>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight mb-1">
-                    {item.title}
-                  </h3>
-
-                  <p className="font-mono text-xs text-primary font-semibold mb-2">
-                    {item.organizer}
-                  </p>
-
-                  <p className="font-mono text-[11px] text-slate-500 mb-3 bg-slate-50 p-2 border border-slate-200">
-                    {item.detail}
-                  </p>
-
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {item.desc}
-                  </p>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span className="text-[11px] font-mono text-slate-500 truncate mr-2">
+                      Penerima: <span className="text-slate-800 font-medium">{item.recipient}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 font-semibold text-emerald-700 text-[11px] shrink-0">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Terverifikasi</span>
+                    </span>
+                  </div>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-emerald-700">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Terverifikasi Resmi</span>
+          {/* Subseksi 2: Penghargaan & Kompetisi */}
+          <div className="space-y-4 pt-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 bg-[#6D28D9] inline-block" />
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                Penghargaan & Kompetisi
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {awards.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-none border border-slate-200 bg-white p-4 sm:p-5 hover:border-[#6D28D9]/50 transition-colors shadow-sm flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-[#6D28D9] bg-violet-50 px-2 py-0.5 border border-[#6D28D9]/20 rounded-none">
+                        <Award className="w-3.5 h-3.5" />
+                        <span>{item.badge}</span>
+                      </span>
+                      <span className="font-mono text-[11px] text-slate-400 font-medium">
+                        #{idx + 1}
+                      </span>
+                    </div>
+
+                    <h4 className="text-base font-bold text-slate-900 tracking-tight mb-1.5 leading-snug">
+                      {item.title}
+                    </h4>
+
+                    <div className="flex flex-wrap items-center gap-x-2 text-xs text-slate-500 mb-2.5 font-mono">
+                      <span className="font-semibold text-slate-700">{item.organizer}</span>
+                      <span>•</span>
+                      <span>{item.detail}</span>
+                    </div>
+
+                    <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Rekam Jejak Terverifikasi</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 

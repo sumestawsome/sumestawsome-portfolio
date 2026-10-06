@@ -225,5 +225,28 @@
     ],
     "desc": "Identitas visual bertema teknologi futuristik untuk festival akbar Teknik Informatika Undiksha, mencakup poster, lanyard, dan banner.",
     "link": "https://sumesta-df6a8.web.app/project-details.html?id=EmlghGiiKcvl7TRRbNBj"
+  },
+  {
+    "id": 19,
+    "title": "Seri Film Pendek - Kolaborasi PRO 2 RRI Singaraja",
+    "category": "Multimedia",
+    "thumbnail": "MASUKKAN_URL_GAMBAR_RRI",
+    "tools": [
+      "Adobe Premiere Pro",
+      "Adobe After Effects"
+    ],
+    "desc": "Produksi seri film pendek (Swara, Vancaka, Anagata, Anagata 2) hasil kolaborasi bersama PRO 2 RRI Singaraja dengan peran sebagai penata kamera dan editor film.",
+    "link": ""
+  },
+  {
+    "id": 20,
+    "title": "Desain Identitas Publikasi INTEGER #7",
+    "category": "Desain Grafis",
+    "thumbnail": "MASUKKAN_URL_GAMBAR_INTEGER",
+    "tools": [
+      "Adobe Photoshop"
+    ],
+    "desc": "Perancangan materi publikasi visual untuk rangkaian acara INTEGER #7 yang meliputi poster opening ceremony, feed Instagram, banner turnamen futsal TI Cup, dan twibbon.",
+    "link": ""
   }
 ]
