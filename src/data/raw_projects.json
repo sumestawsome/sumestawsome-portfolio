@@ -1,0 +1,307 @@
+{
+  "scraped_at": "2026-10-06T08:05:00.000Z",
+  "source_online": "https://sumesta-df6a8.web.app/project.html",
+  "source_local": "E:\\Teknologi Web\\html-main\\html-main\\latihan_jquery\\LATIHAN TAILWIND DAN JQUERY\\projects.html",
+  "total_online_projects": 13,
+  "total_local_projects": 4,
+  "online_projects": [
+    {
+      "id": "I0V5g4D9FIL9UknRV1lk",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=I0V5g4D9FIL9UknRV1lk",
+      "rawTitle": "Proyek Pelatihan Adobe Photoshop Dari MySkill",
+      "rawSummary": "Hasil karya dari partisipasi dalam kelas singkat Adobe Photoshop dari MySkill, berfokus pada editing produk, retouching wajah, dan manipulasi foto.",
+      "category": "Manipulasi Foto, Retouching, & Desain Produk",
+      "client": "MySkill (Proyek Pelatihan)",
+      "startDate": "1/6/2025",
+      "endDate": "1/10/2025",
+      "overview": "Proyek ini merupakan kumpulan hasil akhir dari partisipasi saya dalam program Short Class dari MySkill pada bulan Juli 2024. Pelatihan ini bertujuan untuk mengasah kemampuan teknis dalam Adobe Photoshop untuk pengembangan skill digital. Materi yang dipraktikkan meliputi editing foto produk untuk brand seperti Cetaphil dan Sariayu, teknik retouching wajah, serta manipulasi foto kreatif untuk membuat komposisi sureal.",
+      "challenges": "Tantangannya adalah menguasai berbagai teknik Photoshop yang berbeda dalam waktu singkat, mulai dari penyesuaian warna produk hingga retouching kulit yang natural. Solusinya adalah dengan mengikuti setiap materi secara intensif dan mempraktikkan langsung studi kasus yang diberikan. Saya berfokus pada penggunaan layer masks, adjustment layers, dan blending modes untuk mencapai hasil yang bersih dan profesional.",
+      "finalResult": "Berhasil menyelesaikan semua tugas dalam program pelatihan dengan hasil yang memuaskan. Proyek ini secara signifikan meningkatkan kemahiran saya dalam menggunakan tool-tool canggih di Adobe Photoshop dan memperluas portofolio saya dalam bidang manipulasi foto dan editing produk komersial.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703223/auwvzqospiqpcupe6mmr.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703226/bf1vdl6aq2beseptic68.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703225/tmkhccbiofiphnzva1fr.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703226/n7zdxr0uarllmmetpx4v.png"
+      ],
+      "tools": ["Adobe Photoshop"]
+    },
+    {
+      "id": "qjYUuzflWwkaZu0d8bk3",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=qjYUuzflWwkaZu0d8bk3",
+      "rawTitle": "Desain Konten Media Sosial Untuk Tim PKM",
+      "rawSummary": "Membuat berbagai aset visual dan konten media sosial untuk mendukung promosi dan dokumentasi tim Program Kreativitas Mahasiswa (PKM)",
+      "category": "Desain Grafis & Konten Media Sosial",
+      "client": "Tim PKM",
+      "startDate": "1/8/2025",
+      "endDate": "1/8/2026",
+      "overview": "Membantu tim Program Kreativitas Mahasiswa (PKM) dalam memvisualisasikan ide program ke dalam bentuk desain publikasi media sosial yang menarik dan terstandar.",
+      "challenges": "Menyelaraskan pesan edukasi ilmiah ke dalam format visual media sosial yang interaktif dan mudah dipahami oleh mahasiswa dan masyarakat umum.",
+      "finalResult": "Aset promosi media sosial berhasil dipublikasikan dan meningkatkan awareness kegiatan tim PKM.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703024/n5g8wkqm5miu4vuhaiou.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703027/cu1p7huzmb3fziz8t5md.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703024/jgwewfjsa3d4qmgvx9j8.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759703027/jqaiqsyyofvz1slqlxgb.png"
+      ],
+      "tools": ["Adobe Photoshop", "Canva"]
+    },
+    {
+      "id": "yOPM9uFq1uX40R7OXdvE",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=yOPM9uFq1uX40R7OXdvE",
+      "rawTitle": "Volunteer Media & Video Editor Untuk Bulfest 2025",
+      "rawSummary": "Bertugas sebagai volunteer media resmi untuk Buleleng Festival 2025, berfokus pada editing video dan pengelolaan konten media sosial selama acara berlangsung.",
+      "category": "Dokumentasi Acara & Konten Media Sosial",
+      "client": "Panitia Buleleng Festival (Bulfest) 2025",
+      "startDate": "18/8/2025",
+      "endDate": "25/8/2025",
+      "overview": "Liputan langsung dan penyuntingan video kilat selama pagelaran Buleleng Festival 2025 untuk feed reels dan story media sosial.",
+      "challenges": "Ritme kerja dinamis di lapangan dengan batas waktu publikasi cepat setiap sesi acara selesai.",
+      "finalResult": "Video dokumentasi acara berhasil ditayangkan tepat waktu dengan visual pacing yang energik.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702734/gwnjyqjwlvo4w9hohku7.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702736/rvgsqo22r30nb5dokmne.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702735/ujw0tmt5pgmy2iua1mld.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702733/b74yrvks70pytfovogit.png"
+      ],
+      "tools": ["CapCut", "Adobe Premiere Pro"]
+    },
+    {
+      "id": "DsNgzVT1mUzN5mI63NBy",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=DsNgzVT1mUzN5mI63NBy",
+      "rawTitle": "Desain Konten & Materi Publikasi Untuk Talk Sustainable #4",
+      "rawSummary": "Membuat berbagai materi publikasi dan konten edukasi untuk komunitas Talk Sustainable #4, meliputi poster webinar, feed Instagram, dan mockup merchandise.",
+      "category": "Desain Grafis & Konten Edukasi",
+      "client": "Talk Sustainable #4",
+      "startDate": "1/5/2025",
+      "endDate": "1/5/2026",
+      "overview": "Merancang identitas visual kampanye keberlanjutan lingkungan Talk Sustainable #4 secara konsisten lintas media promosi digital.",
+      "challenges": "Mengemas topik ramah lingkungan menjadi komposisi grafis yang modern, bersih, dan memikat generasi muda.",
+      "finalResult": "Seluruh materi kampanye tersaji rapi dan meningkatkan partisipasi peserta webinar.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702434/ck95izzijeeuswrwpjjf.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702440/bgrjo9f7z86z13z1lc8g.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702434/gzki2hivf0yqdrbjaq42.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759702433/lfgh1eobmizcloblmqw6.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe Photoshop"]
+    },
+    {
+      "id": "rHn7Qs5f46fAxIPup7vP",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=rHn7Qs5f46fAxIPup7vP",
+      "rawTitle": "Pengelolaan Konten Visual Untuk Aseec Edu",
+      "rawSummary": "Bertanggung jawab membuat konten visual edukatif, termasuk feed Instagram dan video Reels, sebagai anggota tim marketing di Aseec Edu.",
+      "category": "Manajemen Media Sosial & Video Editing",
+      "client": "Aseec Edu",
+      "startDate": "1/5/2025",
+      "endDate": "1/5/2025",
+      "overview": "Mendesain feed Instagram edukatif dan memproduksi motion graphic singkat untuk meningkatkan keterlibatan audiens Aseec Edu.",
+      "challenges": "Menjaga konsistensi tone visual brand sambil mengadaptasi format video interaktif yang sedang tren.",
+      "finalResult": "Kenaikan engagement rate akun media sosial berkat visual yang informatif dan estetik.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700921/sc3lbehsxtptfucc6irg.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700923/ay6dlroh7tibdniuvqus.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700921/hxlulwon3qaglqlir71r.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700921/jrkget1brlo9ngq28tkz.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe After Effects"]
+    },
+    {
+      "id": "CdEr8BJewrEDl16YoJ9n",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=CdEr8BJewrEDl16YoJ9n",
+      "rawTitle": "Desain Branding Visual Untuk MKMB 2025",
+      "rawSummary": "Merancang berbagai kebutuhan branding visual untuk acara Masa Keakraban Mahasiswa Baru (MKMB) 2025, meliputi nametag panitia, twibbon, dan desain photobooth.",
+      "category": "Desain Grafis & Branding Acara",
+      "client": "Forkom KIP Kuliah Undiksha",
+      "startDate": "1/9/2025",
+      "endDate": "31/10/2025",
+      "overview": "Penyusunan identitas visual komprehensif mulai dari twibbon peserta, nametag panitia/peserta, hingga backdrop photobooth acara.",
+      "challenges": "Membuat tema visual yang mencerminkan semangat kebersamaan dan kekeluargaan mahasiswa baru.",
+      "finalResult": "Atribut branding digunakan oleh ratusan peserta dan panitia sepanjang rangkaian acara MKMB.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700462/uzaqhmijelfqh0kd2ldi.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700465/ejshdgn9lo6fprraxzjg.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700462/pyzn9v5i4gqwk1qsgaqw.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700463/yih1wsqo7jvhtpxxgc0z.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe Photoshop"]
+    },
+    {
+      "id": "HmR2i5UK0RRVFhjxiWxs",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=HmR2i5UK0RRVFhjxiWxs",
+      "rawTitle": "Manajemen Konten Media Sosial Divisi HUMEDIKTIF FORKOM",
+      "rawSummary": "Mengelola dan membuat berbagai konten visual untuk media sosial Divisi Humas & Media Kreatif (HUMEDIKTIF) Forkom KIP Kuliah Undiksha.",
+      "category": "Manajemen Media Sosial & Desain Grafis",
+      "client": "Forkom KIP Kuliah Undiksha",
+      "startDate": "1/6/2025",
+      "endDate": "1/6/2026",
+      "overview": "Perancangan kalender konten, desain feed informasi beasiswa, serta bumper pembuka video organisasi.",
+      "challenges": "Mengatur alur publikasi informasi penting agar tetap rapi, jelas, dan tidak membingungkan anggota.",
+      "finalResult": "Peningkatan keteraturan informasi dan daya tarik visual resmi organisasi.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700096/vdd7j9d1bmucetpu6mrx.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700098/w67vakrwhx8mgzswhjjm.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700097/smg83aa1ihoc29iyhonr.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759700096/vgou6ujctvd0fjegjfin.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe After Effects"]
+    },
+    {
+      "id": "kgt5INNwPFJvcjO1gFdc",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=kgt5INNwPFJvcjO1gFdc",
+      "rawTitle": "Desain & Dokumentasi Video Untuk PDK FORKOM 2025",
+      "rawSummary": "Merancang nametag panitia dan memproduksi video after movie untuk kegiatan Pelatihan Dasar Kepemimpinan (PDK) Forkom KIP Kuliah 2025.",
+      "category": "Desain Grafis & Video Editing",
+      "client": "Forkom KIP Kuliah Undiksha",
+      "startDate": "1/7/2025",
+      "endDate": "20/7/2025",
+      "overview": "Mendesain identitas visual acara kepemimpinan serta mengambil video dokumentasi lapangan dan mengolahnya menjadi aftermovie.",
+      "challenges": "Merekam momen krusial dalam kondisi pencahayaan luar ruangan yang berubah-ubah dan merangkainya menjadi narasi emosional.",
+      "finalResult": "Video aftermovie berdurasi penuh yang diputar saat penutupan acara dan menuai apresiasi tinggi.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759699891/p0fyvnwjg3x9ftymgrnh.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759699892/pigjndlokgprjsjh6qjm.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759699891/ufjusicaiqnjejzhwivf.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759699891/zxpld1dkljzrtfhbdfll.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe After Effects", "Canva"]
+    },
+    {
+      "id": "ZsrpBsPKGEhEocMtOckK",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=ZsrpBsPKGEhEocMtOckK",
+      "rawTitle": "Desain Konten Visual & Promosi PKKMB Undiksha",
+      "rawSummary": "Menciptakan berbagai konten visual untuk kegiatan Pengenalan Kehidupan Kampus Mahasiswa Baru (PKKMB) Undiksha, meliputi twibbon, feed Instagram, dan video recap.",
+      "category": "Desain Grafis & Konten Media Sosial",
+      "client": "Panitia PKKMB Undiksha 2025",
+      "startDate": "11/8/2025",
+      "endDate": "17/8/2025",
+      "overview": "Produksi massal aset visual pengenalan kampus untuk ribuan mahasiswa baru Universitas Pendidikan Ganesha.",
+      "challenges": "Menjaga akurasi informasi universitas sembari menghadirkan visual kreatif beresolusi tinggi.",
+      "finalResult": "Twibbon dan aset promosi viral digunakan serentak oleh ribuan mahasiswa baru.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759603163/len9j3vnpgepaxqtyfzd.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759603166/vdeft7xqvlsednf3oejp.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759603164/dogwipi9lsjehmtcl2f9.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759603163/zx3sc6brfjjhyzei7unx.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe After Effects", "Canva"]
+    },
+    {
+      "id": "qCyoqZ9mtDZcPMWsKNyR",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=qCyoqZ9mtDZcPMWsKNyR",
+      "rawTitle": "Video Animasi Edukasi \"Dari Plastik Ke Praktik\"",
+      "rawSummary": "Membuat video animasi edukatif tentang perjalanan sampah plastik untuk kompetisi World Environment Day 2025, berhasil meraih Juara Harapan 1.",
+      "category": "Video Animasi & Motion Graphics",
+      "client": "Lomba Video Pendek World Environment Day 2025 (Universitas Udayana)",
+      "startDate": "15/5/2025",
+      "endDate": "5/6/2025",
+      "overview": "Video animasi naratif edukasi tentang siklus daur ulang sampah plastik dari hulu ke hilir menggunakan teknik motion graphics dinamis.",
+      "challenges": "Menyajikan data teknis persampahan ke dalam bentuk visual cerita animasi yang menyenangkan dan mudah dipahami anak muda.",
+      "finalResult": "Meraih Juara Harapan 1 dalam ajang kompetisi nasional World Environment Day 2025.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759602466/uum3ni34swubza3brzbg.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759602470/vlxgniislzn8xmf3ycug.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759602466/qognz0ua8mvnxcghvsft.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759602465/rkaxvhedvafgxdbl1tqa.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe After Effects"]
+    },
+    {
+      "id": "3Xt1AToAi01VMdOehZyF",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=3Xt1AToAi01VMdOehZyF",
+      "rawTitle": "Video Animasi Looping SUKSESI 2025",
+      "rawSummary": "Membuat dan mengedit video animasi yang ditampilkan secara berulang (looping) di Videotron sebagai media promosi utama acara suksesi Forkom KIP Kuliah Undiksha.",
+      "category": "Video Editing & Motion Graphics",
+      "client": "Forkom Komunikasi KIP Kuliah Undiksha",
+      "startDate": "1/5/2025",
+      "endDate": "13/5/2025",
+      "overview": "Animasi grafis format vertikal dan lanskap untuk kebutuhan tayang layar videotron outdoor/indoor.",
+      "challenges": "Memastikan keterbacaan teks dan gerakan animasi tetap halus saat di-loop berulang kali pada layar videotron skala besar.",
+      "finalResult": "Animasi berhasil tayang lancar selama masa publikasi acara di videotron kampus.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759601680/uyg6sls8qbjgaay6z79w.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759601681/z4n7xkh9a5xzolpjew0f.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759601679/p8n3yqovi2pa97xwhiih.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759601679/uk2tnvv1zvufqebffaua.png"
+      ],
+      "tools": ["Adobe After Effects", "Adobe Premiere Pro"]
+    },
+    {
+      "id": "sLS5kX51wjBZaQYshV2R",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=sLS5kX51wjBZaQYshV2R",
+      "rawTitle": "Desain Visual & Branding Untuk Acara MISION #6",
+      "rawSummary": "Menciptakan berbagai materi visual untuk acara MISION #6, termasuk twibbon lomba, desain panggung, ilustrasi Ganesha, dan poster promosi kewirausahaan.",
+      "category": "Desain Grafis & Branding Acara",
+      "client": "Forkom KIP Kuliah Undiksha",
+      "startDate": "15/2/2024",
+      "endDate": "25/3/2025",
+      "overview": "Eksplorasi ilustrasi khas Bali Ganesha berpadu dengan tema modern kewirausahaan untuk acara MISION #6.",
+      "challenges": "Memadukan unsur tradisional ornamen Bali dengan estetika branding bisnis modern.",
+      "finalResult": "Materi panggung, backdrop seminar, dan poster promosi selesai tepat waktu dengan visual memukau.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759600906/e2adlsavvvwaxju55voh.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759600908/oghe6jmlrrftj7xgpnjg.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759600906/suvvxzbckyggshhol5gt.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759600906/id9dhj5zbpeurcndffug.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe Photoshop"]
+    },
+    {
+      "id": "EmlghGiiKcvl7TRRbNBj",
+      "detailUrl": "https://sumesta-df6a8.web.app/project-details.html?id=EmlghGiiKcvl7TRRbNBj",
+      "rawTitle": "Desain Visual Untuk INTEGER #6",
+      "rawSummary": "Mendesain berbagai aset visual untuk acara tahunan INFORMATION TECHNOLOGY GRAND CELEBRATION atau INTEGER yang ke-6 tahun 2024, mulai dari poster, banner, twibbon, hingga merchandise acara.",
+      "category": "Desain Grafis & Branding Acara",
+      "client": "HMJ Teknik Informatika Undiksha",
+      "startDate": "1/10/2024",
+      "endDate": "11/12/2024",
+      "overview": "Pembangunan identitas visual cyberpunk/futuristik untuk perhelatan akbar jurusan Teknik Informatika Undiksha.",
+      "challenges": "Menghasilkan puluhan aset turunan visual mulai dari lanyard, kaos panitia, poster lomba nasional, hingga sertifikat.",
+      "finalResult": "Identitas visual INTEGER #6 sukses diterapkan konsisten di seluruh kanal media dan acara fisik.",
+      "thumbnail": "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759599912/vchkbdrownalfsdhm4q2.png",
+      "previewImages": [
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759599913/qh0yv9t123f8bzr61vux.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759599911/trpjgihaukkx93g5xa9x.png",
+        "https://res.cloudinary.com/dvcraeuqz/image/upload/v1759599912/f3lyq5vicurmkqrurols.png"
+      ],
+      "tools": ["Adobe Illustrator", "Adobe Photoshop"]
+    }
+  ],
+  "local_projects": [
+    {
+      "id": "local-1",
+      "title": "Website Portofolio",
+      "category": "Web Development",
+      "tools": ["HTML", "CSS", "JavaScript"],
+      "desc": "Website portofolio pribadi responsif yang dibuat menggunakan template HTML dan CSS murni tanpa framework, yang saya download dari Envato, lalu kembangkan sesuai kebutuhan saya.",
+      "demoLink": "https://sumesta-df6a8.web.app/",
+      "assetImage": "assets/project1.png"
+    },
+    {
+      "id": "local-2",
+      "title": "Website Indopride Store",
+      "category": "Web Development",
+      "tools": ["HTML", "CSS", "JavaScript", "Firebase Firestore"],
+      "desc": "Website toko online Indopride Store yang dibuat menggunakan teknologi Next.js dengan banyak framework, yang saya buat dengan bantuan AI, dan saya sesuaikan dengan kebutuhan saya.",
+      "demoLink": "https://indopride.top",
+      "assetImage": "assets/project2.png"
+    },
+    {
+      "id": "local-3",
+      "title": "Website jobdex-in.vercel.app",
+      "category": "Web Development",
+      "tools": ["HTML", "CSS", "JavaScript", "Vercel", "Firebase Firestore"],
+      "desc": "Website pengatur jadwal berbasis web dan connect dengan wa grup, yang dibuat menggunakan teknologi Next.js dengan banyak framework, yang saya buat dengan bantuan AI, dan saya sesuaikan dengan kebutuhan saya.",
+      "demoLink": "https://jobdex-in.vercel.app/",
+      "assetImage": "assets/project3.png"
+    },
+    {
+      "id": "local-4",
+      "title": "Website Portfolio Gede Bali Guide",
+      "category": "Web Development",
+      "tools": ["Next.js", "Firebase", "Vercel", "Tailwind CSS"],
+      "desc": "Website portofolio tour guide di Bali yang dirancang dengan Next.js dan Firebase untuk pengelolaan data dinamis (blog & galeri) secara mandiri tanpa perlu koding ulang. Di-hosting di Vercel.",
+      "demoLink": "https://sumesta-df6a8.web.app/",
+      "assetImage": "assets/project4.png"
+    }
+  ]
+}

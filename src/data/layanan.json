@@ -1,0 +1,231 @@
+{
+  "paket_bertingkat": [
+    {
+      "id": 1,
+      "pillar": "Desain Grafis",
+      "tier": "Standar",
+      "nama_paket": "Desain Grafis Standar",
+      "tagline": "Eksekusi Cepat",
+      "range_harga": "Rp 25.000 – Rp 35.000",
+      "rawPriceMin": 25000,
+      "durasi": "2 – 3 hari kerja",
+      "revisi": "1x revisi minor",
+      "syarat_brief": "Wajib 100% final (teks & aset siap)",
+      "cakupan_teknis": "Penataan tata letak langsung tanpa olah foto",
+      "file_akhir": "JPG/PNG resolusi standar",
+      "highlight": false
+    },
+    {
+      "id": 2,
+      "pillar": "Desain Grafis",
+      "tier": "Deluxe",
+      "nama_paket": "Desain Grafis Deluxe",
+      "tagline": "Eksplorasi Rapi",
+      "range_harga": "Rp 65.000 – Rp 85.000",
+      "rawPriceMin": 65000,
+      "durasi": "1 – 2 hari kerja",
+      "revisi": "2 – 3x revisi wajar",
+      "syarat_brief": "Brief terarah, diskusi referensi gaya",
+      "cakupan_teknis": "Tipografi presisi, pembersihan background",
+      "file_akhir": "JPG/PNG HD + format Story",
+      "highlight": true
+    },
+    {
+      "id": 3,
+      "pillar": "Desain Grafis",
+      "tier": "Niat",
+      "nama_paket": "Desain Grafis Niat",
+      "tagline": "Totalitas & Detail",
+      "range_harga": "Rp 140.000 – Rp 180.000",
+      "rawPriceMin": 140000,
+      "durasi": "24 jam (jalur ekspres)",
+      "revisi": "Hingga 4x revisi leluasa",
+      "syarat_brief": "Fleksibel, dibantu rancang konsep dari nol",
+      "cakupan_teknis": "Manipulasi foto kompleks, pencahayaan detail",
+      "file_akhir": "Master siap cetak ultra-HD + file mentahan editable",
+      "highlight": false
+    },
+    {
+      "id": 4,
+      "pillar": "Video & Motion",
+      "tier": "Standar",
+      "nama_paket": "Video & Motion Standar",
+      "tagline": "Potong Sambung",
+      "range_harga": "Rp 45.000 – Rp 50.000",
+      "rawPriceMin": 45000,
+      "durasi": "3 – 4 hari kerja",
+      "revisi": "1x revisi minor",
+      "syarat_brief": "Klip terpilih (in-out jelas) + audio siap",
+      "cakupan_teknis": "Cutting rapi, transisi dasar",
+      "file_akhir": "MP4 Full HD 1080p",
+      "highlight": false
+    },
+    {
+      "id": 5,
+      "pillar": "Video & Motion",
+      "tier": "Deluxe",
+      "nama_paket": "Video & Motion Deluxe",
+      "tagline": "Dinamis & Estetik",
+      "range_harga": "Rp 95.000 – Rp 130.000",
+      "rawPriceMin": 95000,
+      "durasi": "2 hari kerja",
+      "revisi": "2x revisi ritme atau teks",
+      "syarat_brief": "Bahan klip siap + referensi alur",
+      "cakupan_teknis": "Beat sync, subtitle animasi, sound effect",
+      "file_akhir": "MP4 Full HD 9:16 bitrate tinggi",
+      "highlight": true
+    },
+    {
+      "id": 6,
+      "pillar": "Video & Motion",
+      "tier": "Niat",
+      "nama_paket": "Video & Motion Niat",
+      "tagline": "Full Motion Graphic",
+      "range_harga": "Rp 200.000 – Rp 275.000",
+      "rawPriceMin": 200000,
+      "durasi": "1 – 2 hari prioritas",
+      "revisi": "3 – 4x revisi detail animasi & audio",
+      "syarat_brief": "Konsep kasar, pemilihan footage dibantu",
+      "cakupan_teknis": "Keyframe After Effects, animasi bumper/looping",
+      "file_akhir": "MP4 4K / master MOV transparan",
+      "highlight": false
+    },
+    {
+      "id": 7,
+      "pillar": "Web Frontend",
+      "tier": "Standar",
+      "nama_paket": "Web Frontend Standar",
+      "tagline": "Slicing Dasar",
+      "range_harga": "Rp 275.000 – Rp 350.000",
+      "rawPriceMin": 275000,
+      "durasi": "5 – 7 hari kerja",
+      "revisi": "1x revisi visual minor",
+      "syarat_brief": "Desain Figma + teks final",
+      "cakupan_teknis": "Slicing 1 halaman responsif Tailwind CSS",
+      "file_akhir": "Source code siap build",
+      "highlight": false
+    },
+    {
+      "id": 8,
+      "pillar": "Web Frontend",
+      "tier": "Deluxe",
+      "nama_paket": "Web Frontend Deluxe",
+      "tagline": "Web Interaktif",
+      "range_harga": "Rp 600.000 – Rp 750.000",
+      "rawPriceMin": 600000,
+      "durasi": "3 – 4 hari kerja",
+      "revisi": "2 – 3x revisi alur komponen",
+      "syarat_brief": "Referensi web jelas + struktur disepakati",
+      "cakupan_teknis": "SPA React, filter data, auto WhatsApp order",
+      "file_akhir": "Deploy Vercel/Cloudflare + repo Git",
+      "highlight": true
+    },
+    {
+      "id": 9,
+      "pillar": "Web Frontend",
+      "tier": "Niat",
+      "nama_paket": "Web Frontend Niat",
+      "tagline": "Full Engineering & Polish",
+      "range_harga": "Rp 1.200.000 – Rp 1.600.000+",
+      "rawPriceMin": 1200000,
+      "durasi": "3 – 5 hari fokus penuh",
+      "revisi": "Revisi leluasa hingga pengujian tuntas",
+      "syarat_brief": "Konsep ide bisnis, arsitektur dibantu susun",
+      "cakupan_teknis": "Arsitektur modular penuh, LocalStorage, proteksi login",
+      "file_akhir": "Deploy production + validasi Playwright + panduan JSON",
+      "highlight": false
+    }
+  ],
+  "tarif_reguler": [
+    {
+      "id": 101,
+      "pillar": "Desain Grafis",
+      "nama_layanan": "Poster Kegiatan & Webinar",
+      "sub_kategori": "Tier Pelajar / Kepanitiaan",
+      "range_harga": "Rp 35.000 – Rp 50.000",
+      "output": "JPG & PNG HD (rasio 4:5 Feed & 9:16 Story), bonus template teks caption",
+      "fokus": "Tipografi terbaca jelas, hierarki tanggal/benefit/narasumber rapi, siap cetak & posting",
+      "durasi_opsional": "1 – 2 Hari"
+    },
+    {
+      "id": 102,
+      "pillar": "Desain Grafis",
+      "nama_layanan": "Feed Carousel Edukasi / Materi PKM",
+      "sub_kategori": "Multi-Slide (3-10 Slide)",
+      "range_harga": "Rp 75.000 – Rp 120.000",
+      "output": "Seamless carousel slide, tata letak visual bersambung",
+      "fokus": "Slide informatif berurutan untuk meningkatkan engagement akun",
+      "durasi_opsional": "2 – 3 Hari"
+    },
+    {
+      "id": 103,
+      "pillar": "Desain Grafis",
+      "nama_layanan": "Desain Presentasi / Pitch Deck",
+      "sub_kategori": "PPT / Canva",
+      "range_harga": "Rp 50.000 – Rp 100.000",
+      "output": "File .pptx editable + PDF visual siap tayang",
+      "fokus": "Slide tugas kuliah atau deck kompetisi bisnis yang profesional",
+      "durasi_opsional": "1 – 3 Hari"
+    },
+    {
+      "id": 104,
+      "pillar": "Desain Grafis",
+      "nama_layanan": "Paket Branding Identitas Mini",
+      "sub_kategori": "UMKM & Personal",
+      "range_harga": "Rp 150.000 – Rp 250.000",
+      "output": "Alternatif logo, palet warna hex, kurasi tipografi, template postingan",
+      "fokus": "Pondasi identitas visual konsisten untuk usaha dan profil",
+      "durasi_opsional": "3 – 5 Hari"
+    },
+    {
+      "id": 105,
+      "pillar": "Video & Motion",
+      "nama_layanan": "Bumper Video / Animated Logo Intro",
+      "sub_kategori": "After Effects",
+      "range_harga": "Rp 50.000 – Rp 85.000",
+      "output": "MP4 Full HD + transisi transparan (Alpha channel MOV jika dibutuhkan)",
+      "fokus": "Pembuka video YouTube, intro teaser acara, materi presentasi/webinar",
+      "durasi_opsional": "5 – 10 Detik"
+    },
+    {
+      "id": 106,
+      "pillar": "Video & Motion",
+      "nama_layanan": "Video Looping Display / LED Screen Background",
+      "sub_kategori": "Panggung & Videotron",
+      "range_harga": "Rp 75.000 – Rp 120.000",
+      "output": "Full HD / custom rasio layar videotron panggung",
+      "fokus": "Seamless loop panggung saat registrasi, jeda istirahat, countdown",
+      "durasi_opsional": "15 – 30 Detik"
+    },
+    {
+      "id": 107,
+      "pillar": "Video & Motion",
+      "nama_layanan": "Editing Video Pendek / Reels / TikTok",
+      "sub_kategori": "CapCut & Premiere",
+      "range_harga": "Rp 45.000 – Rp 75.000",
+      "output": "Subtitle dinamis per kata, sound effect pas, penyesuaian warna",
+      "fokus": "Video vertikal beritme pas yang memikat perhatian penonton",
+      "durasi_opsional": "< 60 Detik"
+    },
+    {
+      "id": 108,
+      "pillar": "Video & Motion",
+      "nama_layanan": "Dokumentasi Aftermovie / Film Pendek Event",
+      "sub_kategori": "Sinematik Event",
+      "range_harga": "Rp 150.000 – Rp 250.000",
+      "output": "Rangkuman sinematik acara dengan ritme ketukan musik bertempo",
+      "fokus": "Aftermovie event organisasi atau film pendek kreatif",
+      "durasi_opsional": "1 – 3 Menit"
+    }
+  ],
+  "ketentuan_layanan": {
+    "revisi_minor": "Meliputi perbaikan saltik (typo), penyesuaian posisi elemen kecil, pergeseran warna tipis, atau penggantian klip pendek tanpa mengubah durasi utama.",
+    "perubahan_konsep_total": "Penggantian brief dasar di tengah proses pengerjaan pada paket Standar dihitung sebagai pesanan baru (dikenakan biaya 70% dari nilai paket baru).",
+    "tarif_tambahan_revisi": {
+      "desain_grafis": "Rp 10.000 / revisi",
+      "video_motion": "Rp 20.000 / revisi",
+      "web_frontend": "Rp 50.000 / iterasi komponen"
+    },
+    "ketentuan_dp": "Pekerjaan di atas Rp 100.000 dimulai setelah konfirmasi DP minimal 50%, sisa pembayaran diselesaikan setelah pengiriman preview watermark/live link staging sebelum master diserahkan."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "desain_dan_branding": [
+    {
+      "kategori": "Desain & Branding",
+      "nama_layanan": "Desain Feed Instagram",
+      "deskripsi": "Desain tunggal profesional untuk satu postingan feed Anda.",
+      "harga_asli": "Rp 75.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 26.250",
+      "fitur": []
+    },
+    {
+      "kategori": "Desain & Branding",
+      "nama_layanan": "Desain Feed Carousel",
+      "deskripsi": "Desain informatif hingga 10 slide dalam satu postingan.",
+      "harga_asli": "Rp 500.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 175.000",
+      "fitur": []
+    },
+    {
+      "kategori": "Desain & Branding",
+      "nama_layanan": "Desain Presentasi (PPT)",
+      "deskripsi": "Membuat 10 slide presentasi Anda lebih menarik dan profesional.",
+      "harga_asli": "Rp 250.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 87.500",
+      "fitur": []
+    },
+    {
+      "kategori": "Desain & Branding",
+      "nama_layanan": "Desain Poster / Flyer",
+      "deskripsi": "Untuk kebutuhan promosi acara, produk, atau informasi publik.",
+      "harga_asli": "Rp 180.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 63.000",
+      "fitur": []
+    },
+    {
+      "kategori": "Desain & Branding",
+      "nama_layanan": "Desain Mockup Produk",
+      "deskripsi": "Visualisasi produk Anda pada berbagai media (kaos, cangkir, dll).",
+      "harga_asli": "Rp 115.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 40.250",
+      "fitur": []
+    },
+    {
+      "kategori": "Desain & Branding",
+      "nama_layanan": "Desain Brand Guideline",
+      "deskripsi": "Panduan lengkap penggunaan logo, warna, dan tipografi brand.",
+      "harga_asli": "Rp 1.750.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 612.500",
+      "fitur": []
+    }
+  ],
+  "editing_video": [
+    {
+      "kategori": "Editing Video",
+      "nama_layanan": "Editing Film Pendek",
+      "deskripsi": "Editing video untuk proyek film pendek atau tugas sekolah/kuliah.",
+      "harga_asli": "Rp 375.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 131.250",
+      "fitur": []
+    },
+    {
+      "kategori": "Editing Video",
+      "nama_layanan": "Editing Reel Instagram",
+      "deskripsi": "Video pendek vertikal (Reels/Shorts) untuk kebutuhan media sosial.",
+      "harga_asli": "Rp 110.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 38.500",
+      "fitur": []
+    },
+    {
+      "kategori": "Editing Video",
+      "nama_layanan": "Editing Video Podcast",
+      "deskripsi": "Menggabungkan audio dan video dari beberapa kamera untuk podcast.",
+      "harga_asli": "Rp 450.000",
+      "promo_diskon": "65%",
+      "harga_promo": "Rp 157.500",
+      "fitur": []
+    }
+  ]
+}
