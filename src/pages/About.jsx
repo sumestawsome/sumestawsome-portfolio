@@ -309,10 +309,10 @@ export default function About({ onNavigate }) {
 
           {/* Kolom Kanan: Headline & Biografi */}
           <div className="lg:col-span-7 space-y-6">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
               “Kalau aku punya logika yang baik di matematika, kayaknya aku bisa bikin desain yang
               ngesolve banyak masalah deh, <span className="text-primary">apalagi ngoding yak?</span>”
-            </h1>
+            </h2>
 
             <div className="space-y-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
               <p>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sumestawsome.pages.dev/sitemap.xml

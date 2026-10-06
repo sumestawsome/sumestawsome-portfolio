@@ -73,7 +73,7 @@ export default function Hero() {
             <div className="w-full max-w-sm sm:max-w-md mx-auto aspect-[4/5] flex items-center justify-center">
               <img
                 src={heroProfile}
-                alt="Profil sumestawsome"
+                alt="Putu Agus Sumerta - Web Developer & Designer Portfolio"
                 className="w-full h-auto object-cover select-none"
                 loading="eager"
               />
