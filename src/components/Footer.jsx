@@ -118,7 +118,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               <GithubIcon className="w-4 h-4" />
             </a>
             <a
-              href="https://www.linkedin.com/in/putu-agus-sumerta-yasa-b3782720a"
+              href="https://www.linkedin.com/in/putu-agus-sumerta-yasa"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"

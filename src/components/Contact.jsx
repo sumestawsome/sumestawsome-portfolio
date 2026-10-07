@@ -68,7 +68,7 @@ export default function Contact() {
     {
       name: 'LinkedIn',
       handle: 'Putu Agus Sumerta Yasa',
-      href: 'https://www.linkedin.com/in/putu-agus-sumerta-yasa-b3782720a',
+      href: 'https://www.linkedin.com/in/putu-agus-sumerta-yasa',
       icon: LinkedinIcon,
       badge: 'Professional',
     },
