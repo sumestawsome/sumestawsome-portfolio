@@ -161,8 +161,14 @@ export default function Hero() {
             {/* Kontainer pembungkus foto terpadu (overflow-visible agar orbit dan kaki tembus ke MetricBar) */}
             <div className="relative w-full flex justify-center lg:justify-end items-end overflow-visible">
               <div className="relative flex justify-center items-end overflow-visible">
-                {/* Layer 0 (Wadah Orbit terpusat di belakang dada/badan foto tanpa ter-crop) */}
-                <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 overflow-visible">
+                {/* Layer 0 (Wadah Orbit terpusat di belakang dada/badan foto dengan vertical fade mask) */}
+                <div
+                  className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 overflow-visible w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] lg:w-[500px] lg:h-[500px]"
+                  style={{
+                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0) 95%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0) 95%)',
+                  }}
+                >
                   {/* Outer Decorative Track Ring */}
                   <div className="orbit-track w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] lg:w-[500px] lg:h-[500px] border border-indigo-200/40 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                   {/* Inner Decorative Track Ring */}
@@ -177,11 +183,11 @@ export default function Hero() {
                         style={{ top: `${badge.top}%`, left: `${badge.left}%` }}
                         title={badge.name}
                       >
-                        <div className="rounded-none border border-slate-200 bg-white shadow-sm p-2 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 hover:border-violet-600 transition-colors animate-orbit-reverse animate-[spin_28s_linear_infinite_reverse]">
+                        <div className="rounded-none border border-slate-200 bg-white shadow-sm p-1 sm:p-1.5 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 hover:border-violet-600 transition-colors animate-orbit-reverse animate-[spin_28s_linear_infinite_reverse]">
                           <img
                             src={badge.icon}
                             alt={badge.alt}
-                            className="w-6 h-6 sm:w-7 sm:h-7 object-contain pointer-events-none select-none"
+                            className="w-7 h-7 sm:w-9 sm:h-9 object-contain pointer-events-none select-none"
                             loading="lazy"
                           />
                         </div>
