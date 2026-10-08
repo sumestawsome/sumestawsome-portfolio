@@ -163,10 +163,10 @@ export default function Hero() {
               <div className="relative flex justify-center items-end overflow-visible">
                 {/* Layer 0 (Wadah Orbit terpusat di belakang dada/badan foto dengan vertical fade mask) */}
                 <div
-                  className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 overflow-visible w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] lg:w-[500px] lg:h-[500px]"
+                  className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 overflow-visible w-[460px] h-[460px] sm:w-[540px] sm:h-[540px] lg:w-[600px] lg:h-[600px] flex items-center justify-center"
                   style={{
-                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0) 95%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0) 95%)',
+                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.8) 65%, rgba(0,0,0,0) 98%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.8) 65%, rgba(0,0,0,0) 98%)',
                   }}
                 >
                   {/* Outer Decorative Track Ring */}
