@@ -29,7 +29,7 @@ export default function MetricBar() {
   ];
 
   return (
-    <section className="py-8 bg-slate-50 border-y border-slate-200">
+    <section className="relative z-20 bg-slate-50 border-y border-slate-200 py-8 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {metrics.map((item, index) => {
