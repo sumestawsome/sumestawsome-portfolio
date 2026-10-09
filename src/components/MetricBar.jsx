@@ -41,7 +41,7 @@ export default function MetricBar() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="p-2 bg-primary-light text-primary border border-primary/20">
+                    <span className="p-2 bg-semesta/10 text-semesta border border-semesta/20">
                       <Icon className="w-5 h-5" />
                     </span>
                     <span className="font-mono text-[11px] text-slate-400 uppercase tracking-widest">

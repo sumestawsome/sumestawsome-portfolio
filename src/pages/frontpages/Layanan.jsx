@@ -239,7 +239,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
               onClick={() => setViewMode('paket')}
               className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-none transition-colors ${
                 viewMode === 'paket'
-                  ? 'bg-[#4F46E5] text-white shadow-xs'
+                  ? 'bg-semesta text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
@@ -251,7 +251,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
               onClick={() => setViewMode('reguler')}
               className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-none transition-colors ${
                 viewMode === 'reguler'
-                  ? 'bg-[#4F46E5] text-white shadow-xs'
+                  ? 'bg-semesta text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
@@ -276,7 +276,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                 onClick={() => setSelectedPillar(pillar)}
                 className={`px-3.5 py-1.5 text-xs font-semibold rounded-none border transition-colors ${
                   isActive
-                    ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-xs'
+                    ? 'bg-semesta text-white border-semesta shadow-xs'
                     : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
@@ -293,22 +293,22 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
               <div
                 key={pkg.id}
                 onClick={() => handlePilihPaket(pkg.nama_paket, pkg.range_harga)}
-                className={`group relative bg-white border p-6 sm:p-7 rounded-none flex flex-col justify-between transition-all duration-300 hover:bg-[#6D28D9] hover:border-[#6D28D9] hover:shadow-xl hover:-translate-y-1 cursor-pointer ${
+                className={`group relative bg-white border p-6 sm:p-7 rounded-none flex flex-col justify-between transition-colors duration-150 ease-out hover:bg-semesta hover:border-semesta hover:shadow-xl hover:-translate-y-1 cursor-pointer ${
                   pkg.highlight
-                    ? 'border-[#4F46E5] ring-1 ring-[#4F46E5]/25'
+                    ? 'border-semesta ring-1 ring-semesta/25'
                     : 'border-slate-200'
                 }`}
               >
                 <div>
-                  {/* Baris Atas: Ikon Pilar & Badge Tier */}
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="w-10 h-10 border border-slate-200 text-[#4F46E5] bg-white group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white flex items-center justify-center rounded-none transition-colors duration-300">
+                  {/* Baris Atas: Ikon Pilar & Badge Tier (Delay 120ms) */}
+                  <div className="flex items-center justify-between gap-2 mb-2 group-hover:animate-cascade-icon group-hover:text-white">
+                    <span className="w-10 h-10 border border-slate-200 text-semesta bg-white group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white flex items-center justify-center rounded-none">
                       {getPillarIcon(pkg.pillar)}
                     </span>
                     <span
-                      className={`text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-none border transition-colors duration-300 ${
+                      className={`text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-none border ${
                         pkg.highlight
-                          ? 'bg-violet-50 text-[#6D28D9] border-violet-200 group-hover:bg-white/20 group-hover:border-white/30 group-hover:text-white'
+                          ? 'bg-semesta/10 text-semesta border-semesta/20 group-hover:bg-white/20 group-hover:border-white/30 group-hover:text-white'
                           : 'bg-slate-50 text-slate-500 border-slate-200 group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white'
                       }`}
                     >
@@ -316,26 +316,28 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                     </span>
                   </div>
 
-                  {/* Identitas Paket */}
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-white transition-colors duration-300 mt-4 leading-snug">
-                    {pkg.nama_paket}
-                  </h3>
-                  <p className="font-mono text-violet-600 group-hover:text-violet-200 text-xs font-semibold mb-3 transition-colors duration-300">
-                    {pkg.pillar} • [{pkg.tagline}]
-                  </p>
+                  {/* Identitas Paket (Delay 170ms) */}
+                  <div className="group-hover:animate-cascade-title">
+                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-white mt-4 leading-snug">
+                      {pkg.nama_paket}
+                    </h3>
+                    <p className="font-mono text-semesta group-hover:text-white/80 text-xs font-semibold mb-3">
+                      {pkg.pillar} • [{pkg.tagline}]
+                    </p>
+                  </div>
 
-                  {/* Rentang Harga Utama */}
-                  <div className="text-2xl font-extrabold text-slate-900 group-hover:text-white tracking-tight mb-4 transition-colors duration-300">
+                  {/* Rentang Harga Utama (Delay 220ms) */}
+                  <div className="text-2xl font-extrabold text-slate-900 group-hover:text-white tracking-tight mb-4 group-hover:animate-cascade-price">
                     {pkg.range_harga}
                   </div>
 
                   {/* Garis Pembatas Halus */}
-                  <div className="border-t border-slate-200 group-hover:border-white/20 my-4 transition-colors duration-300"></div>
+                  <div className="border-t border-slate-200 group-hover:border-white/20 my-4"></div>
 
-                  {/* Checklist Poin Terstruktur */}
+                  {/* Checklist Poin Terstruktur (Delay bertahap 260ms, 300ms, 340ms, 380ms, 420ms) */}
                   <div className="space-y-2.5 my-4">
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-1">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -343,8 +345,8 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                       </span>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-2">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -352,8 +354,8 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                       </span>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-3">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -361,8 +363,8 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                       </span>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-4">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -370,8 +372,8 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                       </span>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-5">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -381,16 +383,16 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   </div>
                 </div>
 
-                {/* Tombol Aksi Bawah */}
+                {/* Tombol Aksi Bawah (Delay 200ms) */}
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     handlePilihPaket(pkg.nama_paket, pkg.range_harga);
                   }}
-                  className={`w-full py-3 px-4 text-xs font-bold text-center border rounded-none shadow-xs mt-6 transition-all duration-300 group-hover:bg-white group-hover:text-[#6D28D9] group-hover:border-white ${
+                  className={`w-full py-3 px-4 text-xs font-bold text-center border rounded-none shadow-xs mt-6 transition-all duration-150 group-hover:delay-[200ms] group-hover:bg-white group-hover:text-semesta group-hover:border-white ${
                     pkg.highlight
-                      ? 'bg-[#4F46E5] text-white border-[#4F46E5] hover:bg-[#4338CA]'
+                      ? 'bg-semesta text-white border-semesta hover:opacity-90'
                       : 'bg-slate-50 text-slate-800 border-slate-300 hover:bg-slate-100'
                   }`}
                 >
@@ -408,39 +410,41 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
               <div
                 key={item.id}
                 onClick={() => handlePilihPaket(item.nama_layanan, item.range_harga)}
-                className="group relative bg-white border border-slate-200 p-6 sm:p-7 rounded-none flex flex-col justify-between transition-all duration-300 hover:bg-[#6D28D9] hover:border-[#6D28D9] hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+                className="group relative bg-white border border-slate-200 p-6 sm:p-7 rounded-none flex flex-col justify-between transition-colors duration-150 ease-out hover:bg-semesta hover:border-semesta hover:shadow-xl hover:-translate-y-1 cursor-pointer"
               >
                 <div>
-                  {/* Baris Atas: Ikon Pilar & Subkategori */}
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="w-10 h-10 border border-slate-200 text-[#4F46E5] bg-white group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white flex items-center justify-center rounded-none transition-colors duration-300">
+                  {/* Baris Atas: Ikon Pilar & Subkategori (Delay 120ms) */}
+                  <div className="flex items-center justify-between gap-2 mb-2 group-hover:animate-cascade-icon group-hover:text-white">
+                    <span className="w-10 h-10 border border-slate-200 text-semesta bg-white group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white flex items-center justify-center rounded-none">
                       {getPillarIcon(item.pillar)}
                     </span>
-                    <span className="bg-slate-50 text-slate-500 border border-slate-200 group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-none transition-colors duration-300">
+                    <span className="bg-slate-50 text-slate-500 border border-slate-200 group-hover:bg-white/10 group-hover:border-white/20 group-hover:text-white text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-none">
                       {item.sub_kategori}
                     </span>
                   </div>
 
-                  {/* Nama Layanan */}
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-white transition-colors duration-300 mt-4 leading-snug">
-                    {item.nama_layanan}
-                  </h3>
-                  <p className="font-mono text-violet-600 group-hover:text-violet-200 text-xs font-semibold mb-3 transition-colors duration-300">
-                    {item.pillar}
-                  </p>
+                  {/* Nama Layanan (Delay 170ms) */}
+                  <div className="group-hover:animate-cascade-title">
+                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-white mt-4 leading-snug">
+                      {item.nama_layanan}
+                    </h3>
+                    <p className="font-mono text-semesta group-hover:text-white/80 text-xs font-semibold mb-3">
+                      {item.pillar}
+                    </p>
+                  </div>
 
-                  {/* Rentang Harga */}
-                  <div className="text-2xl font-extrabold text-slate-900 group-hover:text-white tracking-tight mb-4 transition-colors duration-300">
+                  {/* Rentang Harga (Delay 220ms) */}
+                  <div className="text-2xl font-extrabold text-slate-900 group-hover:text-white tracking-tight mb-4 group-hover:animate-cascade-price">
                     {item.range_harga}
                   </div>
 
                   {/* Garis Pembatas Halus */}
-                  <div className="border-t border-slate-200 group-hover:border-white/20 my-4 transition-colors duration-300"></div>
+                  <div className="border-t border-slate-200 group-hover:border-white/20 my-4"></div>
 
-                  {/* Checklist Spesifikasi */}
+                  {/* Checklist Spesifikasi (Delay bertahap 260ms, 300ms, 340ms) */}
                   <div className="space-y-2.5 my-4">
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-1">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -448,8 +452,8 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                       </span>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                      <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                    <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-2">
+                      <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                         <CheckIcon className="w-3.5 h-3.5" />
                       </span>
                       <span className="leading-tight">
@@ -458,8 +462,8 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                     </div>
 
                     {item.durasi_opsional && (
-                      <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white transition-colors duration-300">
-                        <span className="w-5 h-5 bg-violet-100 text-violet-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none transition-colors duration-300">
+                      <div className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 group-hover:text-white group-hover:animate-cascade-check-3">
+                        <span className="w-5 h-5 bg-semesta/10 text-semesta group-hover:bg-white/20 group-hover:text-white flex items-center justify-center shrink-0 rounded-none">
                           <CheckIcon className="w-3.5 h-3.5" />
                         </span>
                         <span className="leading-tight">
@@ -470,14 +474,14 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   </div>
                 </div>
 
-                {/* Tombol Konsultasi */}
+                {/* Tombol Konsultasi (Delay 200ms) */}
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     handlePilihPaket(item.nama_layanan, item.range_harga);
                   }}
-                  className="w-full py-3 px-4 text-xs font-bold text-center border border-slate-300 text-slate-800 bg-slate-50 hover:bg-slate-100 rounded-none shadow-xs mt-6 transition-all duration-300 group-hover:bg-white group-hover:text-[#6D28D9] group-hover:border-white"
+                  className="w-full py-3 px-4 text-xs font-bold text-center border border-slate-300 text-slate-800 bg-slate-50 hover:bg-slate-100 rounded-none shadow-xs mt-6 transition-all duration-150 group-hover:delay-[200ms] group-hover:bg-white group-hover:text-semesta group-hover:border-white"
                 >
                   Konsultasi Layanan Ini →
                 </button>
@@ -489,7 +493,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
         {/* BAGIAN KETENTUAN LAYANAN & FAQ RINGKAS */}
         <div className="mb-14">
           <div className="border-b border-slate-200 pb-4 mb-6">
-            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#4F46E5] bg-indigo-50 border border-indigo-200 px-2.5 py-1 mb-2 rounded-none">
+            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-semesta bg-semesta/10 border border-semesta/20 px-2.5 py-1 mb-2 rounded-none">
               <ShieldIcon className="w-3.5 h-3.5" />
               <span>GARANSI & KETENTUAN</span>
             </div>
@@ -504,7 +508,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1: Revisi Minor */}
             <div className="bg-white border border-slate-200 p-5 rounded-none shadow-xs">
-              <div className="w-7 h-7 bg-indigo-50 border border-indigo-200 text-[#4F46E5] flex items-center justify-center mb-3 font-mono text-xs font-bold rounded-none">
+              <div className="w-7 h-7 bg-semesta/10 border border-semesta/20 text-semesta flex items-center justify-center mb-3 font-mono text-xs font-bold rounded-none">
                 01
               </div>
               <h4 className="font-bold text-slate-900 text-sm mb-1.5">
@@ -530,7 +534,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
 
             {/* Card 3: Penambahan Revisi */}
             <div className="bg-white border border-slate-200 p-5 rounded-none shadow-xs">
-              <div className="w-7 h-7 bg-purple-50 border border-purple-200 text-purple-700 flex items-center justify-center mb-3 font-mono text-xs font-bold rounded-none">
+              <div className="w-7 h-7 bg-semesta/10 border border-semesta/20 text-semesta flex items-center justify-center mb-3 font-mono text-xs font-bold rounded-none">
                 03
               </div>
               <h4 className="font-bold text-slate-900 text-sm mb-1.5">
@@ -562,7 +566,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
         <div id="brief-form" className="scroll-mt-10">
           <div className="bg-white border border-slate-200 p-6 sm:p-10 rounded-none shadow-sm max-w-3xl mx-auto">
             <div className="border-b border-slate-200 pb-5 mb-6">
-              <div className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#4F46E5] bg-indigo-50 border border-indigo-200 px-2.5 py-1 mb-2 rounded-none">
+              <div className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-semesta bg-semesta/10 border border-semesta/20 px-2.5 py-1 mb-2 rounded-none">
                 <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-600" />
                 <span>FORMULIR BRIEF WHATSAPP</span>
               </div>
@@ -586,7 +590,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   value={kebutuhan}
                   onChange={(e) => setKebutuhan(e.target.value)}
                   placeholder="Contoh: Poster Publikasi Lomba, Video Reels Promosi, Landing Page Toko"
-                  className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-[#4F46E5] focus:bg-white transition"
+                  className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-semesta focus:bg-white transition"
                 />
               </div>
 
@@ -600,7 +604,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   <select
                     value={tujuan}
                     onChange={(e) => setTujuan(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-[#4F46E5] focus:bg-white transition"
+                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-semesta focus:bg-white transition"
                   >
                     <option value="Tugas Kuliah / Kampus">Tugas Kuliah / Kampus</option>
                     <option value="Promosi UMKM / Jualan">Promosi UMKM / Jualan</option>
@@ -619,7 +623,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   <select
                     value={formatOutput}
                     onChange={(e) => setFormatOutput(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-[#4F46E5] focus:bg-white transition"
+                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-semesta focus:bg-white transition"
                   >
                     <option value="File Siap Cetak JPG/PNG HD">File Siap Cetak JPG/PNG HD</option>
                     <option value="File Master Editable (PSD/AI/PPT)">File Master Editable (PSD/AI/PPT)</option>
@@ -641,7 +645,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   <select
                     value={pilihanPaket}
                     onChange={(e) => setPilihanPaket(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-[#4F46E5] focus:bg-white transition"
+                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-semesta focus:bg-white transition"
                   >
                     <optgroup label="-- 9 Skema Paket Bertingkat --">
                       {paket_bertingkat.map((pkg) => (
@@ -669,7 +673,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   <select
                     value={deadline}
                     onChange={(e) => setDeadline(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-[#4F46E5] focus:bg-white transition"
+                    className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-semesta focus:bg-white transition"
                   >
                     <option value="Kilat 1–2 Hari">Kilat 1–2 Hari</option>
                     <option value="Santai 3–5 Hari">Santai 3–5 Hari</option>
@@ -688,7 +692,7 @@ Apakah jadwalnya tersedia untuk pengerjaan ini?`;
                   value={catatan}
                   onChange={(e) => setCatatan(e.target.value)}
                   placeholder="Contoh: Tolong nuansa warna ungu violet dan ada logo sponsor di bawah."
-                  className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-[#4F46E5] focus:bg-white transition resize-none"
+                  className="w-full bg-slate-50 border border-slate-300 p-2.5 text-xs sm:text-sm text-slate-800 rounded-none focus:outline-none focus:border-semesta focus:bg-white transition resize-none"
                 />
               </div>
 

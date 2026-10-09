@@ -61,7 +61,7 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
               alt="sumestawsome Logo"
               className="w-7 h-7 sm:w-8 sm:h-8 object-contain transition-transform duration-500 hover:rotate-180 group-hover:rotate-180 ease-in-out"
             />
-            <span className="font-mono text-base sm:text-lg font-bold tracking-tight text-slate-900 group-hover:text-primary transition-colors">
+            <span className="font-mono text-base sm:text-lg font-bold tracking-tight text-slate-900 group-hover:text-semesta transition-colors">
               sumestawsome
             </span>
           </a>
@@ -83,8 +83,8 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
                   onClick={(e) => handleLinkClick(e, link.href)}
                   className={`px-4 py-2 text-sm font-medium transition-colors ${
                     isActive
-                      ? 'text-primary bg-primary-light font-semibold border border-primary/20'
-                      : 'text-slate-700 hover:text-primary hover:bg-slate-50'
+                      ? 'text-semesta bg-semesta/10 font-semibold border border-semesta/20'
+                      : 'text-slate-700 hover:text-semesta hover:bg-slate-50'
                   }`}
                 >
                   {link.name}
@@ -104,7 +104,7 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
                     }, 100);
                   }
                 }}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors border border-primary"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-semesta hover:opacity-90 text-white text-sm font-semibold transition-colors border border-semesta"
               >
                 <span>Hubungi</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -117,7 +117,7 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 border border-slate-200 text-slate-700 hover:text-primary hover:border-slate-300 focus:outline-none"
+              className="p-2 border border-slate-200 text-slate-700 hover:text-semesta hover:border-slate-300 focus:outline-none"
               aria-label="Toggle navigation menu"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -144,8 +144,8 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`block px-3 py-2.5 text-base font-medium transition-colors ${
                   isActive
-                    ? 'text-primary bg-primary-light font-semibold border-l-2 border-primary'
-                    : 'text-slate-800 hover:bg-slate-50 hover:text-primary border-l-2 border-transparent hover:border-primary'
+                    ? 'text-semesta bg-semesta/10 font-semibold border-l-2 border-semesta'
+                    : 'text-slate-800 hover:bg-slate-50 hover:text-semesta border-l-2 border-transparent hover:border-semesta'
                 }`}
               >
                 {link.name}
@@ -166,7 +166,7 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
                   }, 100);
                 }
               }}
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors border border-primary"
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-semesta hover:opacity-90 text-white text-sm font-semibold transition-colors border border-semesta"
             >
               <span>Hubungi</span>
               <ArrowUpRight className="w-4 h-4" />

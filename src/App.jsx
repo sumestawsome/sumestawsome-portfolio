@@ -64,7 +64,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-primary-light selection:text-primary flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-semesta/15 selection:text-semesta flex flex-col justify-between">
       <Navbar currentView={currentView} onNavigate={navigateTo} />
       <main className="flex-1">
         {currentView === 'karya' ? (

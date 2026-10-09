@@ -86,8 +86,8 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               }}
               className="flex items-center gap-2 mb-2 group inline-block"
             >
-              <span className="w-3 h-3 bg-primary inline-block transition-transform duration-300 group-hover:rotate-45" />
-              <span className="font-mono text-lg font-bold tracking-tight text-slate-900 group-hover:text-primary transition-colors">
+              <span className="w-3 h-3 bg-semesta inline-block transition-transform duration-300 group-hover:rotate-45" />
+              <span className="font-mono text-lg font-bold tracking-tight text-slate-900 group-hover:text-semesta transition-colors">
                 sumestawsome
               </span>
             </a>
@@ -104,7 +104,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
-              className="p-2.5 border border-slate-200 text-slate-700 hover:text-primary hover:border-primary transition-colors bg-slate-50"
+              className="p-2.5 border border-slate-200 text-slate-700 hover:text-semesta hover:border-semesta transition-colors bg-slate-50"
             >
               <MessageSquare className="w-4 h-4" />
             </a>
@@ -113,7 +113,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="p-2.5 border border-slate-200 text-slate-700 hover:text-primary hover:border-primary transition-colors bg-slate-50"
+              className="p-2.5 border border-slate-200 text-slate-700 hover:text-semesta hover:border-semesta transition-colors bg-slate-50"
             >
               <GithubIcon className="w-4 h-4" />
             </a>
@@ -122,7 +122,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="p-2.5 border border-slate-200 text-slate-700 hover:text-primary hover:border-primary transition-colors bg-slate-50"
+              className="p-2.5 border border-slate-200 text-slate-700 hover:text-semesta hover:border-semesta transition-colors bg-slate-50"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
@@ -131,14 +131,14 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="p-2.5 border border-slate-200 text-slate-700 hover:text-primary hover:border-primary transition-colors bg-slate-50"
+              className="p-2.5 border border-slate-200 text-slate-700 hover:text-semesta hover:border-semesta transition-colors bg-slate-50"
             >
               <InstagramIcon className="w-4 h-4" />
             </a>
             <button
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="p-2.5 border border-slate-200 text-slate-700 hover:text-primary hover:border-primary transition-colors bg-slate-50 ml-2"
+              className="p-2.5 border border-slate-200 text-slate-700 hover:text-semesta hover:border-semesta transition-colors bg-slate-50 ml-2"
               title="Kembali ke atas"
             >
               <ArrowUp className="w-4 h-4" />
@@ -153,7 +153,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
             <a
               href="#karya"
               onClick={(e) => handleLinkClick(e, '#karya')}
-              className="hover:text-primary transition-colors"
+              className="hover:text-semesta transition-colors"
             >
               Karya
             </a>
@@ -161,7 +161,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
             <a
               href="#layanan"
               onClick={(e) => handleLinkClick(e, '#layanan')}
-              className="hover:text-primary transition-colors"
+              className="hover:text-semesta transition-colors"
             >
               Layanan
             </a>
@@ -169,7 +169,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
             <a
               href="#kontak"
               onClick={(e) => handleLinkClick(e, '#kontak')}
-              className="hover:text-primary transition-colors"
+              className="hover:text-semesta transition-colors"
             >
               Kontak
             </a>
@@ -180,7 +180,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
                 onNavigate('about');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="hover:text-primary transition-colors font-mono"
+              className="hover:text-semesta transition-colors font-mono"
             >
               Tentang Saya
             </button>

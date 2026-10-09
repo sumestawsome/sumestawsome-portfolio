@@ -299,7 +299,7 @@ export default function About({ onNavigate }) {
                       sumestawsome & Gabutz.id
                     </p>
                   </div>
-                  <span className="font-mono text-[11px] font-semibold text-primary bg-primary-light px-2 py-0.5 border border-primary/20">
+                  <span className="font-mono text-[11px] font-semibold text-semesta bg-semesta/10 px-2 py-0.5 border border-semesta/20">
                     S1 Ilmu Komputer
                   </span>
                 </div>
@@ -311,7 +311,7 @@ export default function About({ onNavigate }) {
           <div className="lg:col-span-7 space-y-6">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
               “Kalau aku punya logika yang baik di matematika, kayaknya aku bisa bikin desain yang
-              ngesolve banyak masalah deh, <span className="text-primary">apalagi ngoding yak?</span>”
+              ngesolve banyak masalah deh, <span className="text-semesta">apalagi ngoding yak?</span>”
             </h2>
 
             <div className="space-y-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
@@ -348,11 +348,11 @@ export default function About({ onNavigate }) {
               return (
                 <div
                   key={idx}
-                  className="border border-slate-200 bg-white p-6 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-sm"
+                  className="border border-slate-200 bg-white p-6 flex flex-col justify-between hover:border-semesta/50 transition-colors shadow-sm"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="p-3 bg-primary-light text-primary border border-primary/20">
+                      <span className="p-3 bg-semesta/10 text-semesta border border-semesta/20">
                         <Icon className="w-5 h-5" />
                       </span>
                       <span className="font-mono text-[11px] text-slate-400">
@@ -389,7 +389,7 @@ export default function About({ onNavigate }) {
         {/* Timeline Pengalaman & Jejak Langkah */}
         <section className="space-y-8 pt-4">
           <div className="border-b border-slate-200 pb-4">
-            <span className="font-mono text-xs text-primary font-semibold uppercase tracking-wider">
+            <span className="font-mono text-xs text-semesta font-semibold uppercase tracking-wider">
               JEJAK LANGKAH
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
@@ -403,15 +403,15 @@ export default function About({ onNavigate }) {
               return (
                 <div key={index} className="relative group">
                   {/* Marker Kotak Tegas pada Garis Vertikal */}
-                  <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3.5 h-3.5 bg-primary border-2 border-white ring-2 ring-primary/40 inline-block" />
+                  <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3.5 h-3.5 bg-semesta border-2 border-white ring-2 ring-semesta/40 inline-block" />
 
                   <div className="border border-slate-200 bg-white p-6 hover:border-slate-400 transition-colors shadow-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                      <span className="font-mono text-xs font-bold text-primary bg-primary-light px-2.5 py-1 border border-primary/20">
+                      <span className="font-mono text-xs font-bold text-semesta bg-semesta/10 px-2.5 py-1 border border-semesta/20">
                         {item.period}
                       </span>
                       <span className="inline-flex items-center gap-1.5 font-mono text-xs text-slate-500 uppercase tracking-wider">
-                        <ItemIcon className="w-3.5 h-3.5 text-primary" />
+                        <ItemIcon className="w-3.5 h-3.5 text-semesta" />
                         <span>{item.badge}</span>
                       </span>
                     </div>
@@ -433,7 +433,7 @@ export default function About({ onNavigate }) {
         {/* Prestasi & Sertifikasi */}
         <section className="space-y-10 pt-4">
           <div className="border-b border-slate-200 pb-4">
-            <span className="font-mono text-xs text-primary font-semibold uppercase tracking-wider">
+            <span className="font-mono text-xs text-semesta font-semibold uppercase tracking-wider">
               PENCAPAIAN & KREDENSIAL
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
@@ -447,7 +447,7 @@ export default function About({ onNavigate }) {
           {/* Subseksi 1: Lisensi & Sertifikasi Keahlian */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 bg-primary inline-block" />
+              <span className="w-2.5 h-2.5 bg-semesta inline-block" />
               <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
                 Lisensi & Sertifikasi Keahlian
               </h3>
@@ -457,11 +457,11 @@ export default function About({ onNavigate }) {
               {certifications.map((item, idx) => (
                 <div
                   key={idx}
-                  className="rounded-none border border-slate-200 bg-white p-4 sm:p-5 hover:border-primary/50 transition-colors shadow-sm flex flex-col justify-between"
+                  className="rounded-none border border-slate-200 bg-white p-4 sm:p-5 hover:border-semesta/50 transition-colors shadow-sm flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-primary bg-primary-light px-2 py-0.5 border border-primary/20 rounded-none">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-semesta bg-semesta/10 px-2 py-0.5 border border-semesta/20 rounded-none">
                         <Award className="w-3.5 h-3.5" />
                         <span>{item.type}</span>
                       </span>
@@ -475,7 +475,7 @@ export default function About({ onNavigate }) {
                     </h4>
 
                     <div className="flex flex-wrap items-center gap-x-2 text-xs text-slate-500 mb-2.5 font-mono">
-                      <span className="font-semibold text-primary">{item.issuer}</span>
+                      <span className="font-semibold text-semesta">{item.issuer}</span>
                       <span>•</span>
                       <span>{item.date}</span>
                     </div>
@@ -510,7 +510,7 @@ export default function About({ onNavigate }) {
           {/* Subseksi 2: Penghargaan & Kompetisi */}
           <div className="space-y-4 pt-4">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 bg-[#6D28D9] inline-block" />
+              <span className="w-2.5 h-2.5 bg-semesta inline-block" />
               <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
                 Penghargaan & Kompetisi
               </h3>
@@ -520,11 +520,11 @@ export default function About({ onNavigate }) {
               {awards.map((item, idx) => (
                 <div
                   key={idx}
-                  className="rounded-none border border-slate-200 bg-white p-4 sm:p-5 hover:border-[#6D28D9]/50 transition-colors shadow-sm flex flex-col justify-between"
+                  className="rounded-none border border-slate-200 bg-white p-4 sm:p-5 hover:border-semesta/50 transition-colors shadow-sm flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-[#6D28D9] bg-violet-50 px-2 py-0.5 border border-[#6D28D9]/20 rounded-none">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-semesta bg-semesta/10 px-2 py-0.5 border border-semesta/20 rounded-none">
                         <Award className="w-3.5 h-3.5" />
                         <span>{item.badge}</span>
                       </span>
@@ -560,7 +560,7 @@ export default function About({ onNavigate }) {
 
         {/* CTA Penutup */}
         <section className="border border-slate-200 bg-white p-8 sm:p-12 text-center space-y-6 shadow-sm">
-          <div className="inline-flex items-center gap-2 font-mono text-xs text-primary bg-primary-light px-3 py-1 border border-primary/20">
+          <div className="inline-flex items-center gap-2 font-mono text-xs text-semesta bg-semesta/10 px-3 py-1 border border-semesta/20">
             <Sparkles className="w-3.5 h-3.5" />
             <span>KOLABORASI & KONSULTASI</span>
           </div>
@@ -579,7 +579,7 @@ export default function About({ onNavigate }) {
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary hover:bg-primary-hover text-white text-base font-semibold border border-primary transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-semesta hover:opacity-90 text-white text-base font-semibold border border-semesta transition-colors"
             >
               <MessageSquare className="w-5 h-5" />
               <span>Hubungi via WhatsApp</span>

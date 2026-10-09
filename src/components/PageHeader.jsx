@@ -29,7 +29,7 @@ export default function PageHeader({
         </a>
 
         {badgeText && (
-          <div className="bg-indigo-50 text-[#4F46E5] border border-indigo-200/60 text-[11px] font-bold px-2.5 py-1 tracking-wider uppercase inline-flex items-center gap-1.5 rounded-none font-mono">
+          <div className="bg-semesta/10 text-semesta border border-semesta/20 text-[11px] font-bold px-2.5 py-1 tracking-wider uppercase inline-flex items-center gap-1.5 rounded-none font-mono">
             {badgeIcon}
             <span>{badgeText}</span>
           </div>

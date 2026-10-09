@@ -78,7 +78,7 @@ export default function Karya({ onNavigate }) {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-none border transition-colors ${
                   isActive
-                    ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-sm'
+                    ? 'bg-semesta text-white border-semesta shadow-sm'
                     : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
@@ -108,7 +108,7 @@ export default function Karya({ onNavigate }) {
 
                 {/* Badge Kategori */}
                 <div className="mb-1.5">
-                  <span className="text-xs font-mono font-semibold text-[#4F46E5] uppercase tracking-wider">
+                  <span className="text-xs font-mono font-semibold text-semesta uppercase tracking-wider">
                     {project.category}
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export default function Karya({ onNavigate }) {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold px-3 py-2 rounded-none inline-flex items-center gap-1.5 transition"
+                  className="bg-semesta hover:opacity-90 text-white text-xs font-semibold px-3 py-2 rounded-none inline-flex items-center gap-1.5 transition"
                 >
                   <span>Lihat Proyek</span>
                   <ExternalLinkIcon className="w-3.5 h-3.5" />

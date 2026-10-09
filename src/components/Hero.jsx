@@ -116,7 +116,7 @@ export default function Hero() {
           <div className="md:col-span-6 lg:col-span-7 flex flex-col items-start text-left space-y-6 relative z-20 pt-4 pb-6 md:py-8 lg:py-12">
             {/* Rotating Badge */}
             <div className="inline-flex items-center">
-              <span className="font-mono text-xs text-primary bg-primary-light px-3 py-1 border border-primary/20 transition-all duration-300 inline-block">
+              <span className="font-mono text-xs text-semesta bg-semesta/10 px-3 py-1 border border-semesta/20 transition-all duration-300 inline-block">
                 {slides[activeSlide]}
               </span>
             </div>
@@ -124,7 +124,7 @@ export default function Hero() {
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
               Bisa Desain & Bikin Web Semampunya. <br className="hidden sm:inline" />
-              <span className="text-primary">Ngobrol Aja Dulu.</span>
+              <span className="text-semesta">Ngobrol Aja Dulu.</span>
             </h1>
 
             {/* Sub-headline */}
@@ -140,7 +140,7 @@ export default function Hero() {
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 bg-primary hover:bg-primary-hover text-white px-6 py-3.5 border border-primary font-semibold text-base transition-colors"
+                className="inline-flex items-center justify-center gap-2.5 bg-semesta hover:opacity-90 text-white px-6 py-3.5 border border-semesta font-semibold text-base transition-colors"
               >
                 <MessageSquare className="w-5 h-5" />
                 <span>Konsultasi Proyek</span>
@@ -170,9 +170,9 @@ export default function Hero() {
                   }}
                 >
                   {/* Outer Decorative Track Ring */}
-                  <div className="orbit-track w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] lg:w-[500px] lg:h-[500px] border border-indigo-200/40 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <div className="orbit-track w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] lg:w-[500px] lg:h-[500px] border border-semesta/20 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                   {/* Inner Decorative Track Ring */}
-                  <div className="orbit-track w-[270px] h-[270px] sm:w-[330px] sm:h-[330px] lg:w-[380px] lg:h-[380px] border border-indigo-100/40 border-dashed rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <div className="orbit-track w-[270px] h-[270px] sm:w-[330px] sm:h-[330px] lg:w-[380px] lg:h-[380px] border border-semesta/15 border-dashed rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
                   {/* Rotating Orbit Container */}
                   <div className="orbit-track relative w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] lg:w-[500px] lg:h-[500px] animate-orbit animate-[spin_28s_linear_infinite]">
@@ -183,7 +183,7 @@ export default function Hero() {
                         style={{ top: `${badge.top}%`, left: `${badge.left}%` }}
                         title={badge.name}
                       >
-                        <div className="rounded-none border border-slate-200 bg-white shadow-sm p-1 sm:p-1.5 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 hover:border-violet-600 transition-colors animate-orbit-reverse animate-[spin_28s_linear_infinite_reverse]">
+                        <div className="rounded-none border border-slate-200 bg-white shadow-sm p-1 sm:p-1.5 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 hover:border-semesta transition-colors animate-orbit-reverse animate-[spin_28s_linear_infinite_reverse]">
                           <img
                             src={badge.icon}
                             alt={badge.alt}
