@@ -259,10 +259,10 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
   }
 
   return (
-    <article className="bg-slate-50 min-h-screen py-8 sm:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <article className="bg-slate-50 min-h-screen py-6 sm:py-12">
+      <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation: Responsif mobile & desktop */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8 px-4 sm:px-0">
           {/* Mobile Breadcrumb (< sm) */}
           <div className="sm:hidden">
             <button
@@ -311,7 +311,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
         {/* 2-Kolom Layout Desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Kolom Konten Utama (8 Kolom) */}
-          <div className="lg:col-span-8 bg-white border border-zinc-200 p-6 sm:p-10 rounded-none">
+          <div className="lg:col-span-8 bg-white border-y sm:border border-zinc-200 dark:border-zinc-800 px-4 py-6 sm:p-8 lg:p-10 rounded-none">
             {/* Header Artikel */}
             <header className="mb-8 border-b border-zinc-200 pb-8">
               <div className="flex items-center gap-2 mb-4">
@@ -442,7 +442,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
             )}
 
             {/* Render Markdown Konten */}
-            <div className="blog-content font-sans">
+            <div className="blog-content font-sans max-w-full overflow-hidden break-words">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -491,15 +491,17 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                     </li>
                   ),
                   pre: ({ children }) => (
-                    <pre className="bg-zinc-900 text-zinc-100 p-4 rounded-none border border-zinc-800 font-mono text-sm overflow-x-auto my-6">
-                      {children}
-                    </pre>
+                    <div className="overflow-x-auto max-w-full my-6 border border-zinc-800 bg-zinc-900 rounded-none">
+                      <pre className="p-4 font-mono text-xs sm:text-sm text-zinc-100 leading-relaxed">
+                        {children}
+                      </pre>
+                    </div>
                   ),
                   code: ({ inline, children, ...props }) => {
                     if (inline || !String(children).includes('\n')) {
                       return (
                         <code
-                          className="bg-zinc-100 dark:bg-zinc-800 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300 dark:border-zinc-700"
+                          className="bg-zinc-100 dark:bg-zinc-800 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300 dark:border-zinc-700 break-words"
                           {...props}
                         >
                           {children}
@@ -507,7 +509,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                       );
                     }
                     return (
-                      <code className="font-mono text-sm block" {...props}>
+                      <code className="font-mono text-xs sm:text-sm block" {...props}>
                         {children}
                       </code>
                     );
@@ -604,7 +606,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
           </div>
 
           {/* Kolom Sidebar Kanan (4 Kolom, Sticky) */}
-          <aside className="lg:col-span-4 sticky top-24 space-y-6">
+          <aside className="lg:col-span-4 sticky top-24 space-y-6 px-4 sm:px-0">
             {/* 1. Table of Contents Otomatis (Hidden di mobile agar tidak duplikat dengan accordion) */}
             <div className="hidden lg:block">
               <TableOfContents markdown={post.content || ''} />
