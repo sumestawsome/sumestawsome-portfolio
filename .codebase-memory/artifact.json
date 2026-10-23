@@ -1,0 +1,11 @@
+{
+    "schema_version": 2,
+    "commit": "158f4a6622865dfd1653a21d43ebf362b04be7b3",
+    "indexed_at": "2026-10-23T11:26:56Z",
+    "project": "D-Download-sumestawsome",
+    "nodes": 237,
+    "edges": 326,
+    "original_size": 3014656,
+    "compressed_size": 182263,
+    "compression_level": 9
+}
