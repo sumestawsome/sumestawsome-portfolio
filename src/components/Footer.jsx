@@ -167,6 +167,18 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
             </a>
             <span>•</span>
             <a
+              href="/blog"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('blog');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-semesta transition-colors"
+            >
+              Blog
+            </a>
+            <span>•</span>
+            <a
               href="#kontak"
               onClick={(e) => handleLinkClick(e, '#kontak')}
               className="hover:text-semesta transition-colors"

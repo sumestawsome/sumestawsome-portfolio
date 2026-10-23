@@ -9,6 +9,8 @@ import Footer from './components/Footer';
 import About from './pages/About';
 import Karya from './pages/frontpages/Karya';
 import Layanan from './pages/frontpages/Layanan';
+import Blog from './pages/frontpages/Blog';
+import BlogDetail from './pages/frontpages/BlogDetail';
 
 export default function App() {
   const [currentView, setCurrentView] = useState(() => {
@@ -18,11 +20,23 @@ export default function App() {
       if (path === '/karya' || hash === '#karya-gallery' || hash === '#karya-page') return 'karya';
       if (path === '/about' || hash === '#about') return 'about';
       if (path === '/layanan' || hash === '#layanan-page') return 'layanan';
+      if (path === '/blog') return 'blog';
+      if (path.startsWith('/blog/')) return 'blog-detail';
     }
     return 'home';
   });
 
-  const navigateTo = (view, targetHash) => {
+  const [currentSlug, setCurrentSlug] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      if (path.startsWith('/blog/')) {
+        return path.replace(/^\/blog\//, '').split('/')[0];
+      }
+    }
+    return '';
+  });
+
+  const navigateTo = (view, targetParam) => {
     setCurrentView(view);
     if (view === 'karya') {
       window.history.pushState(null, '', '/karya');
@@ -30,8 +44,14 @@ export default function App() {
       window.history.pushState(null, '', '/about');
     } else if (view === 'layanan') {
       window.history.pushState(null, '', '/layanan');
+    } else if (view === 'blog') {
+      window.history.pushState(null, '', '/blog');
+    } else if (view === 'blog-detail') {
+      const slug = targetParam || '';
+      setCurrentSlug(slug);
+      window.history.pushState(null, '', `/blog/${slug}`);
     } else {
-      window.history.pushState(null, '', '/' + (targetHash ? targetHash : ''));
+      window.history.pushState(null, '', '/' + (targetParam ? targetParam : ''));
     }
     window.scrollTo(0, 0);
   };
@@ -39,7 +59,7 @@ export default function App() {
   // Otomatisasi scroll ke paling atas saat berganti halaman/rute
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentView]);
+  }, [currentView, currentSlug]);
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -51,6 +71,12 @@ export default function App() {
         setCurrentView('about');
       } else if (path === '/layanan' || hash === '#layanan-page') {
         setCurrentView('layanan');
+      } else if (path === '/blog') {
+        setCurrentView('blog');
+      } else if (path.startsWith('/blog/')) {
+        const slug = path.replace(/^\/blog\//, '').split('/')[0];
+        setCurrentSlug(slug);
+        setCurrentView('blog-detail');
       } else {
         setCurrentView('home');
       }
@@ -73,6 +99,10 @@ export default function App() {
           <About onNavigate={navigateTo} />
         ) : currentView === 'layanan' ? (
           <Layanan onNavigate={navigateTo} />
+        ) : currentView === 'blog' ? (
+          <Blog onNavigate={navigateTo} />
+        ) : currentView === 'blog-detail' ? (
+          <BlogDetail slug={currentSlug} onNavigate={navigateTo} />
         ) : (
           <>
             <Hero />

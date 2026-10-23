@@ -8,6 +8,7 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
   const navLinks = [
     { name: 'Karya', href: '/karya' },
     { name: 'Layanan', href: '/layanan' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Tentang Saya', href: '/about' },
   ];
 
@@ -22,13 +23,24 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
       onNavigate('layanan');
       setIsOpen(false);
       window.scrollTo(0, 0);
+    } else if (href === '/blog') {
+      e.preventDefault();
+      onNavigate('blog');
+      setIsOpen(false);
+      window.scrollTo(0, 0);
     } else if (href === '/about' || href === '#about') {
       e.preventDefault();
       onNavigate('about');
       setIsOpen(false);
       window.scrollTo(0, 0);
     } else if (href.startsWith('#')) {
-      if (currentView === 'about' || currentView === 'karya' || currentView === 'layanan') {
+      if (
+        currentView === 'about' ||
+        currentView === 'karya' ||
+        currentView === 'layanan' ||
+        currentView === 'blog' ||
+        currentView === 'blog-detail'
+      ) {
         e.preventDefault();
         onNavigate('home', href);
         setIsOpen(false);
@@ -72,10 +84,12 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
               const isAboutLink = link.href === '/about' || link.href === '#about';
               const isKaryaLink = link.href === '/karya';
               const isLayananLink = link.href === '/layanan';
+              const isBlogLink = link.href === '/blog';
               const isActive =
                 (isAboutLink && currentView === 'about') ||
                 (isKaryaLink && currentView === 'karya') ||
-                (isLayananLink && currentView === 'layanan');
+                (isLayananLink && currentView === 'layanan') ||
+                (isBlogLink && (currentView === 'blog' || currentView === 'blog-detail'));
               return (
                 <a
                   key={link.name}
@@ -95,7 +109,13 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
               <a
                 href="#kontak"
                 onClick={(e) => {
-                  if (currentView === 'about' || currentView === 'karya' || currentView === 'layanan') {
+                  if (
+                    currentView === 'about' ||
+                    currentView === 'karya' ||
+                    currentView === 'layanan' ||
+                    currentView === 'blog' ||
+                    currentView === 'blog-detail'
+                  ) {
                     e.preventDefault();
                     onNavigate('home', '#kontak');
                     setTimeout(() => {
@@ -133,10 +153,12 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
             const isAboutLink = link.href === '/about' || link.href === '#about';
             const isKaryaLink = link.href === '/karya';
             const isLayananLink = link.href === '/layanan';
+            const isBlogLink = link.href === '/blog';
             const isActive =
               (isAboutLink && currentView === 'about') ||
               (isKaryaLink && currentView === 'karya') ||
-              (isLayananLink && currentView === 'layanan');
+              (isLayananLink && currentView === 'layanan') ||
+              (isBlogLink && (currentView === 'blog' || currentView === 'blog-detail'));
             return (
               <a
                 key={link.name}
