@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AlignLeft } from 'lucide-react';
+import { slugify } from '../../utils/slugify';
 
 /**
  * Ekstraksi heading ## (H2) dan ### (H3) dari string markdown
@@ -12,19 +13,16 @@ export function extractHeadings(markdown) {
   while ((match = headingRegex.exec(markdown)) !== null) {
     const level = match[1].length; // 2 untuk H2, 3 untuk H3
     const rawText = match[2].trim();
-    // Bersihkan karakter markdown pembungkus seperti bold, italic, code
-    const text = rawText.replace(/[*_`]/g, '');
-    const id = text
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-');
-    headings.push({ level, text, id });
+    const text = rawText.replace(/[*_`]/g, '').trim();
+    const id = slugify(rawText);
+    if (id) {
+      headings.push({ level, text, id });
+    }
   }
   return headings;
 }
 
-export default function TableOfContents({ markdown = '' }) {
+export default function TableOfContents({ markdown = '', className = '' }) {
   const headings = extractHeadings(markdown);
   const [activeId, setActiveId] = useState('');
 
@@ -33,7 +31,6 @@ export default function TableOfContents({ markdown = '' }) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Ambil elemen heading yang terlihat di viewport
         const visibleEntries = entries.filter((entry) => entry.isIntersecting);
         if (visibleEntries.length > 0) {
           setActiveId(visibleEntries[0].target.id);
@@ -68,7 +65,7 @@ export default function TableOfContents({ markdown = '' }) {
   return (
     <nav
       aria-label="Daftar Isi Artikel"
-      className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 rounded-none"
+      className={`border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 rounded-none ${className}`}
     >
       <div className="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-200 dark:border-zinc-800">
         <AlignLeft className="w-4 h-4 text-semesta" />

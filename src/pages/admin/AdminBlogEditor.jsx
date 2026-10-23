@@ -17,18 +17,7 @@ import {
   Loader2,
   Sparkles,
 } from 'lucide-react';
-
-export function slugify(text) {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
-}
+import { slugify } from '../../utils/slugify';
 
 export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => {} }) {
   const isEditMode = Boolean(initialSlug);

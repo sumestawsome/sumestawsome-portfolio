@@ -4,7 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { db, isFirebaseConfigured } from '../../lib/firebase';
 import { updateMetaTags } from '../../utils/seo';
-import TableOfContents from '../../components/blog/TableOfContents';
+import { slugify, getNodeText } from '../../utils/slugify';
+import TableOfContents, { extractHeadings } from '../../components/blog/TableOfContents';
 import BlogSidebarCta from '../../components/blog/BlogSidebarCta';
 import BlogCard from '../../components/blog/BlogCard';
 import {
@@ -12,10 +13,12 @@ import {
   Clock,
   ArrowLeft,
   ChevronRight,
+  ChevronDown,
   Share2,
   Check,
   AlertCircle,
   BookOpen,
+  AlignLeft,
 } from 'lucide-react';
 
 export default function BlogDetail({ slug, onNavigate = () => {} }) {
@@ -24,6 +27,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
 
   useEffect(() => {
     async function loadPostData() {
@@ -82,7 +86,6 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
             .filter((p) => !currentPost.category || p.category === currentPost.category)
             .slice(0, 3);
 
-          // Jika kategori sama tidak ada selain artikel ini, ambil artikel lain
           if (related.length === 0) {
             const fallbackRelated = allPosts
               .filter((p) => (p.slug || p.id) !== slug)
@@ -204,6 +207,8 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
     }
   };
 
+  const headings = extractHeadings(post?.content || '');
+
   // State: Loading
   if (loading) {
     return (
@@ -256,37 +261,52 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
   return (
     <article className="bg-slate-50 min-h-screen py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="mb-8 flex items-center flex-wrap gap-1.5 text-xs font-mono text-zinc-500"
-        >
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate('home');
-            }}
-            className="hover:text-semesta transition-colors"
+        {/* Breadcrumb Navigation: Responsif mobile & desktop */}
+        <div className="mb-8">
+          {/* Mobile Breadcrumb (< sm) */}
+          <div className="sm:hidden">
+            <button
+              type="button"
+              onClick={() => onNavigate('blog')}
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-semesta transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Kembali ke Blog</span>
+            </button>
+          </div>
+
+          {/* Desktop/Tablet Breadcrumb (>= sm) */}
+          <nav
+            aria-label="Breadcrumb"
+            className="hidden sm:flex items-center flex-wrap gap-1.5 text-xs font-mono text-zinc-500"
           >
-            Beranda
-          </a>
-          <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <a
-            href="/blog"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate('blog');
-            }}
-            className="hover:text-semesta transition-colors"
-          >
-            Blog
-          </a>
-          <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-zinc-700 font-medium">{post.category || 'Umum'}</span>
-          <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-semesta font-semibold truncate max-w-xs">{post.title}</span>
-        </nav>
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('home');
+              }}
+              className="hover:text-semesta transition-colors"
+            >
+              Beranda
+            </a>
+            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+            <a
+              href="/blog"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('blog');
+              }}
+              className="hover:text-semesta transition-colors"
+            >
+              Blog
+            </a>
+            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+            <span className="text-zinc-700 font-medium">{post.category || 'Umum'}</span>
+            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
+            <span className="text-semesta font-semibold truncate max-w-xs">{post.title}</span>
+          </nav>
+        </div>
 
         {/* 2-Kolom Layout Desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
@@ -374,23 +394,61 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
               </div>
             )}
 
+            {/* Mobile Table of Contents Accordion (Hanya tampil di mobile < lg) */}
+            {headings.length > 0 && (
+              <div className="lg:hidden mb-8 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 rounded-none overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setMobileTocOpen(!mobileTocOpen)}
+                  className="w-full flex items-center justify-between p-4 text-left font-mono text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors"
+                  aria-expanded={mobileTocOpen}
+                >
+                  <span className="flex items-center gap-2">
+                    <AlignLeft className="w-4 h-4 text-semesta" />
+                    <span>Daftar Isi Artikel</span>
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${
+                      mobileTocOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {mobileTocOpen && (
+                  <div className="px-4 pb-4 pt-1 border-t border-zinc-200 dark:border-zinc-800">
+                    <ul className="space-y-2 text-xs font-mono">
+                      {headings.map(({ level, text, id }) => (
+                        <li key={id} className={level === 3 ? 'pl-3' : ''}>
+                          <a
+                            href={`#${id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setMobileTocOpen(false);
+                              const el = document.getElementById(id);
+                              if (el) {
+                                el.scrollIntoView({ behavior: 'smooth' });
+                                window.history.replaceState(null, '', `#${id}`);
+                              }
+                            }}
+                            className="block text-zinc-700 dark:text-zinc-300 hover:text-semesta py-0.5"
+                          >
+                            {text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Render Markdown Konten */}
             <div className="blog-content font-sans">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                   h2: ({ children }) => {
-                    const raw = Array.isArray(children)
-                      ? children.join('')
-                      : typeof children === 'string'
-                      ? children
-                      : '';
-                    const id = raw
-                      .replace(/[*_`]/g, '')
-                      .toLowerCase()
-                      .replace(/[^\w\s-]/g, '')
-                      .trim()
-                      .replace(/\s+/g, '-');
+                    const text = getNodeText(children);
+                    const id = slugify(text);
                     return (
                       <h2
                         id={id}
@@ -401,17 +459,8 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                     );
                   },
                   h3: ({ children }) => {
-                    const raw = Array.isArray(children)
-                      ? children.join('')
-                      : typeof children === 'string'
-                      ? children
-                      : '';
-                    const id = raw
-                      .replace(/[*_`]/g, '')
-                      .toLowerCase()
-                      .replace(/[^\w\s-]/g, '')
-                      .trim()
-                      .replace(/\s+/g, '-');
+                    const text = getNodeText(children);
+                    const id = slugify(text);
                     return (
                       <h3
                         id={id}
@@ -556,8 +605,10 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
 
           {/* Kolom Sidebar Kanan (4 Kolom, Sticky) */}
           <aside className="lg:col-span-4 sticky top-24 space-y-6">
-            {/* 1. Table of Contents Otomatis */}
-            <TableOfContents markdown={post.content || ''} />
+            {/* 1. Table of Contents Otomatis (Hidden di mobile agar tidak duplikat dengan accordion) */}
+            <div className="hidden lg:block">
+              <TableOfContents markdown={post.content || ''} />
+            </div>
 
             {/* 2. CTA Layanan Portofolio Sumestawsome */}
             <BlogSidebarCta onNavigate={onNavigate} />

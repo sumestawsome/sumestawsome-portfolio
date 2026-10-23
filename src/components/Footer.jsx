@@ -58,14 +58,31 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleLinkClick = (e, href) => {
-    if (currentView === 'about') {
-      e.preventDefault();
-      onNavigate('home');
+  const handleLinkClick = (e, hash) => {
+    e.preventDefault();
+    const cleanHash = hash.startsWith('#') ? hash : `#${hash.replace(/^[/#]+/, '')}`;
+    const targetId = cleanHash.replace('#', '');
+
+    if (targetId === 'tentang' || targetId === 'about') {
+      onNavigate('about');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (currentView !== 'home') {
+      onNavigate('home', cleanHash);
       setTimeout(() => {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+        const el = document.getElementById(targetId) || document.querySelector(cleanHash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+    } else {
+      const el = document.getElementById(targetId) || document.querySelector(cleanHash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', `/${cleanHash}`);
+      }
     }
   };
 
@@ -78,7 +95,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-200">
           <div>
             <a
-              href="#"
+              href="/"
               onClick={(e) => {
                 e.preventDefault();
                 onNavigate('home');
@@ -151,7 +168,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
           <p>© {new Date().getFullYear()} sumestawsome. Seluruh hak cipta dilindungi.</p>
           <div className="flex items-center gap-4">
             <a
-              href="#karya"
+              href="/#karya"
               onClick={(e) => handleLinkClick(e, '#karya')}
               className="hover:text-semesta transition-colors"
             >
@@ -159,7 +176,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
             </a>
             <span>•</span>
             <a
-              href="#layanan"
+              href="/#layanan"
               onClick={(e) => handleLinkClick(e, '#layanan')}
               className="hover:text-semesta transition-colors"
             >
@@ -179,23 +196,24 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
             </a>
             <span>•</span>
             <a
-              href="#kontak"
+              href="/#kontak"
               onClick={(e) => handleLinkClick(e, '#kontak')}
               className="hover:text-semesta transition-colors"
             >
               Kontak
             </a>
             <span>•</span>
-            <button
-              type="button"
-              onClick={() => {
+            <a
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
                 onNavigate('about');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="hover:text-semesta transition-colors font-mono"
             >
               Tentang Saya
-            </button>
+            </a>
           </div>
         </div>
       </div>
