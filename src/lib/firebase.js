@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
@@ -23,16 +24,18 @@ export const isFirebaseConfigured = Boolean(
 let app = null;
 let db = null;
 let storage = null;
+let auth = null;
 
 if (isFirebaseConfigured) {
   app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
   db = getFirestore(app);
   storage = getStorage(app);
+  auth = getAuth(app);
 } else if (import.meta.env.DEV) {
   console.warn(
     '[Firebase] Kredensial Firebase belum terpasang di .env.local. Gunakan .env.example sebagai panduan.'
   );
 }
 
-export { app, db, storage };
+export { app, db, storage, auth };
 export default app;

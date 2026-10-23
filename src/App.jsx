@@ -11,6 +11,10 @@ import Karya from './pages/frontpages/Karya';
 import Layanan from './pages/frontpages/Layanan';
 import Blog from './pages/frontpages/Blog';
 import BlogDetail from './pages/frontpages/BlogDetail';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminBlogList from './pages/admin/AdminBlogList';
+import AdminBlogEditor from './pages/admin/AdminBlogEditor';
+import AdminRouteGuard from './components/admin/AdminRouteGuard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState(() => {
@@ -22,6 +26,10 @@ export default function App() {
       if (path === '/layanan' || hash === '#layanan-page') return 'layanan';
       if (path === '/blog') return 'blog';
       if (path.startsWith('/blog/')) return 'blog-detail';
+      if (path === '/admin/login') return 'admin-login';
+      if (path === '/admin/blog/create') return 'admin-blog-create';
+      if (path.startsWith('/admin/blog/edit/')) return 'admin-blog-edit';
+      if (path === '/admin/blog' || path === '/admin' || path === '/admin/') return 'admin-blog';
     }
     return 'home';
   });
@@ -31,6 +39,9 @@ export default function App() {
       const path = window.location.pathname;
       if (path.startsWith('/blog/')) {
         return path.replace(/^\/blog\//, '').split('/')[0];
+      }
+      if (path.startsWith('/admin/blog/edit/')) {
+        return path.replace(/^\/admin\/blog\/edit\//, '').split('/')[0];
       }
     }
     return '';
@@ -50,6 +61,16 @@ export default function App() {
       const slug = targetParam || '';
       setCurrentSlug(slug);
       window.history.pushState(null, '', `/blog/${slug}`);
+    } else if (view === 'admin-login') {
+      window.history.pushState(null, '', '/admin/login');
+    } else if (view === 'admin-blog') {
+      window.history.pushState(null, '', '/admin/blog');
+    } else if (view === 'admin-blog-create') {
+      window.history.pushState(null, '', '/admin/blog/create');
+    } else if (view === 'admin-blog-edit') {
+      const slug = targetParam || '';
+      setCurrentSlug(slug);
+      window.history.pushState(null, '', `/admin/blog/edit/${slug}`);
     } else {
       window.history.pushState(null, '', '/' + (targetParam ? targetParam : ''));
     }
@@ -77,6 +98,16 @@ export default function App() {
         const slug = path.replace(/^\/blog\//, '').split('/')[0];
         setCurrentSlug(slug);
         setCurrentView('blog-detail');
+      } else if (path === '/admin/login') {
+        setCurrentView('admin-login');
+      } else if (path === '/admin/blog/create') {
+        setCurrentView('admin-blog-create');
+      } else if (path.startsWith('/admin/blog/edit/')) {
+        const slug = path.replace(/^\/admin\/blog\/edit\//, '').split('/')[0];
+        setCurrentSlug(slug);
+        setCurrentView('admin-blog-edit');
+      } else if (path === '/admin/blog' || path === '/admin' || path === '/admin/') {
+        setCurrentView('admin-blog');
       } else {
         setCurrentView('home');
       }
@@ -88,6 +119,25 @@ export default function App() {
       window.removeEventListener('hashchange', handleLocationChange);
     };
   }, []);
+
+  // Jika tampilan admin, sajikan tampilan admin tersendiri tanpa Navbar/Footer publik
+  if (currentView.startsWith('admin-')) {
+    if (currentView === 'admin-login') {
+      return <AdminLogin onNavigate={navigateTo} />;
+    }
+
+    return (
+      <AdminRouteGuard onNavigate={navigateTo}>
+        {currentView === 'admin-blog-create' ? (
+          <AdminBlogEditor onNavigate={navigateTo} />
+        ) : currentView === 'admin-blog-edit' ? (
+          <AdminBlogEditor slug={currentSlug} onNavigate={navigateTo} />
+        ) : (
+          <AdminBlogList onNavigate={navigateTo} />
+        )}
+      </AdminRouteGuard>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-semesta/15 selection:text-semesta flex flex-col justify-between">

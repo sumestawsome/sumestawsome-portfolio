@@ -1,0 +1,845 @@
+import { useState, useEffect } from 'react';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { db, isFirebaseConfigured } from '../../lib/firebase';
+import { uploadBlogImage } from '../../lib/uploader';
+import AdminLayout from '../../components/admin/AdminLayout';
+import {
+  Save,
+  ArrowLeft,
+  Upload,
+  Image as ImageIcon,
+  Check,
+  Eye,
+  FileCode,
+  AlertCircle,
+  Loader2,
+  Sparkles,
+} from 'lucide-react';
+
+export function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
+
+export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => {} }) {
+  const isEditMode = Boolean(initialSlug);
+
+  const [loadingPost, setLoadingPost] = useState(isEditMode);
+  const [saving, setSaving] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  // Mode editor: 'write' vs 'preview'
+  const [editorTab, setEditorTab] = useState('write');
+  const [autoSlug, setAutoSlug] = useState(!isEditMode);
+
+  // Form states
+  const [formData, setFormData] = useState({
+    title: '',
+    slug: '',
+    excerpt: '',
+    category: 'Deployment & DevOps',
+    tags: 'Vercel, Next.js, GitHub, Web Development',
+    readingTime: 5,
+    status: 'published',
+    isFeatured: false,
+    content: '',
+    coverImage: {
+      url: '',
+      alt: '',
+      width: 1200,
+      height: 630,
+    },
+    author: {
+      name: 'Admin Sumesta',
+      avatar: 'https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/authors%2Fsumesta.webp?alt=media',
+      bio: 'Full-stack developer & tech enthusiast.',
+      url: 'https://sumestawsome.xyz',
+    },
+    seo: {
+      metaTitle: '',
+      metaDescription: '',
+      keywords: '',
+      canonicalUrl: '',
+      ogType: 'article',
+      noIndex: false,
+    },
+  });
+
+  // Load existing post if editing
+  useEffect(() => {
+    async function loadExistingPost() {
+      if (!isEditMode || !initialSlug) return;
+      setLoadingPost(true);
+      try {
+        const docRef = doc(db, 'posts', initialSlug);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          setFormData({
+            ...data,
+            slug: data.slug || initialSlug,
+            tags: Array.isArray(data.tags) ? data.tags.join(', ') : data.tags || '',
+            seo: {
+              ...data.seo,
+              keywords: Array.isArray(data.seo?.keywords)
+                ? data.seo.keywords.join(', ')
+                : data.seo?.keywords || '',
+            },
+          });
+          setAutoSlug(false);
+        } else {
+          setErrorMessage(`Artikel dengan slug "${initialSlug}" tidak ditemukan di database.`);
+        }
+      } catch (err) {
+        console.error('Gagal mengambil data artikel:', err);
+        setErrorMessage('Gagal memuat artikel: ' + err.message);
+      } finally {
+        setLoadingPost(false);
+      }
+    }
+
+    loadExistingPost();
+  }, [isEditMode, initialSlug]);
+
+  // Handle title change & auto-generate slug
+  const handleTitleChange = (e) => {
+    const newTitle = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      title: newTitle,
+      slug: autoSlug ? slugify(newTitle) : prev.slug,
+      seo: {
+        ...prev.seo,
+        metaTitle: prev.seo.metaTitle || newTitle,
+      },
+    }));
+  };
+
+  // Auto calculate reading time based on content
+  const handleContentChange = (e) => {
+    const newContent = e.target.value;
+    const words = newContent.trim().split(/\s+/).filter(Boolean).length;
+    const computedReadingTime = Math.max(1, Math.ceil(words / 200));
+
+    setFormData((prev) => ({
+      ...prev,
+      content: newContent,
+      readingTime: computedReadingTime,
+    }));
+  };
+
+  // Upload Cover Image via 2-stage uploader
+  const handleCoverUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingCover(true);
+    setErrorMessage(null);
+    try {
+      const finalUrl = await uploadBlogImage(file);
+      setFormData((prev) => ({
+        ...prev,
+        coverImage: {
+          ...prev.coverImage,
+          url: finalUrl,
+          alt: prev.coverImage.alt || prev.title,
+        },
+      }));
+    } catch (err) {
+      console.error('Gagal upload cover:', err);
+      setErrorMessage(`Gagal mengunggah cover image: ${err.message}`);
+    } finally {
+      setUploadingCover(false);
+    }
+  };
+
+  // Upload Author Avatar via 2-stage uploader
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingAvatar(true);
+    setErrorMessage(null);
+    try {
+      const finalUrl = await uploadBlogImage(file);
+      setFormData((prev) => ({
+        ...prev,
+        author: {
+          ...prev.author,
+          avatar: finalUrl,
+        },
+      }));
+    } catch (err) {
+      console.error('Gagal upload avatar:', err);
+      setErrorMessage(`Gagal mengunggah foto avatar: ${err.message}`);
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
+
+  // Submit Handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    const targetSlug = slugify(formData.slug || formData.title);
+    if (!formData.title.trim()) {
+      setErrorMessage('Judul artikel wajib diisi.');
+      return;
+    }
+    if (!targetSlug) {
+      setErrorMessage('Slug URL tidak valid.');
+      return;
+    }
+    if (!formData.content.trim()) {
+      setErrorMessage('Konten Markdown artikel belum diisi.');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const nowIso = new Date().toISOString();
+
+      const tagsArray = formData.tags
+        ? formData.tags.split(',').map((t) => t.trim()).filter(Boolean)
+        : [];
+
+      const keywordsArray = formData.seo?.keywords
+        ? formData.seo.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : [];
+
+      const payload = {
+        title: formData.title.trim(),
+        slug: targetSlug,
+        excerpt: formData.excerpt.trim(),
+        category: formData.category,
+        tags: tagsArray,
+        readingTime: Number(formData.readingTime) || 5,
+        status: formData.status,
+        isFeatured: Boolean(formData.isFeatured),
+        content: formData.content,
+        coverImage: {
+          url: formData.coverImage?.url || '',
+          alt: formData.coverImage?.alt || formData.title,
+          width: Number(formData.coverImage?.width) || 1200,
+          height: Number(formData.coverImage?.height) || 630,
+        },
+        author: {
+          name: formData.author?.name || 'Admin Sumesta',
+          avatar: formData.author?.avatar || '',
+          bio: formData.author?.bio || '',
+          url: formData.author?.url || 'https://sumestawsome.xyz',
+        },
+        seo: {
+          metaTitle: formData.seo?.metaTitle || formData.title,
+          metaDescription: formData.seo?.metaDescription || formData.excerpt,
+          keywords: keywordsArray,
+          canonicalUrl:
+            formData.seo?.canonicalUrl || `https://sumestawsome.xyz/blog/${targetSlug}`,
+          ogType: 'article',
+          noIndex: Boolean(formData.seo?.noIndex),
+        },
+        updatedAt: nowIso,
+        publishedAt: formData.publishedAt || nowIso,
+        stats: formData.stats || { views: 0, likes: 0 },
+      };
+
+      const docRef = doc(db, 'posts', targetSlug);
+      await setDoc(docRef, payload, { merge: true });
+
+      setSuccessMessage('Artikel berhasil disimpan ke database!');
+      setTimeout(() => {
+        onNavigate('admin-blog');
+      }, 1200);
+    } catch (err) {
+      console.error('Gagal menyimpan artikel:', err);
+      setErrorMessage('Gagal menyimpan artikel ke Firestore: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <AdminLayout
+      currentAdminView={isEditMode ? 'blog-edit' : 'blog-create'}
+      onNavigate={onNavigate}
+    >
+      {/* Top Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+        <div>
+          <button
+            type="button"
+            onClick={() => onNavigate('admin-blog')}
+            className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 mb-2 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Kembali ke Daftar Artikel
+          </button>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            {isEditMode ? `Edit Artikel: ${formData.title || initialSlug}` : 'Tulis Artikel Blog Baru'}
+          </h1>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => onNavigate('admin-blog')}
+            className="px-4 py-2 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-mono text-xs rounded-none transition-colors"
+          >
+            Batal
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={saving || loadingPost}
+            className="bg-semesta hover:bg-semesta/90 text-white font-semibold py-2 px-5 rounded-none text-xs sm:text-sm font-mono flex items-center gap-2 transition-colors disabled:opacity-50"
+          >
+            {saving ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Menyimpan...</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4" />
+                <span>Simpan Artikel</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Notifications */}
+      {errorMessage && (
+        <div className="mb-6 p-4 bg-red-950/40 border border-red-500/50 rounded-none text-red-400 text-xs sm:text-sm flex items-start gap-3 font-mono">
+          <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500 mt-0.5" />
+          <div className="flex-1">{errorMessage}</div>
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="mb-6 p-4 bg-emerald-950/40 border border-emerald-500/50 rounded-none text-emerald-400 text-xs sm:text-sm flex items-start gap-3 font-mono">
+          <Check className="w-5 h-5 flex-shrink-0 text-emerald-400 mt-0.5" />
+          <div className="flex-1">{successMessage}</div>
+        </div>
+      )}
+
+      {loadingPost ? (
+        <div className="border border-zinc-800 bg-zinc-900 p-12 text-center text-zinc-400 font-mono text-xs rounded-none flex items-center justify-center gap-3">
+          <Loader2 className="w-5 h-5 text-semesta animate-spin" />
+          <span>Memuat data artikel...</span>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Section 1: Informasi Utama & Slug */}
+          <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-none space-y-5">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta border-b border-zinc-800 pb-2">
+              1. Metadata Artikel & URL
+            </h2>
+
+            <div>
+              <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                Judul Artikel <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.title}
+                onChange={handleTitleChange}
+                placeholder="cth: Panduan Lengkap Cara Deploy Website ke Vercel"
+                className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3.5 py-2.5 rounded-none text-sm font-sans outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
+              <div className="sm:col-span-8">
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-mono font-semibold text-zinc-300">
+                    Slug URL (SEO Friendly) <span className="text-red-400">*</span>
+                  </label>
+                  <label className="text-[11px] font-mono text-zinc-400 flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={autoSlug}
+                      onChange={(e) => setAutoSlug(e.target.checked)}
+                      className="accent-semesta"
+                    />
+                    <span>Otomatis dari judul</span>
+                  </label>
+                </div>
+                <div className="flex items-center bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-none">
+                  <span className="text-zinc-500 font-mono text-xs select-none">/blog/</span>
+                  <input
+                    type="text"
+                    required
+                    disabled={autoSlug}
+                    value={formData.slug}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, slug: slugify(e.target.value) }))
+                    }
+                    className="bg-transparent text-semesta font-mono text-xs sm:text-sm w-full outline-none disabled:text-zinc-400"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-4">
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                  Kategori
+                </label>
+                <input
+                  type="text"
+                  list="category-suggestions"
+                  value={formData.category}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs sm:text-sm font-mono rounded-none outline-none"
+                />
+                <datalist id="category-suggestions">
+                  <option value="Deployment & DevOps" />
+                  <option value="Web Development" />
+                  <option value="Frontend Engineering" />
+                  <option value="UI/UX & Visual" />
+                  <option value="Tutorial" />
+                </datalist>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                Ringkasan Singkat (Excerpt) <span className="text-red-400">*</span>
+              </label>
+              <textarea
+                rows={2}
+                required
+                value={formData.excerpt}
+                onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
+                placeholder="Ringkasan 1-2 kalimat untuk kartu blog dan meta description Google..."
+                className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-zinc-200 px-3.5 py-2.5 rounded-none text-xs sm:text-sm outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                  Tag Artikel (Pisahkan koma)
+                </label>
+                <input
+                  type="text"
+                  value={formData.tags}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, tags: e.target.value }))}
+                  placeholder="Vercel, Next.js, CI/CD"
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                  Status Publikasi
+                </label>
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, status: e.target.value }))}
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
+                >
+                  <option value="published">Published (Tayang Publik)</option>
+                  <option value="draft">Draft (Disimpan Sementara)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                  Sorotan Unggulan
+                </label>
+                <label className="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-none cursor-pointer text-xs font-mono text-zinc-300">
+                  <input
+                    type="checkbox"
+                    checked={formData.isFeatured}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, isFeatured: e.target.checked }))
+                    }
+                    className="accent-semesta"
+                  />
+                  <span>Tampilkan di Baris Unggulan</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Upload Gambar Cover */}
+          <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-none space-y-5">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta border-b border-zinc-800 pb-2 flex items-center gap-2">
+              <ImageIcon className="w-4 h-4" /> 2. Gambar Cover (WebP 1200x630 via Cloudinary & CDN)
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+              {/* Preview Box */}
+              <div className="md:col-span-5 border border-zinc-800 bg-zinc-950 aspect-[16/9] flex items-center justify-center relative overflow-hidden rounded-none">
+                {formData.coverImage?.url ? (
+                  <img
+                    src={formData.coverImage.url}
+                    alt="Preview Cover"
+                    className="w-full h-full object-cover rounded-none"
+                  />
+                ) : (
+                  <div className="text-center p-4 text-zinc-600 font-mono text-xs">
+                    <ImageIcon className="w-8 h-8 mx-auto mb-2 text-zinc-700" />
+                    <span>Belum ada gambar cover</span>
+                  </div>
+                )}
+                {uploadingCover && (
+                  <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center gap-2 text-xs font-mono text-white">
+                    <Loader2 className="w-6 h-6 animate-spin text-semesta" />
+                    <span>Mengunggah ke CDN...</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Upload Controls */}
+              <div className="md:col-span-7 space-y-4">
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-zinc-300 mb-2">
+                    Unggah Berkas Baru (Cloudinary ➔ Rumahweb CDN)
+                  </label>
+                  <label className="inline-flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs py-2.5 px-4 rounded-none cursor-pointer border border-zinc-700 transition-colors">
+                    <Upload className="w-4 h-4 text-semesta" />
+                    <span>Pilih Berkas Gambar (PNG, JPG, WebP)</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleCoverUpload}
+                      disabled={uploadingCover}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                    Atau Masukkan URL Gambar Langsung
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.coverImage?.url || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        coverImage: { ...prev.coverImage, url: e.target.value },
+                      }))
+                    }
+                    placeholder="https://cdn.sumestawsome.xyz/uploads/..."
+                    className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                    Teks Alternatif Gambar (Alt SEO)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.coverImage?.alt || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        coverImage: { ...prev.coverImage, alt: e.target.value },
+                      }))
+                    }
+                    placeholder="Deskripsi gambar untuk pembaca tuna netra & Google Image"
+                    className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: Editor Konten Markdown & Live Preview */}
+          <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-none space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-3">
+              <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta flex items-center gap-2">
+                <FileCode className="w-4 h-4" /> 3. Konten Artikel (Markdown)
+              </h2>
+
+              {/* Tab Selector */}
+              <div className="flex items-center gap-1 bg-zinc-950 border border-zinc-800 p-1 rounded-none font-mono text-xs">
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('write')}
+                  className={`px-3 py-1 flex items-center gap-1.5 transition-colors ${
+                    editorTab === 'write' ? 'bg-semesta text-white font-bold' : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  <FileCode className="w-3.5 h-3.5" />
+                  <span>Editor Tulis</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('preview')}
+                  className={`px-3 py-1 flex items-center gap-1.5 transition-colors ${
+                    editorTab === 'preview' ? 'bg-semesta text-white font-bold' : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Live Preview</span>
+                </button>
+              </div>
+            </div>
+
+            {editorTab === 'write' ? (
+              <div>
+                <textarea
+                  rows={20}
+                  required
+                  value={formData.content}
+                  onChange={handleContentChange}
+                  placeholder="# Tulis artikel Anda di sini menggunakan format Markdown...&#10;&#10;## Subheading 1&#10;Isi paragraf artikel...&#10;&#10;```javascript&#10;console.log('Halo Sumestawsome!');&#10;```"
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-zinc-100 p-4 font-mono text-xs sm:text-sm leading-relaxed rounded-none outline-none resize-y"
+                />
+                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-500 mt-2">
+                  <span>Mendukung sintaks CommonMark & GitHub Flavored Markdown (GFM).</span>
+                  <span>Estimasi baca: ~{formData.readingTime} menit</span>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white text-zinc-900 p-6 sm:p-8 border border-zinc-300 rounded-none min-h-[450px] overflow-y-auto max-h-[700px]">
+                <div className="blog-content font-sans">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h2: ({ children }) => (
+                        <h2 className="text-2xl font-bold mt-8 mb-4 pb-2 border-b border-zinc-200 text-zinc-900">
+                          {children}
+                        </h2>
+                      ),
+                      h3: ({ children }) => (
+                        <h3 className="text-xl font-semibold mt-6 mb-3 text-zinc-900">{children}</h3>
+                      ),
+                      p: ({ children }) => (
+                        <p className="text-base leading-relaxed text-zinc-700 mb-4">{children}</p>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc pl-5 space-y-1.5 mb-4 marker:text-semesta">{children}</ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal pl-5 space-y-1.5 mb-4 marker:text-semesta">{children}</ol>
+                      ),
+                      pre: ({ children }) => (
+                        <pre className="bg-zinc-900 text-zinc-100 p-4 rounded-none font-mono text-xs overflow-x-auto my-4">
+                          {children}
+                        </pre>
+                      ),
+                      code: ({ inline, children, ...props }) => {
+                        if (inline || !String(children).includes('\n')) {
+                          return (
+                            <code
+                              className="bg-zinc-100 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300"
+                              {...props}
+                            >
+                              {children}
+                            </code>
+                          );
+                        }
+                        return <code {...props}>{children}</code>;
+                      },
+                      a: ({ href, children }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-semesta underline underline-offset-4 hover:opacity-80"
+                        >
+                          {children}
+                        </a>
+                      ),
+                      blockquote: ({ children }) => (
+                        <blockquote className="border-l-4 border-semesta pl-4 py-2 italic my-4 text-zinc-600 bg-zinc-50">
+                          {children}
+                        </blockquote>
+                      ),
+                    }}
+                  >
+                    {formData.content || '_Belum ada konten untuk dipratinjau._'}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Section 4: Info Penulis & Pengaturan SEO */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Penulis Box */}
+            <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-none space-y-4">
+              <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta border-b border-zinc-800 pb-2">
+                4. Profil Penulis Artikel
+              </h2>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                  Nama Penulis
+                </label>
+                <input
+                  type="text"
+                  value={formData.author?.name || ''}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      author: { ...prev.author, name: e.target.value },
+                    }))
+                  }
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                  Bio Ringkas
+                </label>
+                <input
+                  type="text"
+                  value={formData.author?.bio || ''}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      author: { ...prev.author, bio: e.target.value },
+                    }))
+                  }
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                  Foto Avatar Penulis
+                </label>
+                <div className="flex items-center gap-3">
+                  {formData.author?.avatar ? (
+                    <img
+                      src={formData.author.avatar}
+                      alt="Avatar"
+                      className="w-10 h-10 object-cover border border-zinc-700 rounded-none bg-zinc-800"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-mono text-zinc-400">
+                      S
+                    </div>
+                  )}
+                  <label className="bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs py-2 px-3 rounded-none cursor-pointer border border-zinc-700 transition-colors flex items-center gap-1.5">
+                    <Upload className="w-3.5 h-3.5 text-semesta" />
+                    <span>Ganti Foto</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarUpload}
+                      disabled={uploadingAvatar}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* SEO Settings Box */}
+            <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-none space-y-4">
+              <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta border-b border-zinc-800 pb-2 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" /> 5. Optimasi Mesin Pencari (SEO)
+              </h2>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                  Meta Title (Google SERP)
+                </label>
+                <input
+                  type="text"
+                  value={formData.seo?.metaTitle || ''}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      seo: { ...prev.seo, metaTitle: e.target.value },
+                    }))
+                  }
+                  placeholder="Judul khusus pencarian Google (50-60 karakter)"
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                  Meta Description
+                </label>
+                <textarea
+                  rows={2}
+                  value={formData.seo?.metaDescription || ''}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      seo: { ...prev.seo, metaDescription: e.target.value },
+                    }))
+                  }
+                  placeholder="Deskripsi rangkuman untuk snippet mesin pencari..."
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                  Kata Kunci Target (Keywords)
+                </label>
+                <input
+                  type="text"
+                  value={formData.seo?.keywords || ''}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      seo: { ...prev.seo, keywords: e.target.value },
+                    }))
+                  }
+                  placeholder="deploy vercel, nextjs tutorial, github action"
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Save Button Bar */}
+          <div className="pt-4 border-t border-zinc-800 flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => onNavigate('admin-blog')}
+              className="px-5 py-2.5 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-mono text-xs rounded-none transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="bg-semesta hover:bg-semesta/90 text-white font-semibold py-2.5 px-6 rounded-none text-xs sm:text-sm font-mono flex items-center gap-2 transition-colors disabled:opacity-50"
+            >
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Menyimpan ke Firestore...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  <span>Simpan Artikel Sekarang</span>
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      )}
+    </AdminLayout>
+  );
+}
