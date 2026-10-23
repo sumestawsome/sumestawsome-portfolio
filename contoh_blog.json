@@ -1,0 +1,43 @@
+{
+  "slug": "belajar-deploy-website-ke-vercel",
+  "title": "Panduan Lengkap Cara Deploy Website ke Vercel: Lewat GitHub & NPX CLI",
+  "excerpt": "Pelajari dua cara termudah mendeploy website Next.js atau frontend lainnya ke Vercel menggunakan integrasi Git otomatis dan perintah npx vercel langsung dari terminal.",
+  "status": "published",
+  "isFeatured": true,
+  "category": "Deployment & DevOps",
+  "tags": ["Vercel", "Next.js", "GitHub", "Tutorial", "Web Development"],
+  "readingTime": 5,
+  "coverImage": {
+    "url": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/covers%2Fdeploy-vercel-guide.webp?alt=media",
+    "alt": "Ilustrasi deploy website Next.js ke platform hosting Vercel",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "name": "Admin Sumesta",
+    "avatar": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/authors%2Fsumesta.webp?alt=media",
+    "bio": "Full-stack developer & tech enthusiast.",
+    "url": "https://sumestawsome.xyz"
+  },
+  "seo": {
+    "metaTitle": "Cara Deploy Website ke Vercel via GitHub & CLI (Cepat & Gratis)",
+    "metaDescription": "Bingung cara online-kan web buatanmu? Ikuti panduan praktis deploy website ke Vercel lewat integrasi repository GitHub dan terminal npx vercel.",
+    "keywords": [
+      "deploy vercel",
+      "cara hosting di vercel",
+      "npx vercel tutorial",
+      "deploy nextjs gratis",
+      "github to vercel"
+    ],
+    "canonicalUrl": "https://sumestawsome.xyz/blog/belajar-deploy-website-ke-vercel",
+    "ogType": "article",
+    "noIndex": false
+  },
+  "content": "Mendeploy website modern (seperti Next.js, React, atau HTML statis) ke internet kini tidak lagi membutuhkan konfigurasi server VPS yang rumit. Vercel menyediakan platform *serverless* dengan performa tinggi dan sertifikat SSL gratis secara otomatis.\n\nAda dua cara utama yang paling populer untuk melakukan deployment ke Vercel: **Integrasi Git (Paling Direkomendasikan)** dan **Vercel CLI via NPX**.\n\n---\n\n### Metode 1: Deploy Otomatis via GitHub (Paling Mudah & Rapi)\n\nMetode ini sangat disarankan untuk proyek jangka panjang karena mendukung *Continuous Deployment* (setiap kali Anda melakukan `git push`, Vercel akan otomatis meng-update web Anda).\n\n1. **Push Proyek ke Repository GitHub**\n   Pastikan proyek lokal Anda sudah terhubung ke GitHub:\n   ```bash\n   git init\n   git add .\n   git commit -m \"first commit\"\n   git branch -M main\n   git remote add origin [https://github.com/username/nama-repo.git](https://github.com/username/nama-repo.git)\n   git push -u origin main\n   ```\n\n2. **Koneksikan ke Dashboard Vercel**\n   - Buka [vercel.com](https://vercel.com) dan masuk menggunakan akun GitHub Anda.\n   - Klik tombol **\"Add New...\"** lalu pilih **\"Project\"**.\n   - Pada daftar *Import Git Repository*, temukan repository proyek yang baru saja Anda push, lalu klik **Import**.\n\n3. **Konfigurasi Environment & Deploy**\n   - Vercel akan mendeteksi framework Anda secara otomatis (misal: Next.js atau Vite).\n   - Jika Anda menggunakan Firebase, masukkan API Key dan konfigurasi Firebase pada bagian **Environment Variables**.\n   - Klik tombol **Deploy** dan tunggu 1–2 menit hingga domain gratis `*.vercel.app` selesai disiapkan.\n\n---\n\n### Metode 2: Deploy Instan Langsung via Terminal (`npx vercel`)\n\nJika Anda ingin melihat hasil web di internet secara kilat tanpa harus membuat repository GitHub terlebih dahulu, gunakan Vercel CLI langsung dari terminal lokal.\n\n1. **Buka Terminal di Folder Proyek**\n   Jalankan perintah berikut di root folder proyek Anda:\n   ```bash\n   npx vercel\n   ```\n\n2. **Ikuti Wizard Konfigurasi Interaktif**\n   Terminal akan memandu Anda melalui beberapa pertanyaan ringkas:\n   - `Set up and deploy?` → Ketik **y** lalu tekan Enter.\n   - `Which scope do you want to deploy to?` → Pilih akun Vercel Anda.\n   - `Link to existing project?` → Ketik **n** jika ini proyek baru.\n   - `What's your project's name?` → Tekan Enter untuk menggunakan nama default folder.\n   - `In which directory is your code located?` → Tekan Enter (untuk `./`).\n   - `Want to modify settings?` → Ketik **n**.\n\n3. **Selesai & Deploy ke Production**\n   Setelah build selesai, Vercel akan memberikan tautan *Preview URL*. Untuk menaikkannya langsung ke production permanen, jalankan:\n   ```bash\n   npx vercel --prod\n   ```",
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "publishedAt": "2026-10-23T11:00:00Z",
+  "updatedAt": "2026-10-23T11:00:00Z"
+}
