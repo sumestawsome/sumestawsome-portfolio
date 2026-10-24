@@ -149,14 +149,20 @@ async function generateSitemap() {
   if (dynamicBlogRoutes.length === 0) {
     dynamicBlogRoutes.push(
       {
-        loc: `${DOMAIN}/blog/belajar-deploy-website-ke-vercel`,
-        lastmod: '2026-10-23',
+        loc: `${DOMAIN}/blog/panduan-deploy-website-ke-cloudflare-pages`,
+        lastmod: '2026-10-24',
         changefreq: 'monthly',
         priority: '0.8',
       },
       {
         loc: `${DOMAIN}/blog/tutorial-setup-firebase-auth-react-nextjs`,
         lastmod: '2026-10-24',
+        changefreq: 'monthly',
+        priority: '0.8',
+      },
+      {
+        loc: `${DOMAIN}/blog/belajar-deploy-website-ke-vercel`,
+        lastmod: '2026-10-23',
         changefreq: 'monthly',
         priority: '0.8',
       }

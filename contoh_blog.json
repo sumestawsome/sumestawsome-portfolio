@@ -1,5 +1,58 @@
 [
   {
+    "slug": "panduan-deploy-website-ke-cloudflare-pages",
+    "title": "Panduan Lengkap Deploy Website ke Cloudflare Pages: HTML Statis, Vite React, hingga Next.js",
+    "category": "Deployment & DevOps",
+    "tags": [
+      "Cloudflare",
+      "Deployment",
+      "React",
+      "Vite",
+      "Next.js",
+      "Web Dev"
+    ],
+    "excerpt": "Pelajari cara mudah hosting website di Cloudflare Pages secara gratis dan cepat, mulai dari proyek HTML/CSS statis, Vite React SPA, hingga Next.js lengkap dengan pengaturan domain.",
+    "author": {
+      "name": "Admin Sumesta",
+      "avatar": "https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp",
+      "bio": "Full-stack Developer & Motion Designer",
+      "url": "https://sumestawsome.xyz"
+    },
+    "authorRole": "Full-stack Developer & Motion Designer",
+    "authorAvatar": "https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp",
+    "coverImage": {
+      "url": "https://cdn.sumestawsome.xyz/uploads/tutorial-cloudflare-pages.webp",
+      "alt": "Panduan Lengkap Deploy Website ke Cloudflare Pages: HTML Statis, Vite React, hingga Next.js",
+      "width": 1200,
+      "height": 630
+    },
+    "readingTime": 6,
+    "isFeatured": false,
+    "status": "published",
+    "publishedAt": "2026-10-24T11:30:00Z",
+    "updatedAt": "2026-10-24T11:30:00Z",
+    "seo": {
+      "metaTitle": "Panduan Lengkap Deploy Website ke Cloudflare Pages - Sumesta",
+      "metaDescription": "Pelajari cara mudah hosting website di Cloudflare Pages secara gratis dan cepat, mulai dari proyek HTML/CSS statis, Vite React SPA, hingga Next.js lengkap dengan pengaturan domain.",
+      "keywords": [
+        "Cloudflare",
+        "Deployment",
+        "React",
+        "Vite",
+        "Next.js",
+        "Web Dev"
+      ],
+      "canonicalUrl": "https://sumestawsome.xyz/blog/panduan-deploy-website-ke-cloudflare-pages",
+      "ogType": "article",
+      "noIndex": false
+    },
+    "stats": {
+      "views": 0,
+      "likes": 0
+    },
+    "content": "Cloudflare Pages kini menjadi salah satu pilihan hosting statis dan frontend paling populer bagi web developer. Selain menawarkan jaringan CDN global yang sangat cepat, layanan ini menyediakan batas penggunaan gratis (*free tier*) yang sangat longgar, bandwidth tanpa batas (*unlimited*), serta SSL otomatis.\n\nDi artikel ini, kita akan bedah langkah demi langkah cara men-deploy website ke Cloudflare Pages untuk tiga jenis proyek berbeda: file HTML/CSS statis, Single Page Application (Vite React), dan framework Next.js.\n\n---\n\n## 1. Deploy Website HTML, CSS, dan JS Murni\n\nJika proyekmu berupa website portofolio atau landing page statis tanpa build tool, cara termudah adalah menggunakan fitur Direct Upload.\n\n### Langkah Praktis:\n1. Masuk ke [Cloudflare Dashboard](https://dash.cloudflare.com/) dan buka menu **Workers & Pages**.\n2. Klik tombol **Create application** lalu pilih tab **Pages**.\n3. Pilih opsi **Upload assets**.\n4. Beri nama proyekmu, misalnya `landing-page-saya`.\n5. Seret folder proyek yang berisi file `index.html`, file CSS, dan JS langsung ke area upload browser.\n6. Klik **Deploy site**.\n\nDalam hitungan detik, websitemu langsung aktif dengan subdomain `nama-proyek.pages.dev`.\n\n---\n\n## 2. Deploy Aplikasi React Berbasis Vite\n\nUntuk proyek React modern berbasis Vite, cara terbaik adalah menghubungkannya langsung ke repository GitHub agar setiap perubahan kode otomatis ter-deploy (*CI/CD*).\n\n### Konfigurasi Build di Cloudflare Pages:\n1. Di halaman **Workers & Pages**, klik **Create application** > **Pages** > **Connect to Git**.\n2. Pilih akun GitHub dan pilih repository proyek React kamu.\n3. Pada bagian **Build settings**, isi konfigurasi berikut:\n   * **Framework preset:** `Vite`\n   * **Build command:** `npm run build`\n   * **Build output directory:** `dist`\n   * **Root directory:** *(kosongkan jika proyek berada di root folder)*\n\n### Mengatasi Masalah 404 Saat Halaman di-Refresh (SPA Routing):\nAplikasi SPA seperti React Router membutuhkan pengaturan fallback agar semua URL diteruskan ke `index.html`. \n\nTambahkan file baru bernama `_redirects` (tanpa ekstensi) di dalam folder `public/`:\n\n```text\n/*    /index.html   200\n```\n\nSaat proses build berjalan, file ini otomatis tersalin ke folder `dist/` dan memberi tahu Cloudflare untuk selalu menyajikan file index saat pengunjung me-refresh rute dinamis (seperti `/blog/slug-artikel`).\n\n---\n\n## 3. Deploy Website Next.js\n\nDeploy Next.js ke Cloudflare Pages bisa dilakukan dengan dua pendekatan utama tergantung kebutuhan rendering aplikasi.\n\n### Opsi A: Static Export (Paling Simpel & Cepat)\n\nJika aplikasimu tidak menggunakan fungsi server backend dinamis Node.js, ubah file `next.config.js` atau `next.config.mjs`:\n\n```javascript\n/** @type {import('next').NextConfig} */\nconst nextConfig = {\n  output: 'export',\n  images: {\n    unoptimized: true, // Nonaktifkan optimasi gambar bawaan server Next.js\n  },\n};\n\nexport default nextConfig;\n```\n\nLalu saat menghubungkan ke Cloudflare Pages:\n\n* **Framework preset:** `Next.js (Static HTML Export)`\n* **Build command:** `npx @cloudflare/next-on-pages` atau `npm run build`\n* **Build output directory:** `out`\n\n### Opsi B: Full-Stack Next.js (Memanfaatkan Cloudflare Edge Functions)\n\nJika proyekmu membutuhkan SSR (*Server-Side Rendering*) atau API routes di jaringan Edge:\n\n1. Pasang adapter Cloudflare:\n```bash\nnpm install --save-dev @cloudflare/next-on-pages\n```\n\n2. Setel pengaturan build di dasbor Cloudflare Pages:\n* **Framework preset:** `Next.js`\n* **Build command:** `npx @cloudflare/next-on-pages`\n* **Build output directory:** `.vercel/output/static`\n* **Compatibility flags:** Tambahkan flag `nodejs_compat` di menu **Settings > Runtime**.\n\n---\n\n## 4. Menghubungkan Custom Domain Sendiri\n\nSetelah website berhasil tayang dengan domain `.pages.dev`, kamu bisa menghubungkan domain pribadimu:\n\n1. Di halaman proyek Cloudflare Pages, buka tab **Custom domains**.\n2. Klik tombol **Set up a custom domain**.\n3. Masukkan nama domain atau subdomain (contoh: `sumestawsome.xyz` atau `app.sumestawsome.xyz`).\n4. Jika domainmu sudah dikelola di Cloudflare DNS, sistem akan otomatis membuat record CNAME yang sesuai.\n5. Klik **Activate domain**. Sertifikat SSL gratis akan otomatis terpasang dalam hitungan menit.\n\n---\n\n## 5. Ringkasan Pengaturan Build\n\n| Jenis Proyek | Build Command | Output Directory | Catatan Khusus |\n| --- | --- | --- | --- |\n| **HTML / CSS Statis** | *(Tidak ada)* | `.` (Root) | Cukup seret folder langsung |\n| **Vite React** | `npm run build` | `dist` | Wajib file `public/_redirects` |\n| **Next.js (Static Export)** | `npm run build` | `out` | Setel `output: 'export'` di config |\n| **Next.js (Edge SSR)** | `npx @cloudflare/next-on-pages` | `.vercel/output/static` | Butuh flag `nodejs_compat` |\n\nDengan mengikuti konfigurasi di atas, proses deployment website kamu ke Cloudflare Pages akan berjalan mulus, cepat, dan otomatis setiap kali melakukan `git push`."
+  },
+  {
     "slug": "tutorial-setup-firebase-auth-react-nextjs",
     "title": "Tutorial Praktis: Setup Firebase Auth (Login & Register) di React dan Next.js",
     "category": "Web Development",
