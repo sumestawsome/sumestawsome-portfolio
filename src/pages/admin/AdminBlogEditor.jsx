@@ -17,7 +17,11 @@ import {
   AlertCircle,
   Loader2,
   Sparkles,
+  Zap,
+  X,
+  FileJson,
 } from 'lucide-react';
+import { toast, Toaster } from 'sonner';
 import { slugify } from '../../utils/slugify';
 
 export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => {} }) {
@@ -29,6 +33,11 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+
+  // Modal Impor JSON
+  const [importModalOpen, setImportModalOpen] = useState(false);
+  const [jsonInput, setJsonInput] = useState('');
+  const [jsonError, setJsonError] = useState(null);
 
   // Mode editor: 'write' vs 'preview'
   const [editorTab, setEditorTab] = useState('write');
@@ -128,6 +137,119 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
       content: newContent,
       readingTime: computedReadingTime,
     }));
+  };
+
+  // Handler Impor Cepat dari JSON
+  const handleApplyJsonImport = () => {
+    setJsonError(null);
+    const trimmed = jsonInput.trim();
+    if (!trimmed) {
+      setJsonError('Silakan tempelkan teks JSON artikel terlebih dahulu.');
+      return;
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(trimmed);
+    } catch (err) {
+      setJsonError(`Format JSON tidak valid: ${err.message}`);
+      return;
+    }
+
+    // Dukung objek tunggal maupun array artikel
+    const article = Array.isArray(parsed) ? parsed[0] : parsed;
+    if (!article || typeof article !== 'object') {
+      setJsonError('Data JSON harus berupa objek artikel.');
+      return;
+    }
+
+    const title = article.title?.trim() || '';
+    const targetSlug = article.slug?.trim() || slugify(title);
+    const category = article.category?.trim() || formData.category || 'Deployment & DevOps';
+
+    let tags = '';
+    if (Array.isArray(article.tags)) {
+      tags = article.tags.join(', ');
+    } else if (typeof article.tags === 'string') {
+      tags = article.tags;
+    } else {
+      tags = formData.tags;
+    }
+
+    const excerpt = article.excerpt?.trim() || '';
+    const content = article.content || '';
+
+    // Jangan timpa field coverImage jika di JSON hanya berupa URL dummy
+    let updatedCoverImage = { ...formData.coverImage };
+    const incomingCoverUrl = typeof article.coverImage === 'string'
+      ? article.coverImage
+      : article.coverImage?.url;
+
+    const isDummyUrl = (url) => {
+      if (!url) return true;
+      const lower = url.toLowerCase();
+      return (
+        lower.includes('placehold.co') ||
+        lower.includes('placeholder') ||
+        lower.includes('dummy') ||
+        lower.includes('example.com')
+      );
+    };
+
+    if (incomingCoverUrl && !isDummyUrl(incomingCoverUrl)) {
+      updatedCoverImage = {
+        url: incomingCoverUrl,
+        alt: article.coverImage?.alt || title,
+        width: Number(article.coverImage?.width) || 1200,
+        height: Number(article.coverImage?.height) || 630,
+      };
+    } else if (article.coverImage?.alt) {
+      updatedCoverImage.alt = article.coverImage.alt;
+    }
+
+    // Hitung reading time
+    const words = content.trim().split(/\s+/).filter(Boolean).length;
+    const computedReadingTime = Number(article.readingTime) || Math.max(1, Math.ceil(words / 200));
+
+    setFormData((prev) => ({
+      ...prev,
+      title: title || prev.title,
+      slug: targetSlug || prev.slug,
+      category,
+      tags,
+      excerpt: excerpt || prev.excerpt,
+      content: content || prev.content,
+      readingTime: computedReadingTime || prev.readingTime || 5,
+      status: article.status === 'draft' ? 'draft' : 'published',
+      isFeatured: Boolean(article.isFeatured),
+      coverImage: updatedCoverImage,
+      author: {
+        name:
+          article.author?.name ||
+          (typeof article.author === 'string' ? article.author : prev.author.name),
+        avatar: article.author?.avatar || article.authorAvatar || prev.author.avatar,
+        bio: article.author?.bio || article.authorRole || prev.author.bio,
+        url: article.author?.url || prev.author.url,
+      },
+      seo: {
+        metaTitle: article.seo?.metaTitle || title || prev.seo.metaTitle,
+        metaDescription: article.seo?.metaDescription || excerpt || prev.seo.metaDescription,
+        keywords: Array.isArray(article.seo?.keywords)
+          ? article.seo.keywords.join(', ')
+          : article.seo?.keywords || tags || prev.seo.keywords,
+        canonicalUrl:
+          article.seo?.canonicalUrl ||
+          (targetSlug ? `https://sumestawsome.xyz/blog/${targetSlug}` : prev.seo.canonicalUrl),
+        ogType: article.seo?.ogType || 'article',
+        noIndex: Boolean(article.seo?.noIndex),
+      },
+    }));
+
+    setAutoSlug(false);
+    setImportModalOpen(false);
+    setJsonInput('');
+    setJsonError(null);
+    toast.success('Data artikel berhasil dimuat ke formulir!');
   };
 
   // Upload Cover Image via 2-stage uploader
@@ -282,7 +404,20 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
           </h1>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              setJsonError(null);
+              setImportModalOpen(true);
+            }}
+            className="px-3.5 py-2 border border-semesta/50 hover:border-semesta text-semesta hover:text-white hover:bg-semesta font-mono text-xs rounded-none transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Impor metadata & konten artikel dari berkas JSON"
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            <span>⚡ Impor dari JSON</span>
+          </button>
+
           <button
             type="button"
             onClick={() => onNavigate('admin-blog')}
@@ -295,7 +430,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
             type="button"
             onClick={handleSubmit}
             disabled={saving || loadingPost}
-            className="bg-semesta hover:bg-semesta/90 text-white font-semibold py-2 px-5 rounded-none text-xs sm:text-sm font-mono flex items-center gap-2 transition-colors disabled:opacity-50"
+            className="bg-semesta hover:bg-semesta/90 text-white font-semibold py-2 px-5 rounded-none text-xs sm:text-sm font-mono flex items-center gap-2 transition-colors disabled:opacity-50 cursor-pointer"
           >
             {saving ? (
               <>
@@ -837,6 +972,87 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
           </div>
         </form>
       )}
+
+      {/* Modal Dialog Impor Cepat dari JSON */}
+      {importModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-zinc-900 border border-zinc-800 text-white w-full max-w-2xl rounded-none shadow-none p-6 space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-amber-400" />
+                <h3 className="font-mono text-sm font-bold uppercase tracking-wider text-white">
+                  ⚡ Impor Artikel dari Format JSON
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setImportModalOpen(false);
+                  setJsonError(null);
+                }}
+                className="text-zinc-400 hover:text-white p-1 transition-colors rounded-none cursor-pointer"
+                title="Tutup dialog"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs font-mono text-zinc-400 leading-relaxed">
+              Tempelkan format JSON artikel di bawah ini (objek JSON atau array). Nilai judul, slug, kategori, tag, ringkasan, dan konten Markdown akan otomatis diterapkan ke formulir editor.
+            </p>
+
+            {jsonError && (
+              <div className="p-3 bg-red-950/40 border border-red-500/50 rounded-none text-red-400 text-xs flex items-start gap-2 font-mono">
+                <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-500" />
+                <div className="flex-1">{jsonError}</div>
+              </div>
+            )}
+
+            <div className="flex-1 min-h-[220px]">
+              <textarea
+                rows={12}
+                value={jsonInput}
+                onChange={(e) => setJsonInput(e.target.value)}
+                placeholder={`{\n  "title": "Panduan Lengkap...",\n  "slug": "panduan-lengkap",\n  "category": "Deployment & DevOps",\n  "tags": ["Cloudflare", "React"],\n  "excerpt": "Ringkasan artikel...",\n  "content": "# Konten Markdown..."\n}`}
+                className="w-full h-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-zinc-200 p-3.5 font-mono text-xs leading-relaxed rounded-none outline-none resize-y"
+              />
+            </div>
+
+            <div className="flex items-center justify-between pt-3 border-t border-zinc-800">
+              <button
+                type="button"
+                onClick={() => {
+                  setImportModalOpen(false);
+                  setJsonError(null);
+                }}
+                className="px-4 py-2 border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-mono text-xs rounded-none transition-colors cursor-pointer"
+              >
+                Batal
+              </button>
+
+              <button
+                type="button"
+                onClick={handleApplyJsonImport}
+                className="bg-semesta hover:bg-semesta/90 text-white font-semibold py-2 px-5 rounded-none text-xs font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Terapkan ke Form</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sonner Toast Notification */}
+      <Toaster
+        position="top-right"
+        richColors
+        theme="dark"
+        toastOptions={{
+          style: { borderRadius: '0px' },
+          className: 'font-mono text-xs rounded-none',
+        }}
+      />
     </AdminLayout>
   );
 }
