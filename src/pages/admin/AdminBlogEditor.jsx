@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { db, isFirebaseConfigured } from '../../lib/firebase';
 import { uploadBlogImage } from '../../lib/uploader';
 import AdminLayout from '../../components/admin/AdminLayout';
+import CodeBlock from '../../components/blog/CodeBlock';
 import {
   Save,
   ArrowLeft,
@@ -623,23 +624,30 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       ol: ({ children }) => (
                         <ol className="list-decimal pl-5 space-y-1.5 mb-4 marker:text-semesta">{children}</ol>
                       ),
-                      pre: ({ children }) => (
-                        <pre className="bg-zinc-900 text-zinc-100 p-4 rounded-none font-mono text-xs overflow-x-auto my-4">
-                          {children}
-                        </pre>
-                      ),
-                      code: ({ inline, children, ...props }) => {
-                        if (inline || !String(children).includes('\n')) {
+                      pre: ({ children }) => <>{children}</>,
+                      code: ({ inline, className, children, ...props }) => {
+                        const match = /language-(\w+)/.exec(className || '');
+                        const codeString = String(children).replace(/\n$/, '');
+                        const isMultiLine = codeString.includes('\n');
+
+                        if (!inline && (match || isMultiLine)) {
                           return (
-                            <code
-                              className="bg-zinc-100 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300"
+                            <CodeBlock
+                              language={match ? match[1] : ''}
+                              code={codeString}
                               {...props}
-                            >
-                              {children}
-                            </code>
+                            />
                           );
                         }
-                        return <code {...props}>{children}</code>;
+
+                        return (
+                          <code
+                            className="bg-zinc-100 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300 break-words"
+                            {...props}
+                          >
+                            {children}
+                          </code>
+                        );
                       },
                       a: ({ href, children }) => (
                         <a

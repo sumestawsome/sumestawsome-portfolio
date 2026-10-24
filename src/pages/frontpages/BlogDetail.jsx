@@ -8,6 +8,7 @@ import { slugify, getNodeText } from '../../utils/slugify';
 import TableOfContents, { extractHeadings } from '../../components/blog/TableOfContents';
 import BlogSidebarCta from '../../components/blog/BlogSidebarCta';
 import BlogCard from '../../components/blog/BlogCard';
+import CodeBlock from '../../components/blog/CodeBlock';
 import {
   Calendar,
   Clock,
@@ -333,19 +334,19 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
               <div className="flex flex-wrap items-center justify-between gap-4 pt-2 text-xs text-zinc-500 font-mono border-t border-zinc-100">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
-                    {post.author?.avatar ? (
+                    {post.author?.avatar || post.authorAvatar ? (
                       <img
-                        src={post.author.avatar}
-                        alt={post.author.name}
+                        src={post.author?.avatar || post.authorAvatar}
+                        alt={post.author?.name || 'Admin Sumesta'}
                         className="w-6 h-6 rounded-none border border-zinc-300 object-cover"
                       />
                     ) : (
                       <div className="w-6 h-6 bg-semesta text-white text-xs font-bold flex items-center justify-center rounded-none">
-                        {post.author?.name ? post.author.name[0] : 'S'}
+                        {post.author?.name ? post.author.name[0] : (typeof post.author === 'string' ? post.author[0] : 'S')}
                       </div>
                     )}
                     <span className="font-sans font-semibold text-zinc-800">
-                      {post.author?.name || 'Admin Sumesta'}
+                      {post.author?.name || (typeof post.author === 'string' ? post.author : 'Admin Sumesta')}
                     </span>
                   </div>
                   <span>•</span>
@@ -381,13 +382,13 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
             </header>
 
             {/* Cover Image Utama */}
-            {post.coverImage?.url && (
+            {(post.coverImage?.url || (typeof post.coverImage === 'string' && post.coverImage)) && (
               <div className="mb-8 overflow-hidden border border-zinc-200 dark:border-zinc-800 rounded-none bg-zinc-100">
                 <img
-                  src={post.coverImage.url}
-                  alt={post.coverImage.alt || post.title}
-                  width={post.coverImage.width || 1200}
-                  height={post.coverImage.height || 630}
+                  src={post.coverImage?.url || post.coverImage}
+                  alt={post.coverImage?.alt || post.title}
+                  width={post.coverImage?.width || 1200}
+                  height={post.coverImage?.height || 630}
                   className="w-full h-auto object-cover rounded-none"
                   loading="eager"
                 />
@@ -490,26 +491,27 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                       {children}
                     </li>
                   ),
-                  pre: ({ children }) => (
-                    <div className="overflow-x-auto max-w-full my-6 border border-zinc-800 bg-zinc-900 rounded-none">
-                      <pre className="p-4 font-mono text-xs sm:text-sm text-zinc-100 leading-relaxed">
-                        {children}
-                      </pre>
-                    </div>
-                  ),
-                  code: ({ inline, children, ...props }) => {
-                    if (inline || !String(children).includes('\n')) {
+                  pre: ({ children }) => <>{children}</>,
+                  code: ({ inline, className, children, ...props }) => {
+                    const match = /language-(\w+)/.exec(className || '');
+                    const codeString = String(children).replace(/\n$/, '');
+                    const isMultiLine = codeString.includes('\n');
+
+                    if (!inline && (match || isMultiLine)) {
                       return (
-                        <code
-                          className="bg-zinc-100 dark:bg-zinc-800 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300 dark:border-zinc-700 break-words"
+                        <CodeBlock
+                          language={match ? match[1] : ''}
+                          code={codeString}
                           {...props}
-                        >
-                          {children}
-                        </code>
+                        />
                       );
                     }
+
                     return (
-                      <code className="font-mono text-xs sm:text-sm block" {...props}>
+                      <code
+                        className="bg-zinc-100 dark:bg-zinc-800 text-semesta font-mono text-xs px-1.5 py-0.5 rounded-none border border-zinc-300 dark:border-zinc-700 break-words"
+                        {...props}
+                      >
                         {children}
                       </code>
                     );
@@ -552,28 +554,28 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
             {/* Author Box */}
             <div className="mt-12 pt-8 border-t border-zinc-200">
               <div className="border border-zinc-200 bg-zinc-50 p-6 rounded-none flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                {post.author?.avatar ? (
+                {post.author?.avatar || post.authorAvatar ? (
                   <img
-                    src={post.author.avatar}
-                    alt={post.author.name}
+                    src={post.author?.avatar || post.authorAvatar}
+                    alt={post.author?.name || 'Admin Sumesta'}
                     className="w-16 h-16 rounded-none border border-zinc-300 object-cover flex-shrink-0"
                   />
                 ) : (
                   <div className="w-16 h-16 bg-semesta text-white text-2xl font-bold flex items-center justify-center rounded-none flex-shrink-0">
-                    {post.author?.name ? post.author.name[0] : 'S'}
+                    {post.author?.name ? post.author.name[0] : (typeof post.author === 'string' ? post.author[0] : 'S')}
                   </div>
                 )}
                 <div className="text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
                     <span className="font-bold text-base text-zinc-900">
-                      {post.author?.name || 'Admin Sumesta'}
+                      {post.author?.name || (typeof post.author === 'string' ? post.author : 'Admin Sumesta')}
                     </span>
                     <span className="text-[10px] bg-semesta/10 text-semesta border border-semesta/20 px-2 py-0.5 rounded-none font-mono">
                       Penulis
                     </span>
                   </div>
                   <p className="text-sm text-zinc-600 mb-3">
-                    {post.author?.bio || 'Full-stack developer & tech enthusiast.'}
+                    {post.author?.bio || post.authorRole || 'Full-stack developer & tech enthusiast.'}
                   </p>
                   <a
                     href={post.author?.url || 'https://sumestawsome.xyz'}

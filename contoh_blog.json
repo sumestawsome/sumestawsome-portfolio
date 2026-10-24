@@ -1,43 +1,106 @@
-{
-  "slug": "belajar-deploy-website-ke-vercel",
-  "title": "Panduan Lengkap Cara Deploy Website ke Vercel: Lewat GitHub & NPX CLI",
-  "excerpt": "Pelajari dua cara termudah mendeploy website Next.js atau frontend lainnya ke Vercel menggunakan integrasi Git otomatis dan perintah npx vercel langsung dari terminal.",
-  "status": "published",
-  "isFeatured": true,
-  "category": "Deployment & DevOps",
-  "tags": ["Vercel", "Next.js", "GitHub", "Tutorial", "Web Development"],
-  "readingTime": 5,
-  "coverImage": {
-    "url": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/covers%2Fdeploy-vercel-guide.webp?alt=media",
-    "alt": "Ilustrasi deploy website Next.js ke platform hosting Vercel",
-    "width": 1200,
-    "height": 630
-  },
-  "author": {
-    "name": "Admin Sumesta",
-    "avatar": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/authors%2Fsumesta.webp?alt=media",
-    "bio": "Full-stack developer & tech enthusiast.",
-    "url": "https://sumestawsome.xyz"
-  },
-  "seo": {
-    "metaTitle": "Cara Deploy Website ke Vercel via GitHub & CLI (Cepat & Gratis)",
-    "metaDescription": "Bingung cara online-kan web buatanmu? Ikuti panduan praktis deploy website ke Vercel lewat integrasi repository GitHub dan terminal npx vercel.",
-    "keywords": [
-      "deploy vercel",
-      "cara hosting di vercel",
-      "npx vercel tutorial",
-      "deploy nextjs gratis",
-      "github to vercel"
+[
+  {
+    "slug": "tutorial-setup-firebase-auth-react-nextjs",
+    "title": "Tutorial Praktis: Setup Firebase Auth (Login & Register) di React dan Next.js",
+    "category": "Web Development",
+    "tags": [
+      "Firebase",
+      "React",
+      "Next.js",
+      "Authentication",
+      "Web Dev",
+      "Pemula"
     ],
-    "canonicalUrl": "https://sumestawsome.xyz/blog/belajar-deploy-website-ke-vercel",
-    "ogType": "article",
-    "noIndex": false
+    "excerpt": "Bikin sistem login dan register sendiri dari nol sering bikin pusing. Lewat panduan ini, kita pelajari cara pasang Firebase Auth di React dan Next.js dengan alur yang simpel, aman, dan langsung siap pakai.",
+    "author": {
+      "name": "Admin Sumesta",
+      "avatar": "https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp",
+      "bio": "Full-stack Developer & Motion Designer",
+      "url": "https://sumestawsome.xyz"
+    },
+    "authorRole": "Full-stack Developer & Motion Designer",
+    "authorAvatar": "https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp",
+    "coverImage": {
+      "url": "https://cdn.sumestawsome.xyz/uploads/tutorial-firebase-auth.webp",
+      "alt": "Tutorial Praktis: Setup Firebase Auth di React dan Next.js",
+      "width": 1200,
+      "height": 630
+    },
+    "readingTime": 6,
+    "isFeatured": false,
+    "status": "published",
+    "publishedAt": "2026-10-24T09:00:00Z",
+    "updatedAt": "2026-10-24T09:00:00Z",
+    "seo": {
+      "metaTitle": "Tutorial Praktis Setup Firebase Auth di React & Next.js - Sumesta",
+      "metaDescription": "Panduan praktis memasang Firebase Authentication di React dan Next.js dengan AuthContext dan Route Guard yang aman dan siap pakai.",
+      "keywords": [
+        "Firebase",
+        "React",
+        "Next.js",
+        "Authentication",
+        "Web Dev",
+        "AuthContext"
+      ],
+      "canonicalUrl": "https://sumestawsome.xyz/blog/tutorial-setup-firebase-auth-react-nextjs",
+      "ogType": "article",
+      "noIndex": false
+    },
+    "stats": {
+      "views": 0,
+      "likes": 0
+    },
+    "content": "Bikin fitur login dan daftar akun dari nol itu sering bikin kepala pening. Kamu harus mikir cara mengacak kata sandi biar aman, mengatur token sesi, sampai menjaga supaya pengguna nggak mendadak logout sendiri saat halaman di-refresh. \n\nKabar baiknya, kita nggak perlu repot bikin semua roda itu dari awal. Ada **Firebase Authentication** dari Google yang siap pakai, gratis untuk skala awal, dan keamanannya sudah terjamin standar industri.\n\nDi artikel ini, kita bakal pasang Firebase Auth versi terbaru ke proyek React atau Next.js kamu. Alurnya kita bagi jadi beberapa langkah praktis yang gampang diikuti.\n\n---\n\n## 1. Pasang Paket Firebase di Proyek\n\nLangkah pertama, buka terminal di folder proyek kamu dan pasang paket resmi Firebase:\n\n```bash\nnpm install firebase\n```\n\nSetelah selesai, buat file baru di `src/lib/firebase.js` sebagai pusat kendali koneksi aplikasi ke Firebase:\n\n```javascript\nimport { initializeApp, getApps, getApp } from \"firebase/app\";\nimport { getAuth } from \"firebase/auth\";\nimport { getFirestore } from \"firebase/firestore\";\n\n// Ambil data kunci dari file .env agar aman\nconst firebaseConfig = {\n  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,\n  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,\n  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,\n  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,\n  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,\n  appId: import.meta.env.VITE_FIREBASE_APP_ID,\n};\n\n// Cek apakah Firebase sudah aktif agar tidak terjadi inisialisasi dobel\nconst app = !getApps().length ? initializeApp(firebaseConfig) : getApp();\n\nexport const auth = getAuth(app);\nexport const db = getFirestore(app);\nexport default app;\n```\n\n> **Tips Santai:** Kalau kamu pakai Next.js, ganti kode pembaca lingkungan dari `import.meta.env.VITE_` menjadi `process.env.NEXT_PUBLIC_`.\n\n---\n\n## 2. Aktifkan Fitur Login di Firebase Console\n\nKodenya sudah siap, sekarang giliran memberi izin di dasbor Firebase:\n\n1. Buka situs [Firebase Console](https://console.firebase.google.com/) lalu pilih proyek kamu.\n2. Di menu sebelah kiri, klik **Build > Authentication**.\n3. Klik tombol **Get Started**.\n4. Di tab **Sign-in method**, pilih menu **Email/Password**.\n5. Nyalakan tombol sakelar di bagian **Email/Password**, lalu klik **Save**.\n\nSekarang pintu pendaftaran akun sudah terbuka dan siap menerima pengguna baru.\n\n---\n\n## 3. Bikin Auth Context (Penyimpan Sesi Global)\n\nMasalah umum developer pemula adalah bingung cara tahu siapa pengguna yang sedang aktif di halaman lain. Supaya status login ini bisa diakses dari halaman mana saja tanpa oper-oper data yang ribet, kita buat wadah global bernama `AuthContext`.\n\nBuat file baru di `src/context/AuthContext.jsx`:\n\n```javascript\nimport React, { createContext, useContext, useEffect, useState } from \"react\";\nimport { \n  onAuthStateChanged, \n  signInWithEmailAndPassword, \n  createUserWithEmailAndPassword, \n  signOut\n} from \"firebase/auth\";\nimport { auth } from \"../lib/firebase\";\n\nconst AuthContext = createContext(null);\n\nexport const AuthProvider = ({ children }) => {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    // Fungsi ini otomatis mengecek apakah ada pengguna yang masih login di browser\n    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {\n      setUser(currentUser);\n      setLoading(false);\n    });\n\n    return () => unsubscribe();\n  }, []);\n\n  const login = (email, password) => {\n    return signInWithEmailAndPassword(auth, email, password);\n  };\n\n  const register = (email, password) => {\n    return createUserWithEmailAndPassword(auth, email, password);\n  };\n\n  const logout = () => {\n    return signOut(auth);\n  };\n\n  return (\n    <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, login, register, logout }}>\n      {!loading && children}\n    </AuthContext.Provider>\n  );\n};\n\n// Custom hook biar gampang dipanggil di komponen lain\nexport const useAuth = () => {\n  const context = useContext(AuthContext);\n  if (!context) {\n    throw new Error(\"useAuth wajib dibungkus di dalam AuthProvider!\");\n  }\n  return context;\n};\n```\n\nBungkus file utama kamu (`App.jsx` atau `layout.jsx`) dengan komponen pembungkus ini:\n\n```javascript\nimport { AuthProvider } from \"./context/AuthContext\";\n\nexport default function App() {\n  return (\n    <AuthProvider>\n      <MainRouter />\n    </AuthProvider>\n  );\n}\n```\n\n---\n\n## 4. Bikin Form Login & Pesan Error yang Jelas\n\nFormulir login yang baik harus ramah pengguna: tombolnya memberi tanda saat loading, dan pesan kesalahan bisa dimengerti manusia biasa (bukan error kodingan).\n\nBerikut contoh komponen `Login.jsx` dengan Tailwind CSS:\n\n```javascript\nimport React, { useState } from \"react\";\nimport { useAuth } from \"../context/AuthContext\";\nimport { useNavigate } from \"react-router-dom\";\n\nexport default function Login() {\n  const [email, setEmail] = useState(\"\");\n  const [password, setPassword] = useState(\"\");\n  const [error, setError] = useState(\"\");\n  const [isSubmitting, setIsSubmitting] = useState(false);\n\n  const { login } = useAuth();\n  const navigate = useNavigate();\n\n  const handleSubmit = async (e) => {\n    e.preventDefault();\n    setError(\"\");\n    setIsSubmitting(true);\n\n    try {\n      await login(email, password);\n      navigate(\"/admin/blog\");\n    } catch (err) {\n      // Ubah kode error bawaan Firebase jadi bahasa manusia\n      if (err.code === \"auth/invalid-credential\") {\n        setError(\"Email atau kata sandi kamu salah.\");\n      } else if (err.code === \"auth/too-many-requests\") {\n        setError(\"Terlalu sering salah coba. Tunggu sebentar lagi ya.\");\n      } else {\n        setError(\"Gagal masuk. Coba cek koneksi internetmu.\");\n      }\n    } finally {\n      setIsSubmitting(false);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen flex items-center justify-center p-4 bg-zinc-950 text-white\">\n      <div className=\"w-full max-w-md p-8 bg-zinc-900 border border-zinc-800\">\n        <h1 className=\"text-2xl font-bold mb-2\">Masuk ke Dashboard</h1>\n        <p className=\"text-sm text-zinc-400 mb-6\">Masukkan data akun untuk mengelola artikel blog.</p>\n\n        {error && (\n          <div className=\"p-3 mb-4 text-sm text-red-400 bg-red-950/50 border border-red-800\">\n            {error}\n          </div>\n        )}\n\n        <form onSubmit={handleSubmit} className=\"space-y-4\">\n          <div>\n            <label className=\"block text-xs font-semibold uppercase text-zinc-400 mb-1\">Email</label>\n            <input\n              type=\"email\"\n              required\n              value={email}\n              onChange={(e) => setEmail(e.target.value)}\n              className=\"w-full px-3 py-2 text-sm bg-zinc-950 border border-zinc-700 focus:outline-none focus:border-purple-600\"\n              placeholder=\"nama@email.com\"\n            />\n          </div>\n\n          <div>\n            <label className=\"block text-xs font-semibold uppercase text-zinc-400 mb-1\">Kata Sandi</label>\n            <input\n              type=\"password\"\n              required\n              value={password}\n              onChange={(e) => setPassword(e.target.value)}\n              className=\"w-full px-3 py-2 text-sm bg-zinc-950 border border-zinc-700 focus:outline-none focus:border-purple-600\"\n              placeholder=\"••••••••\"\n            />\n          </div>\n\n          <button\n            type=\"submit\"\n            disabled={isSubmitting}\n            className=\"w-full py-2.5 px-4 bg-purple-700 hover:bg-purple-600 text-white font-semibold text-sm transition disabled:opacity-50\"\n          >\n            {isSubmitting ? \"Sedang Memeriksa...\" : \"Masuk Sekarang\"}\n          </button>\n        </form>\n      </div>\n    </div>\n  );\n}\n```\n\n---\n\n## 5. Pasang Satpam Halaman (Route Guard)\n\nTentu saja halaman admin tidak boleh dibuka oleh orang asing yang sekadar mengetik `/admin/blog` di bilah URL browser. Kita butuh komponen khusus sebagai \"satpam pintu masuk\".\n\nBuat file di `src/components/AdminRouteGuard.jsx`:\n\n```javascript\nimport React from \"react\";\nimport { Navigate, Outlet } from \"react-router-dom\";\nimport { useAuth } from \"../context/AuthContext\";\n\nexport default function AdminRouteGuard() {\n  const { isAuthenticated, loading } = useAuth();\n\n  // Waktu Firebase sedang mengecek sesi, tahan dulu tampilannya\n  if (loading) {\n    return (\n      <div className=\"min-h-screen flex items-center justify-center bg-zinc-950 text-white font-mono text-sm\">\n        Memeriksa hak akses...\n      </div>\n    );\n  }\n  // Jika sudah terbukti login, izinkan masuk. Kalau belum, lempar ke login\n  return isAuthenticated ? <Outlet /> : <Navigate replace to=\"/admin/login\" />;\n}\n```\n\nLalu susun rute kamu di `App.jsx` seperti ini:\n\n```javascript\n<Routes>\n  {/* Halaman yang bebas dibuka siapa saja */}\n  <Route element={<Home />} path=\"/\" />\n  <Route element={<Blog />} path=\"/blog\" />\n  <Route element={<BlogDetail />} path=\"/blog/:slug\" />\n  <Route element={<Login />} path=\"/admin/login\" />\n\n  {/* Halaman yang dikunci oleh Route Guard */}\n  <Route element={<AdminRouteGuard />}>\n    <Route element={<AdminBlogList />} path=\"/admin/blog\" />\n    <Route element={<AdminBlogEditor />} path=\"/admin/blog/create\" />\n  </Route>\n</Routes>\n```\n\n---\n\n## 6. Kunci Pintu Belakang Database (Firestore Rules)\n\nMengunci tombol di halaman web saja belum cukup. Orang yang paham cara kerja API masih bisa mengirim permintaan langsung ke database kalau izin aksesnya belum kamu atur.\n\nBuka file `firestore.rules` di folder proyekmu dan pastikan aturannya seperti ini:\n\n```javascript\nrules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    // Siapa saja boleh membaca artikel blog\n    match /posts/{postId} {\n      allow read: if true;\n      // Tapi cuma admin yang sudah login yang boleh menambah, mengubah, atau menghapus\n      allow create, update, delete: if request.auth != null;\n    }\n  }\n}\n```\n\nKirim aturan baru ini ke server Firebase lewat terminal:\n\n```bash\nfirebase deploy --only firestore:rules\n```\n\nSekarang sistem autentikasi di aplikasi kamu sudah lengkap luar-dalam. Pengguna umum bisa menikmati artikel di blog, sementara halaman dasbor admin tetap aman terkunci dan cuma bisa diakses oleh akun milikmu sendiri."
   },
-  "content": "Mendeploy website modern (seperti Next.js, React, atau HTML statis) ke internet kini tidak lagi membutuhkan konfigurasi server VPS yang rumit. Vercel menyediakan platform *serverless* dengan performa tinggi dan sertifikat SSL gratis secara otomatis.\n\nAda dua cara utama yang paling populer untuk melakukan deployment ke Vercel: **Integrasi Git (Paling Direkomendasikan)** dan **Vercel CLI via NPX**.\n\n---\n\n### Metode 1: Deploy Otomatis via GitHub (Paling Mudah & Rapi)\n\nMetode ini sangat disarankan untuk proyek jangka panjang karena mendukung *Continuous Deployment* (setiap kali Anda melakukan `git push`, Vercel akan otomatis meng-update web Anda).\n\n1. **Push Proyek ke Repository GitHub**\n   Pastikan proyek lokal Anda sudah terhubung ke GitHub:\n   ```bash\n   git init\n   git add .\n   git commit -m \"first commit\"\n   git branch -M main\n   git remote add origin [https://github.com/username/nama-repo.git](https://github.com/username/nama-repo.git)\n   git push -u origin main\n   ```\n\n2. **Koneksikan ke Dashboard Vercel**\n   - Buka [vercel.com](https://vercel.com) dan masuk menggunakan akun GitHub Anda.\n   - Klik tombol **\"Add New...\"** lalu pilih **\"Project\"**.\n   - Pada daftar *Import Git Repository*, temukan repository proyek yang baru saja Anda push, lalu klik **Import**.\n\n3. **Konfigurasi Environment & Deploy**\n   - Vercel akan mendeteksi framework Anda secara otomatis (misal: Next.js atau Vite).\n   - Jika Anda menggunakan Firebase, masukkan API Key dan konfigurasi Firebase pada bagian **Environment Variables**.\n   - Klik tombol **Deploy** dan tunggu 1–2 menit hingga domain gratis `*.vercel.app` selesai disiapkan.\n\n---\n\n### Metode 2: Deploy Instan Langsung via Terminal (`npx vercel`)\n\nJika Anda ingin melihat hasil web di internet secara kilat tanpa harus membuat repository GitHub terlebih dahulu, gunakan Vercel CLI langsung dari terminal lokal.\n\n1. **Buka Terminal di Folder Proyek**\n   Jalankan perintah berikut di root folder proyek Anda:\n   ```bash\n   npx vercel\n   ```\n\n2. **Ikuti Wizard Konfigurasi Interaktif**\n   Terminal akan memandu Anda melalui beberapa pertanyaan ringkas:\n   - `Set up and deploy?` → Ketik **y** lalu tekan Enter.\n   - `Which scope do you want to deploy to?` → Pilih akun Vercel Anda.\n   - `Link to existing project?` → Ketik **n** jika ini proyek baru.\n   - `What's your project's name?` → Tekan Enter untuk menggunakan nama default folder.\n   - `In which directory is your code located?` → Tekan Enter (untuk `./`).\n   - `Want to modify settings?` → Ketik **n**.\n\n3. **Selesai & Deploy ke Production**\n   Setelah build selesai, Vercel akan memberikan tautan *Preview URL*. Untuk menaikkannya langsung ke production permanen, jalankan:\n   ```bash\n   npx vercel --prod\n   ```",
-  "stats": {
-    "views": 0,
-    "likes": 0
-  },
-  "publishedAt": "2026-10-23T11:00:00Z",
-  "updatedAt": "2026-10-23T11:00:00Z"
-}
+  {
+    "slug": "belajar-deploy-website-ke-vercel",
+    "title": "Panduan Lengkap Cara Deploy Website ke Vercel: Lewat GitHub & NPX CLI",
+    "excerpt": "Pelajari dua cara termudah mendeploy website Next.js atau frontend lainnya ke Vercel menggunakan integrasi Git otomatis dan perintah npx vercel langsung dari terminal.",
+    "status": "published",
+    "isFeatured": true,
+    "category": "Deployment & DevOps",
+    "tags": [
+      "Vercel",
+      "Next.js",
+      "GitHub",
+      "Tutorial",
+      "Web Development"
+    ],
+    "readingTime": 5,
+    "coverImage": {
+      "url": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/covers%2Fdeploy-vercel-guide.webp?alt=media",
+      "alt": "Ilustrasi deploy website Next.js ke platform hosting Vercel",
+      "width": 1200,
+      "height": 630
+    },
+    "author": {
+      "name": "Admin Sumesta",
+      "avatar": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/authors%2Fsumesta.webp?alt=media",
+      "bio": "Full-stack developer & tech enthusiast.",
+      "url": "https://sumestawsome.xyz"
+    },
+    "authorRole": "Full-stack developer & tech enthusiast",
+    "authorAvatar": "https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/authors%2Fsumesta.webp?alt=media",
+    "seo": {
+      "metaTitle": "Cara Deploy Website ke Vercel via GitHub & CLI (Cepat & Gratis)",
+      "metaDescription": "Bingung cara online-kan web buatanmu? Ikuti panduan praktis deploy website ke Vercel lewat integrasi repository GitHub dan terminal npx vercel.",
+      "keywords": [
+        "deploy vercel",
+        "cara hosting di vercel",
+        "npx vercel tutorial",
+        "deploy nextjs gratis",
+        "github to vercel"
+      ],
+      "canonicalUrl": "https://sumestawsome.xyz/blog/belajar-deploy-website-ke-vercel",
+      "ogType": "article",
+      "noIndex": false
+    },
+    "content": "Mendeploy website modern (seperti Next.js, React, atau HTML statis) ke internet kini tidak lagi membutuhkan konfigurasi server VPS yang rumit. Vercel menyediakan platform *serverless* dengan performa tinggi dan sertifikat SSL gratis secara otomatis.\n\nAda dua cara utama yang paling populer untuk melakukan deployment ke Vercel: **Integrasi Git (Paling Direkomendasikan)** dan **Vercel CLI via NPX**.\n\n---\n\n### Metode 1: Deploy Otomatis via GitHub (Paling Mudah & Rapi)\n\nMetode ini sangat disarankan untuk proyek jangka panjang karena mendukung *Continuous Deployment* (setiap kali Anda melakukan `git push`, Vercel akan otomatis meng-update web Anda).\n\n1. **Push Proyek ke Repository GitHub**\n   Pastikan proyek lokal Anda sudah terhubung ke GitHub:\n   ```bash\n   git init\n   git add .\n   git commit -m \"first commit\"\n   git branch -M main\n   git remote add origin https://github.com/username/nama-repo.git\n   git push -u origin main\n   ```\n\n2. **Koneksikan ke Dashboard Vercel**\n   - Buka [vercel.com](https://vercel.com) dan masuk menggunakan akun GitHub Anda.\n   - Klik tombol **\"Add New...\"** lalu pilih **\"Project\"**.\n   - Pada daftar *Import Git Repository*, temukan repository proyek yang baru saja Anda push, lalu klik **Import**.\n\n3. **Konfigurasi Environment & Deploy**\n   - Vercel akan mendeteksi framework Anda secara otomatis (misal: Next.js atau Vite).\n   - Jika Anda menggunakan Firebase, masukkan API Key dan konfigurasi Firebase pada bagian **Environment Variables**.\n   - Klik tombol **Deploy** dan tunggu 1–2 menit hingga domain gratis `*.vercel.app` selesai disiapkan.\n\n---\n\n### Metode 2: Deploy Instan Langsung via Terminal (`npx vercel`)\n\nJika Anda ingin melihat hasil web di internet secara kilat tanpa harus membuat repository GitHub terlebih dahulu, gunakan Vercel CLI langsung dari terminal lokal.\n\n1. **Buka Terminal di Folder Proyek**\n   Jalankan perintah berikut di root folder proyek Anda:\n   ```bash\n   npx vercel\n   ```\n\n2. **Ikuti Wizard Konfigurasi Interaktif**\n   Terminal akan memandu Anda melalui beberapa pertanyaan ringkas:\n   - `Set up and deploy?` → Ketik **y** lalu tekan Enter.\n   - `Which scope do you want to deploy to?` → Pilih akun Vercel Anda.\n   - `Link to existing project?` → Ketik **n** jika ini proyek baru.\n   - `What's your project's name?` → Tekan Enter untuk menggunakan nama default folder.\n   - `In which directory is your code located?` → Tekan Enter (untuk `./`).\n   - `Want to modify settings?` → Ketik **n**.\n\n3. **Selesai & Deploy ke Production**\n   Setelah build selesai, Vercel akan memberikan tautan *Preview URL*. Untuk menaikkannya langsung ke production permanen, jalankan:\n   ```bash\n   npx vercel --prod\n   ```",
+    "stats": {
+      "views": 0,
+      "likes": 0
+    },
+    "publishedAt": "2026-10-23T11:00:00Z",
+    "updatedAt": "2026-10-23T11:00:00Z"
+  }
+]
