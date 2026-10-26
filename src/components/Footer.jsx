@@ -109,8 +109,7 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
               </span>
             </a>
             <p className="text-sm text-slate-600 max-w-sm font-normal">
-              Eksplorasi visual, video motion, dan rekayasa web frontend dengan pendekatan presisi &
-              desain tegas.
+              Karya desain visual, animasi video, dan rekayasa web frontend yang rapi, kencang, dan fungsional.
             </p>
           </div>
 

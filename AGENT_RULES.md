@@ -55,7 +55,15 @@ Setiap kali menyelesaikan tugas, perbaikan bug, atau penambahan fitur baru:
 
 ---
 
-## 5. MANDAT OPERASIONAL ASISTEN
+## 5. COPYWRITING & TONE OF VOICE RULES (@no-berat-berat)
+1. **Dilarang Menggunakan Tanda Pisah Em-Dash (`—`):** Jangan gunakan tanda pisah panjang untuk menyisipkan anak kalimat. Gunakan tanda koma biasa, titik, atau pecah menjadi dua kalimat terpisah agar alurnya santai dan mengalir.
+2. **Anti-AI Slop & Jargon Kaku:** Hindari kata-kata klise robotik seperti "di era digital yang berkembang pesat", "optimalisasi menyeluruh", "mitigasi", atau "transformasi terintegrasi". Gunakan kata kerja aktif dan konkret yang umum dipakai sehari-hari.
+3. **Persuasif, Ringan, dan Percaya Diri:** Teks harus menjual kemampuan teknis tanpa terkesan sombong atau berputar-putar. Sampaikan masalah klien, tawarkan solusinya langsung, dan jelaskan hasilnya dengan lugas.
+4. **Struktur Kalimat Pendek:** Buat kalimat yang ringkas agar enak dibaca sekilas (skimmable) di layar HP maupun laptop.
+
+---
+
+## 6. MANDAT OPERASIONAL ASISTEN
 - Antigravity wajib memeriksa `tailwind.config.js` sebelum menambahkan class baru.
 - Dilarang menghapus atau mengubah konfigurasi default tanpa konfirmasi.
 - Selalu patuhi aturan ini pada setiap prompt berikutnya tanpa perlu diingatkan kembali.

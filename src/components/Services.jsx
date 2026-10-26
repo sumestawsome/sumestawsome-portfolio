@@ -51,12 +51,11 @@ export default function Services() {
               <span>BIDANG KEAHLIAN & LAYANAN</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Solusi Visual & Web Terintegrasi
+              Layanan Desain, Video, & Website
             </h2>
           </div>
           <p className="text-sm sm:text-base text-slate-600 max-w-md">
-            Membantu merancang ide dari sketsa konsep visual sampai menjadi produk digital yang
-            fungsional dan estetik.
+            Siap bantu wujudkan idemu, mulai dari materi desain visual, animasi video, sampai website modern yang responsif dan siap pakai.
           </p>
         </div>
 

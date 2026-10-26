@@ -106,8 +106,7 @@ export default function Contact() {
               </h2>
 
               <p className="text-base text-slate-600 leading-relaxed font-normal">
-                Tak perlu sungkan atau menunggu konsepmu sempurna. Baik sekadar tanya tarif, konsultasi
-                teknis frontend, atau diskusi gaya visual video/desain, ruang obrolan selalu terbuka.
+                Nggak usah sungkan atau nunggu konsepmu matang 100%. Mau tanya kisaran budget, ngobrolin kebutuhan website, atau diskusi gaya visual desain dan video, langsung sapa aja lewat WhatsApp.
               </p>
 
               <div className="pt-2">

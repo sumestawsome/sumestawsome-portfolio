@@ -21,8 +21,8 @@ export default function MetricBar() {
       label: 'Kohesif',
     },
     {
-      title: 'AI-Assisted Workflow',
-      desc: 'Memanfaatkan integrasi AI terbaru agar pengerjaan efisien, terarah, dan minim error.',
+      title: 'Workflow Cepat Berbasis AI',
+      desc: 'Dibantu alur kerja AI terkini agar riset konsep dan penulisan kode jauh lebih cepat dan teruji.',
       icon: Sparkles,
       label: 'Efisiensi',
     },

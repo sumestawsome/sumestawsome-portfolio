@@ -129,9 +129,7 @@ export default function Hero() {
 
             {/* Sub-headline */}
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-normal">
-              Aku terbuka bantu siapa pun yang mau diajak diskusi bareng. Ceritain kendala atau tujuan
-              utamamu yang sebenarnya, supaya solusi yang kita buat—entah itu visual, video, atau
-              web—benar-benar pas, bukan sekadar asal beres.
+              Bebas mau ngobrol atau diskusi santai dulu. Ceritain aja apa kendala dan tujuan utama yang pengin kamu capai. Biar solusi yang kita garap bareng, baik itu desain visual, animasi video, atau website, bener-bener tepat sasaran dan nggak asal beres.
             </p>
 
             {/* CTA Buttons */}

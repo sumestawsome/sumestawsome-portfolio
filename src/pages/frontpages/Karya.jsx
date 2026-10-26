@@ -9,6 +9,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../../lib/firebase';
+import { updateMetaTags } from '../../utils/seo';
 import karyaData from '../../data/karya.json';
 import PageHeader from '../../components/PageHeader';
 import { Loader2, Sparkles, FolderGit2 } from 'lucide-react';
@@ -152,6 +153,19 @@ export default function Karya({ onNavigate }) {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    const cleanup = updateMetaTags({
+      title: 'Galeri Karya & Portofolio Rekayasa Web | Sumestawsome',
+      description:
+        'Eksplorasi pilihan proyek rekayasa web modern, perancangan antarmuka visual, dan multimedia kreatif dari Putu Agus Sumerta (sumestawsome).',
+      canonical: 'https://sumestawsome.xyz/karya',
+      ogImage:
+        'https://res.cloudinary.com/dtjbo9dba/image/upload/v1791253452/Screenshot_2026-10-06_102344_sx1sey.png',
+      ogType: 'website',
+    });
+    return cleanup;
   }, []);
 
   useEffect(() => {
@@ -401,7 +415,7 @@ export default function Karya({ onNavigate }) {
                   </button>
                 ) : (
                   <p className="text-xs font-mono text-slate-500 uppercase tracking-wider">
-                    — Menampilkan seluruh {projects.length} karya dalam kategori ini —
+                    Menampilkan seluruh {projects.length} karya dalam kategori ini
                   </p>
                 )}
               </div>

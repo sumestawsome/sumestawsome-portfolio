@@ -171,7 +171,7 @@ export default function About({ onNavigate }) {
       type: 'Sertifikasi Global',
       date: '23 September 2026',
       credentialId: null,
-      detail: 'Kualifikasi penguasaan AI dari Google (Google AI competencies) — Berlaku s.d: 2029',
+      detail: 'Kualifikasi penguasaan AI dari Google (Google AI competencies), berlaku sampai tahun 2029',
       recipient: 'Putu Agus Sumerta Yasa',
     },
     {
@@ -320,12 +320,7 @@ export default function About({ onNavigate }) {
                 menempuh studi S1 Ilmu Komputer di Universitas Pendidikan Ganesha (UNDIKSHA).
               </p>
               <p>
-                Ketertarikanku pada dunia kreatif berawal dari mengotak-atik visual—mulai dari
-                fotografi, video editing untuk film pendek, hingga desain grafis promosi. Di bangku
-                kuliah, aku memadukan kepekaan estetika tersebut dengan rekayasa web frontend. Aku
-                percaya bahwa website yang bagus bukan hanya tentang kode yang berjalan tanpa
-                error, melainkan tentang bagaimana antarmuka tersebut menyajikan informasi dengan
-                rapi, komunikatif, dan nyaman dipandang.
+                Ketertarikanku pada dunia kreatif berawal dari mengotak-atik visual, mulai dari fotografi, editing video untuk film pendek, sampai desain grafis promosi. Di bangku kuliah, kepekaan visual itu aku padukan dengan rekayasa web frontend. Bagiku, website yang bagus bukan cuma kodenya jalan lancar, tapi bagaimana tampilannya enak dilihat, pesannya jelas, dan nyaman dipakai pengguna.
               </p>
             </div>
           </div>
