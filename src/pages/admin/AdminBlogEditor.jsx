@@ -20,9 +20,19 @@ import {
   Zap,
   X,
   FileJson,
+  User,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { slugify } from '../../utils/slugify';
+
+const DEFAULT_AUTHOR = {
+  name: 'Admin Sumesta',
+  role: 'Full-stack developer & tech enthusiast.',
+  avatar: 'https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp',
+  url: 'https://sumestawsome.xyz',
+};
 
 export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => {} }) {
   const isEditMode = Boolean(initialSlug);
@@ -38,6 +48,9 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [jsonInput, setJsonInput] = useState('');
   const [jsonError, setJsonError] = useState(null);
+
+  // State collapsible Pengaturan Penulis
+  const [authorSettingsOpen, setAuthorSettingsOpen] = useState(false);
 
   // Mode editor: 'write' vs 'preview'
   const [editorTab, setEditorTab] = useState('write');
@@ -61,11 +74,13 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
       height: 630,
     },
     author: {
-      name: 'Admin Sumesta',
-      avatar: 'https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/authors%2Fsumesta.webp?alt=media',
-      bio: 'Full-stack developer & tech enthusiast.',
-      url: 'https://sumestawsome.xyz',
+      name: DEFAULT_AUTHOR.name,
+      avatar: DEFAULT_AUTHOR.avatar,
+      bio: DEFAULT_AUTHOR.role,
+      url: DEFAULT_AUTHOR.url,
     },
+    authorRole: DEFAULT_AUTHOR.role,
+    authorAvatar: DEFAULT_AUTHOR.avatar,
     seo: {
       metaTitle: '',
       metaDescription: '',
@@ -350,11 +365,13 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
           height: Number(formData.coverImage?.height) || 630,
         },
         author: {
-          name: formData.author?.name || 'Admin Sumesta',
-          avatar: formData.author?.avatar || '',
-          bio: formData.author?.bio || '',
-          url: formData.author?.url || 'https://sumestawsome.xyz',
+          name: formData.author?.name?.trim() || DEFAULT_AUTHOR.name,
+          avatar: formData.author?.avatar?.trim() || DEFAULT_AUTHOR.avatar,
+          bio: formData.author?.bio?.trim() || DEFAULT_AUTHOR.role,
+          url: formData.author?.url?.trim() || DEFAULT_AUTHOR.url,
         },
+        authorRole: formData.author?.bio?.trim() || formData.authorRole || DEFAULT_AUTHOR.role,
+        authorAvatar: formData.author?.avatar?.trim() || formData.authorAvatar || DEFAULT_AUTHOR.avatar,
         seo: {
           metaTitle: formData.seo?.metaTitle || formData.title,
           metaDescription: formData.seo?.metaDescription || formData.excerpt,
@@ -810,75 +827,134 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
 
           {/* Section 4: Info Penulis & Pengaturan SEO */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Penulis Box */}
+            {/* Penulis Box (Collapsible / Opsional) */}
             <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-none space-y-4">
-              <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta border-b border-zinc-800 pb-2">
-                4. Profil Penulis Artikel
-              </h2>
-
-              <div>
-                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
-                  Nama Penulis
-                </label>
-                <input
-                  type="text"
-                  value={formData.author?.name || ''}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      author: { ...prev.author, name: e.target.value },
-                    }))
-                  }
-                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
-                  Bio Ringkas
-                </label>
-                <input
-                  type="text"
-                  value={formData.author?.bio || ''}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      author: { ...prev.author, bio: e.target.value },
-                    }))
-                  }
-                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
-                  Foto Avatar Penulis
-                </label>
-                <div className="flex items-center gap-3">
-                  {formData.author?.avatar ? (
-                    <img
-                      src={formData.author.avatar}
-                      alt="Avatar"
-                      className="w-10 h-10 object-cover border border-zinc-700 rounded-none bg-zinc-800"
-                    />
+              <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-semesta" />
+                  <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-semesta">
+                    4. Profil Penulis
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setAuthorSettingsOpen(!authorSettingsOpen)}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  <span>{authorSettingsOpen ? 'Tutup Pengaturan' : 'Kustomisasi Profil'}</span>
+                  {authorSettingsOpen ? (
+                    <ChevronUp className="w-3.5 h-3.5" />
                   ) : (
-                    <div className="w-10 h-10 bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-mono text-zinc-400">
-                      S
-                    </div>
+                    <ChevronDown className="w-3.5 h-3.5" />
                   )}
-                  <label className="bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs py-2 px-3 rounded-none cursor-pointer border border-zinc-700 transition-colors flex items-center gap-1.5">
-                    <Upload className="w-3.5 h-3.5 text-semesta" />
-                    <span>Ganti Foto</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarUpload}
-                      disabled={uploadingAvatar}
-                      className="hidden"
-                    />
-                  </label>
+                </button>
+              </div>
+
+              {/* Status Ringkas Penulis Otomatis */}
+              <div className="flex items-center gap-3.5 bg-zinc-950 p-3 border border-zinc-800/80 rounded-none">
+                {formData.author?.avatar ? (
+                  <img
+                    src={formData.author.avatar}
+                    alt={formData.author?.name || 'Admin'}
+                    className="w-10 h-10 object-cover border border-zinc-700 rounded-none bg-zinc-800 flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-semesta text-white font-mono font-bold flex items-center justify-center text-xs rounded-none flex-shrink-0">
+                    S
+                  </div>
+                )}
+                <div className="min-w-0 flex-1 font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-white truncate">
+                      {formData.author?.name || DEFAULT_AUTHOR.name}
+                    </span>
+                    <span className="text-[10px] text-semesta bg-semesta/10 border border-semesta/20 px-1.5 py-0.5 rounded-none font-semibold">
+                      Profil Utama
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 truncate mt-0.5">
+                    {formData.author?.bio || DEFAULT_AUTHOR.role}
+                  </p>
                 </div>
               </div>
+
+              {/* Form Input Kustomisasi Profil (Tersembunyi secara Default) */}
+              {authorSettingsOpen && (
+                <div className="space-y-4 pt-2 border-t border-zinc-800/60">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                      Nama Penulis
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.author?.name || ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          author: { ...prev.author, name: e.target.value },
+                        }))
+                      }
+                      className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                      Bio Ringkas
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.author?.bio || ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          author: { ...prev.author, bio: e.target.value },
+                        }))
+                      }
+                      className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                      Foto Avatar Penulis (Opsional)
+                    </label>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3">
+                        <label className="bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs py-2 px-3 rounded-none cursor-pointer border border-zinc-700 transition-colors flex items-center gap-1.5">
+                          <Upload className="w-3.5 h-3.5 text-semesta" />
+                          <span>Ganti Foto Avatar</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarUpload}
+                            disabled={uploadingAvatar}
+                            className="hidden"
+                          />
+                        </label>
+                        {uploadingAvatar && (
+                          <div className="flex items-center gap-1.5 text-xs font-mono text-semesta">
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Mengunggah...</span>
+                          </div>
+                        )}
+                      </div>
+                      <input
+                        type="url"
+                        value={formData.author?.avatar || ''}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            author: { ...prev.author, avatar: e.target.value },
+                          }))
+                        }
+                        placeholder="https://cdn.sumestawsome.xyz/uploads/..."
+                        className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* SEO Settings Box */}

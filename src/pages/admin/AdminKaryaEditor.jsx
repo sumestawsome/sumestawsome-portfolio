@@ -17,6 +17,7 @@ import {
   X,
   FileJson,
   FolderGit2,
+  Star,
 } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { slugify } from '../../utils/slugify';
@@ -55,6 +56,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
     projectUrl: '',
     repoUrl: '',
     isFeatured: false,
+    featuredLabel: '',
     order: 1,
   });
 
@@ -99,6 +101,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
           projectUrl: data.projectUrl || data.demoUrl || data.link || '',
           repoUrl: data.repoUrl || '',
           isFeatured: Boolean(data.isFeatured),
+          featuredLabel: data.featuredLabel || '',
           order: Number(data.order) || 1,
         });
         setAutoSlug(false);
@@ -190,6 +193,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
     const projectUrl = item.projectUrl || item.link || item.url || '';
     const repoUrl = item.repoUrl || '';
     const isFeatured = Boolean(item.isFeatured);
+    const featuredLabel = item.featuredLabel || '';
     const order = Number(item.order) || 1;
 
     setFormData((prev) => ({
@@ -204,6 +208,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
       projectUrl: projectUrl || prev.projectUrl,
       repoUrl: repoUrl || prev.repoUrl,
       isFeatured: isFeatured !== undefined ? isFeatured : prev.isFeatured,
+      featuredLabel: featuredLabel || prev.featuredLabel || '',
       order: order || prev.order,
       coverImage: incomingCover || prev.coverImage,
     }));
@@ -260,6 +265,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
         projectUrl: formData.projectUrl.trim() || formData.demoUrl.trim(),
         repoUrl: formData.repoUrl.trim(),
         isFeatured: Boolean(formData.isFeatured),
+        featuredLabel: formData.isFeatured ? (formData.featuredLabel?.trim() || '') : '',
         order: Number(formData.order) || 99,
         updatedAt: new Date().toISOString(),
       };
@@ -557,7 +563,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
               </div>
 
               {/* Switch Featured (Karya Terpilih di Beranda) */}
-              <div className="pt-2 border-t border-zinc-800">
+              <div className="pt-2 border-t border-zinc-800 space-y-3">
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
@@ -569,7 +575,7 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
                   />
                   <div>
                     <span className="text-xs font-mono font-bold text-white group-hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
                       <span>Jadikan Karya Terpilih (Featured ⭐)</span>
                     </span>
                     <p className="text-[11px] text-zinc-500 font-mono mt-0.5 leading-relaxed">
@@ -577,6 +583,27 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
                     </p>
                   </div>
                 </label>
+
+                {/* Kolom Teks Label Bintang Dinamis */}
+                {formData.isFeatured && (
+                  <div className="pl-7 pt-1 space-y-1">
+                    <label className="block text-xs font-mono font-semibold text-zinc-300">
+                      Teks Label Bintang
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.featuredLabel}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, featuredLabel: e.target.value }))
+                      }
+                      placeholder="Terpilih (opsional, misal: Teratas, Unggulan, Juara)"
+                      className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
+                    />
+                    <p className="text-[11px] text-zinc-500 font-mono">
+                      Jika dikosongkan, label bawaan yang tampil adalah <strong>"Terpilih"</strong>.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -331,7 +331,7 @@ export default function AdminKaryaList({ onNavigate = () => {} }) {
                         }`}
                         title={
                           project.isFeatured
-                            ? '⭐ Karya Terpilih (Klik untuk nonaktifkan dari Beranda)'
+                            ? `⭐ Karya Terpilih: "${project.featuredLabel || 'Terpilih'}" (Klik untuk nonaktifkan)`
                             : 'Bukan Terpilih (Klik untuk jadikan Karya Terpilih di Beranda)'
                         }
                       >

@@ -115,7 +115,7 @@ export default function Showcase() {
                       {(project.isFeatured !== false) && (
                         <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-amber-700 bg-amber-50 px-2 py-0.5 border border-amber-200 rounded-none shadow-none">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
-                          <span>Terpilih</span>
+                          <span>{project.featuredLabel || "Terpilih"}</span>
                         </span>
                       )}
                     </div>

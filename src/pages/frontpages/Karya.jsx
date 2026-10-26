@@ -85,6 +85,7 @@ export default function Karya({ onNavigate }) {
       tools: Array.isArray(data.tags) ? data.tags : (Array.isArray(data.tools) ? data.tools : []),
       link: data.demoUrl || data.projectUrl || data.link || '#',
       isFeatured: Boolean(data.isFeatured),
+      featuredLabel: data.featuredLabel || '',
       order: Number(data.order) || 99,
     };
   };
@@ -330,7 +331,7 @@ export default function Karya({ onNavigate }) {
                       {project.isFeatured && (
                         <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-amber-700 bg-amber-50 px-2 py-0.5 border border-amber-200 rounded-none shadow-none">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
-                          <span>Terpilih</span>
+                          <span>{project.featuredLabel || "Terpilih"}</span>
                         </span>
                       )}
                     </div>
