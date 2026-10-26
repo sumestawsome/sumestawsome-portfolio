@@ -35,10 +35,14 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
               className="block group overflow-hidden border border-zinc-200 aspect-[16/9] bg-zinc-100 rounded-none relative"
             >
               <img
-                src={post.coverImage?.url || (typeof post.coverImage === 'string' ? post.coverImage : 'https://placehold.co/1200x630?text=Artikel')}
+                src={post.coverImage?.url || (typeof post.coverImage === 'string' ? post.coverImage : '/placeholder-blog.svg')}
                 alt={post.coverImage?.alt || post.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-none"
                 loading="eager"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/placeholder-blog.svg';
+                }}
               />
               <span className="absolute top-3 left-3 bg-semesta text-white font-mono text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-none">
                 Unggulan
@@ -115,10 +119,14 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
           className="block overflow-hidden border-b border-zinc-200 aspect-[16/9] bg-zinc-100 rounded-none relative"
         >
           <img
-            src={post.coverImage?.url || (typeof post.coverImage === 'string' ? post.coverImage : 'https://placehold.co/600x338?text=Artikel')}
+            src={post.coverImage?.url || (typeof post.coverImage === 'string' ? post.coverImage : '/placeholder-blog.svg')}
             alt={post.coverImage?.alt || post.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-none"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/placeholder-blog.svg';
+            }}
           />
           <span className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur text-semesta border border-semesta/20 text-[10px] font-bold px-2 py-0.5 rounded-none font-mono">
             {post.category || 'Artikel'}

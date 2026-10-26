@@ -1,8 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+/**
+ * ⚠️ PERINGATAN PENTING:
+ * Skrip ini HANYA untuk seeding awal atau perbaikan darurat.
+ * Penambahan artikel baru harian WAJIB menggunakan fitur "⚡ Impor dari JSON"
+ * langsung di dashboard web admin (/admin/blog/create), BUKAN menjalankan skrip ini.
+ */
 
 // Helper membaca .env.local jika belum dimuat ke process.env
 function loadEnv() {
@@ -75,9 +82,47 @@ async function seedBlog() {
         continue;
       }
 
-      console.log(`Mengunggah artikel "${post.title}" ke Firestore (posts/${post.slug})...`);
       const docRef = doc(db, 'posts', post.slug);
-      await setDoc(docRef, post, { merge: true });
+      const existingSnap = await getDoc(docRef);
+
+      let payload = { ...post };
+
+      if (existingSnap.exists()) {
+        const existingData = existingSnap.data();
+        console.log(`🔒 Dokumen posts/${post.slug} sudah ada. Melindungi coverImage & authorAvatar agar tidak tertimpa...`);
+
+        // Lindungi coverImage jika sudah ada di Firestore
+        if (existingData.coverImage) {
+          payload.coverImage = existingData.coverImage;
+        } else {
+          delete payload.coverImage;
+        }
+
+        // Lindungi authorAvatar jika sudah ada
+        if (existingData.authorAvatar) {
+          payload.authorAvatar = existingData.authorAvatar;
+        }
+        if (existingData.author?.avatar) {
+          payload.author = {
+            ...(payload.author || {}),
+            avatar: existingData.author.avatar,
+          };
+        }
+
+        // Lindungi stats dan tanggal publikasi asli
+        if (existingData.publishedAt) {
+          payload.publishedAt = existingData.publishedAt;
+        }
+        if (existingData.stats) {
+          payload.stats = existingData.stats;
+        }
+
+        console.log(`Mengunggah pembaruan teks untuk "${post.title}" (posts/${post.slug})...`);
+      } else {
+        console.log(`Mengunggah artikel baru "${post.title}" ke Firestore (posts/${post.slug})...`);
+      }
+
+      await setDoc(docRef, payload, { merge: true });
       console.log(`✅ Berhasil: posts/${post.slug} (${post.title})`);
     }
 

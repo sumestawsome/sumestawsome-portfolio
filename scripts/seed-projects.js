@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 // Helper membaca .env.local jika belum dimuat ke process.env
@@ -406,9 +406,9 @@ async function seedProjects() {
         continue;
       }
 
-      console.log(`Mengunggah karya "${project.title}" ke Firestore (projects/${project.slug})...`);
       const docRef = doc(db, 'projects', project.slug);
-      
+      const existingSnap = await getDoc(docRef);
+
       const payload = {
         id: project.slug,
         slug: project.slug,
@@ -427,6 +427,16 @@ async function seedProjects() {
         createdAt: project.createdAt || new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
+
+      if (existingSnap.exists()) {
+        const existingData = existingSnap.data();
+        if (existingData.coverImage) {
+          payload.coverImage = existingData.coverImage;
+        }
+        if (existingData.isFeatured !== undefined) {
+          payload.isFeatured = existingData.isFeatured;
+        }
+      }
 
       await setDoc(docRef, payload, { merge: true });
       console.log(`✅ Berhasil: projects/${project.slug} [Featured: ${payload.isFeatured ? '⭐ YA' : 'TIDAK'}]`);

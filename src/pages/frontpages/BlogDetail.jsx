@@ -391,6 +391,10 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                   height={post.coverImage?.height || 630}
                   className="w-full h-auto object-cover rounded-none"
                   loading="eager"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/placeholder-blog.svg';
+                  }}
                 />
               </div>
             )}

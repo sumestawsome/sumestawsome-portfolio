@@ -261,6 +261,10 @@ export default function AdminBlogList({ onNavigate = () => {} }) {
                             src={post.coverImage.url}
                             alt=""
                             className="w-12 h-8 sm:w-16 sm:h-10 object-cover rounded-none border border-zinc-700 flex-shrink-0 bg-zinc-800"
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = '/placeholder-blog.svg';
+                            }}
                           />
                         ) : (
                           <div className="w-12 h-8 sm:w-16 sm:h-10 bg-zinc-800 border border-zinc-700 flex-shrink-0 flex items-center justify-center text-zinc-500 font-mono text-[10px]">
