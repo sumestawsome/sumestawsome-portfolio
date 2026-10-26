@@ -14,6 +14,8 @@ import BlogDetail from './pages/frontpages/BlogDetail';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminBlogList from './pages/admin/AdminBlogList';
 import AdminBlogEditor from './pages/admin/AdminBlogEditor';
+import AdminKaryaList from './pages/admin/AdminKaryaList';
+import AdminKaryaEditor from './pages/admin/AdminKaryaEditor';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 
 export default function App() {
@@ -27,6 +29,9 @@ export default function App() {
       if (path === '/blog') return 'blog';
       if (path.startsWith('/blog/')) return 'blog-detail';
       if (path === '/admin/login') return 'admin-login';
+      if (path === '/admin/karya/create' || path === '/admin/karya/editor') return 'admin-karya-create';
+      if (path.startsWith('/admin/karya/edit/')) return 'admin-karya-edit';
+      if (path === '/admin/karya') return 'admin-karya';
       if (path === '/admin/blog/create') return 'admin-blog-create';
       if (path.startsWith('/admin/blog/edit/')) return 'admin-blog-edit';
       if (path === '/admin/blog' || path === '/admin' || path === '/admin/') return 'admin-blog';
@@ -42,6 +47,9 @@ export default function App() {
       }
       if (path.startsWith('/admin/blog/edit/')) {
         return path.replace(/^\/admin\/blog\/edit\//, '').split('/')[0];
+      }
+      if (path.startsWith('/admin/karya/edit/')) {
+        return path.replace(/^\/admin\/karya\/edit\//, '').split('/')[0];
       }
     }
     return '';
@@ -63,6 +71,14 @@ export default function App() {
       window.history.pushState(null, '', `/blog/${slug}`);
     } else if (view === 'admin-login') {
       window.history.pushState(null, '', '/admin/login');
+    } else if (view === 'admin-karya') {
+      window.history.pushState(null, '', '/admin/karya');
+    } else if (view === 'admin-karya-create') {
+      window.history.pushState(null, '', '/admin/karya/create');
+    } else if (view === 'admin-karya-edit') {
+      const slug = targetParam || '';
+      setCurrentSlug(slug);
+      window.history.pushState(null, '', `/admin/karya/edit/${slug}`);
     } else if (view === 'admin-blog') {
       window.history.pushState(null, '', '/admin/blog');
     } else if (view === 'admin-blog-create') {
@@ -100,6 +116,14 @@ export default function App() {
         setCurrentView('blog-detail');
       } else if (path === '/admin/login') {
         setCurrentView('admin-login');
+      } else if (path === '/admin/karya/create' || path === '/admin/karya/editor') {
+        setCurrentView('admin-karya-create');
+      } else if (path.startsWith('/admin/karya/edit/')) {
+        const slug = path.replace(/^\/admin\/karya\/edit\//, '').split('/')[0];
+        setCurrentSlug(slug);
+        setCurrentView('admin-karya-edit');
+      } else if (path === '/admin/karya') {
+        setCurrentView('admin-karya');
       } else if (path === '/admin/blog/create') {
         setCurrentView('admin-blog-create');
       } else if (path.startsWith('/admin/blog/edit/')) {
@@ -132,8 +156,14 @@ export default function App() {
           <AdminBlogEditor onNavigate={navigateTo} />
         ) : currentView === 'admin-blog-edit' ? (
           <AdminBlogEditor slug={currentSlug} onNavigate={navigateTo} />
-        ) : (
+        ) : currentView === 'admin-blog' ? (
           <AdminBlogList onNavigate={navigateTo} />
+        ) : currentView === 'admin-karya-create' ? (
+          <AdminKaryaEditor onNavigate={navigateTo} />
+        ) : currentView === 'admin-karya-edit' ? (
+          <AdminKaryaEditor slug={currentSlug} onNavigate={navigateTo} />
+        ) : (
+          <AdminKaryaList onNavigate={navigateTo} />
         )}
       </AdminRouteGuard>
     );
