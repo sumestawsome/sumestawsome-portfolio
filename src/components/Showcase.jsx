@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../lib/firebase';
 import { projects as fallbackProjects } from '../data/projects';
-import { ExternalLink, Sparkles, FolderGit2 } from 'lucide-react';
+import { ExternalLink, Star, FolderGit2 } from 'lucide-react';
 
 export default function Showcase() {
   const [featuredProjects, setFeaturedProjects] = useState([]);
@@ -84,7 +84,6 @@ export default function Showcase() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayList.map((project) => {
             const projectImg = project.coverImage || project.image;
-            const projectBadge = project.badge || 'Karya Unggulan';
             const projectTags = Array.isArray(project.tags) && project.tags.length > 0 
               ? project.tags 
               : (Array.isArray(project.tools) ? project.tools : []);
@@ -104,21 +103,21 @@ export default function Showcase() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-none"
                       loading="lazy"
                     />
-                    <div className="absolute top-3 right-3">
-                      <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-semesta bg-white/95 px-2.5 py-1 border border-semesta/20 backdrop-blur-sm shadow-none rounded-none">
-                        <Sparkles className="w-3 h-3" />
-                        <span>{projectBadge}</span>
-                      </span>
-                    </div>
                   </div>
 
                   {/* Card Body */}
                   <div className="p-6">
-                    {/* Category */}
-                    <div className="mb-2">
+                    {/* Category & Terpilih */}
+                    <div className="flex items-center justify-between mb-2">
                       <span className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                         {project.category}
                       </span>
+                      {(project.isFeatured !== false) && (
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-amber-700 bg-amber-50 px-2 py-0.5 border border-amber-200 rounded-none shadow-none">
+                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
+                          <span>Terpilih</span>
+                        </span>
+                      )}
                     </div>
 
                     {/* Project Title */}

@@ -12,7 +12,7 @@ import { db, isFirebaseConfigured } from '../../lib/firebase';
 import { updateMetaTags } from '../../utils/seo';
 import karyaData from '../../data/karya.json';
 import PageHeader from '../../components/PageHeader';
-import { Loader2, Sparkles, FolderGit2 } from 'lucide-react';
+import { Loader2, Star, FolderGit2 } from 'lucide-react';
 
 const PAGE_SIZE = 9;
 
@@ -320,14 +320,6 @@ export default function Karya({ onNavigate }) {
                           <FolderGit2 className="w-8 h-8 opacity-40 mb-1" />
                         </div>
                       )}
-                      {project.badge && (
-                        <div className="absolute top-2.5 right-2.5">
-                          <span className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-semesta bg-white/95 px-2 py-0.5 border border-semesta/20 backdrop-blur-sm rounded-none">
-                            <Sparkles className="w-2.5 h-2.5" />
-                            <span>{project.badge}</span>
-                          </span>
-                        </div>
-                      )}
                     </div>
 
                     {/* Badge Kategori & Bintang */}
@@ -336,8 +328,9 @@ export default function Karya({ onNavigate }) {
                         {project.category}
                       </span>
                       {project.isFeatured && (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-amber-600 bg-amber-50 px-1.5 py-0.5 border border-amber-200 rounded-none">
-                          ⭐ Terpilih
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-amber-700 bg-amber-50 px-2 py-0.5 border border-amber-200 rounded-none shadow-none">
+                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
+                          <span>Terpilih</span>
                         </span>
                       )}
                     </div>
