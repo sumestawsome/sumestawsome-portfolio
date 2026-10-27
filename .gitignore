@@ -23,3 +23,8 @@ dist-ssr
 # Testing & Temporary Captures
 /*.png
 .playwright-mcp/
+
+# Draf & Catatan Konten Pribadi
+bahan_blog.md
+drafts/
+*.draft.md

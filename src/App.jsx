@@ -17,6 +17,7 @@ import AdminBlogEditor from './pages/admin/AdminBlogEditor';
 import AdminKaryaList from './pages/admin/AdminKaryaList';
 import AdminKaryaEditor from './pages/admin/AdminKaryaEditor';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
+import OtonanTool from './pages/tools/OtonanTool';
 
 export default function App() {
   const [currentView, setCurrentView] = useState(() => {
@@ -28,6 +29,7 @@ export default function App() {
       if (path === '/layanan' || hash === '#layanan-page') return 'layanan';
       if (path === '/blog') return 'blog';
       if (path.startsWith('/blog/')) return 'blog-detail';
+      if (path === '/tools/cari-tanggal-lahir-otonan' || path.startsWith('/tools/cari-tanggal-lahir-otonan')) return 'tool-otonan';
       if (path === '/admin/login') return 'admin-login';
       if (path === '/admin/karya/create' || path === '/admin/karya/editor') return 'admin-karya-create';
       if (path.startsWith('/admin/karya/edit/')) return 'admin-karya-edit';
@@ -69,6 +71,8 @@ export default function App() {
       const slug = targetParam || '';
       setCurrentSlug(slug);
       window.history.pushState(null, '', `/blog/${slug}`);
+    } else if (view === 'tool-otonan') {
+      window.history.pushState(null, '', '/tools/cari-tanggal-lahir-otonan');
     } else if (view === 'admin-login') {
       window.history.pushState(null, '', '/admin/login');
     } else if (view === 'admin-karya') {
@@ -114,6 +118,8 @@ export default function App() {
         const slug = path.replace(/^\/blog\//, '').split('/')[0];
         setCurrentSlug(slug);
         setCurrentView('blog-detail');
+      } else if (path === '/tools/cari-tanggal-lahir-otonan' || path.startsWith('/tools/cari-tanggal-lahir-otonan')) {
+        setCurrentView('tool-otonan');
       } else if (path === '/admin/login') {
         setCurrentView('admin-login');
       } else if (path === '/admin/karya/create' || path === '/admin/karya/editor') {
@@ -143,6 +149,11 @@ export default function App() {
       window.removeEventListener('hashchange', handleLocationChange);
     };
   }, []);
+
+  // Tampilan Tool Khusus OtonanE
+  if (currentView === 'tool-otonan') {
+    return <OtonanTool onNavigate={navigateTo} />;
+  }
 
   // Jika tampilan admin, sajikan tampilan admin tersendiri tanpa Navbar/Footer publik
   if (currentView.startsWith('admin-')) {

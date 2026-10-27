@@ -60,6 +60,12 @@ const STATIC_ROUTES = [
     changefreq: 'monthly',
     priority: '0.8',
   },
+  {
+    loc: `${DOMAIN}/tools/cari-tanggal-lahir-otonan`,
+    lastmod: TODAY,
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
 ];
 
 const firebaseConfig = {
