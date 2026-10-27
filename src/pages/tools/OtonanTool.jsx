@@ -426,51 +426,49 @@ export default function OtonanTool({ onNavigate = () => {} }) {
                     return (
                       <div
                         key={idx}
-                        className="bg-white border-2 border-slate-900 p-5 rounded-none shadow-none hover:border-blue-600 transition-colors flex flex-col justify-between group"
+                        className="bg-blue-600 text-white border-2 border-slate-900 rounded-none shadow-none p-5 flex flex-col justify-between group"
                       >
                         <div>
                           {/* Nomor Urut & Tahun Badge */}
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="font-mono text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-none">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="bg-blue-700 text-blue-100 border border-blue-400 font-mono text-xs px-2 py-0.5 rounded-none">
                               #{idx + 1} • {year}
                             </span>
-                            <span className="font-mono text-[11px] text-slate-500">
+                            <span className="text-blue-200 font-mono text-xs">
                               {isoDate}
                             </span>
                           </div>
 
-                          {/* Tanggal Bahasa Indonesia Lengkap */}
-                          <h4 className="text-base font-bold text-slate-900 leading-snug mb-1">
+                          {/* Nama Hari & Tanggal Lengkap */}
+                          <h4 className="text-white font-bold text-lg mt-1 leading-snug">
                             {formatted}
                           </h4>
 
-                          {/* Perkiraan Usia */}
-                          <p className="text-xs font-mono text-slate-600 flex items-center gap-1.5 mt-2">
-                            <Clock className="w-3.5 h-3.5 text-blue-600" />
+                          {/* Estimasi Usia */}
+                          <p className="text-blue-100 text-sm font-mono flex items-center gap-1.5 mt-2">
+                            <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
                             <span>{approxAge}</span>
                           </p>
                         </div>
 
-                        {/* Tombol Salin Cepat */}
-                        <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-end">
-                          <button
-                            type="button"
-                            onClick={() => handleCopySingle(dateObj, idx)}
-                            className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-slate-700 hover:text-blue-600 bg-slate-50 hover:bg-blue-50 border border-slate-300 hover:border-blue-300 px-2.5 py-1.5 transition-colors rounded-none cursor-pointer"
-                          >
-                            {isCopied ? (
-                              <>
-                                <Check className="w-3 h-3 text-emerald-600" />
-                                <span>Tersalin!</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3 h-3" />
-                                <span>Salin Tanggal</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
+                        {/* Tombol Salin Tanggal */}
+                        <button
+                          type="button"
+                          onClick={() => handleCopySingle(dateObj, idx)}
+                          className="bg-white text-blue-900 font-medium hover:bg-blue-50 border border-slate-900 rounded-none py-1.5 px-3 text-xs inline-flex items-center gap-1.5 transition-colors self-end mt-4 cursor-pointer shadow-none"
+                        >
+                          {isCopied ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-600" />
+                              <span className="font-semibold text-emerald-700">Tersalin!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5 text-blue-900" />
+                              <span>Salin Tanggal</span>
+                            </>
+                          )}
+                        </button>
                       </div>
                     );
                   })}

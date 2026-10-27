@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Inter"', 'sans-serif'],
+        mono: ['"DM Mono"', 'monospace'],
       },
       colors: {
         semesta: '#5b21b6', // Konversi presisi dari oklch(43.2% 0.232 292.759)
