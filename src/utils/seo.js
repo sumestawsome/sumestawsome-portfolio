@@ -1,3 +1,6 @@
+const DEFAULT_OG_IMAGE =
+  'https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/covers%2Fdeploy-vercel-guide.webp?alt=media';
+
 /**
  * Utility untuk mengelola metadata head secara dinamis (SEO & OpenGraph).
  */
@@ -7,6 +10,7 @@ export function updateMetaTags({
   canonical,
   ogImage,
   ogType = 'article',
+  keywords = null,
   jsonLd = null,
 }) {
   if (typeof document === 'undefined') return () => {};
@@ -42,6 +46,10 @@ export function updateMetaTags({
     el.setAttribute('href', href);
   };
 
+  // Selalu pasang identitas situs & Twitter Card summary_large_image
+  setMeta('og:site_name', 'Sumestawsome', true);
+  setMeta('twitter:card', 'summary_large_image');
+
   if (description) {
     setMeta('description', description);
     setMeta('og:description', description, true);
@@ -62,10 +70,17 @@ export function updateMetaTags({
     setMeta('og:type', ogType, true);
   }
 
-  if (ogImage) {
-    setMeta('og:image', ogImage, true);
-    setMeta('twitter:image', ogImage);
-    setMeta('twitter:card', 'summary_large_image');
+  const finalOgImage = ogImage || DEFAULT_OG_IMAGE;
+  if (finalOgImage) {
+    setMeta('og:image', finalOgImage, true);
+    setMeta('twitter:image', finalOgImage);
+  }
+
+  if (keywords) {
+    const keywordsStr = Array.isArray(keywords) ? keywords.join(', ') : String(keywords);
+    if (keywordsStr.trim()) {
+      setMeta('keywords', keywordsStr.trim());
+    }
   }
 
   // Schema JSON-LD

@@ -171,6 +171,18 @@ async function generateSitemap() {
         lastmod: '2026-10-23',
         changefreq: 'monthly',
         priority: '0.8',
+      },
+      {
+        loc: `${DOMAIN}/blog/cara-mencari-tanggal-lahir-dari-hari-otonan-bali`,
+        lastmod: '2026-10-27',
+        changefreq: 'monthly',
+        priority: '0.8',
+      },
+      {
+        loc: `${DOMAIN}/blog/menghitung-tanggal-lahir-weton-wuku-jawa-c-cpp-js`,
+        lastmod: '2026-10-27',
+        changefreq: 'monthly',
+        priority: '0.8',
       }
     );
   }

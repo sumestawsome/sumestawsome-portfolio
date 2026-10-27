@@ -113,10 +113,41 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
   useEffect(() => {
     if (!post) return;
 
-    const postUrl = `https://sumestawsome.xyz/blog/${post.slug}`;
+    const defaultCover =
+      'https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/covers%2Fdeploy-vercel-guide.webp?alt=media';
     const coverUrl =
       post.coverImage?.url ||
-      'https://firebasestorage.googleapis.com/v0/b/sumestawsome-blog.appspot.com/o/covers%2Fdeploy-vercel-guide.webp?alt=media';
+      (typeof post.coverImage === 'string' && post.coverImage.trim() ? post.coverImage : null) ||
+      defaultCover;
+
+    const postSlug = post.slug || post.id || '';
+    const postUrl = `https://sumestawsome.xyz/blog/${postSlug}`;
+
+    // Hirarki fallback SEO:
+    // 1. Title: post.seo?.metaTitle || post.metaTitle || (post.title ? `${post.title} | Sumestawsome` : 'Artikel Blog Sumestawsome')
+    const finalTitle =
+      post.seo?.metaTitle ||
+      post.metaTitle ||
+      (post.title ? `${post.title} | Sumestawsome` : 'Artikel Blog Sumestawsome');
+
+    // 2. Description: post.seo?.metaDescription || post.metaDescription || post.excerpt || 'Baca artikel teknologi dan panduan komputasi di Sumestawsome.'
+    const finalDescription =
+      post.seo?.metaDescription ||
+      post.metaDescription ||
+      post.excerpt ||
+      'Baca artikel teknologi dan panduan komputasi di Sumestawsome.';
+
+    // 3. Canonical: post.seo?.canonicalUrl || post.canonicalUrl || postUrl
+    const finalCanonical =
+      post.seo?.canonicalUrl ||
+      post.canonicalUrl ||
+      postUrl;
+
+    // 4. Keywords
+    const finalKeywords =
+      post.seo?.keywords ||
+      post.keywords ||
+      (Array.isArray(post.tags) ? post.tags : []);
 
     const breadcrumbSchema = {
       '@type': 'BreadcrumbList',
@@ -137,13 +168,13 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
           '@type': 'ListItem',
           position: 3,
           name: post.category || 'Artikel',
-          item: `https://sumestawsome.xyz/blog`,
+          item: 'https://sumestawsome.xyz/blog',
         },
         {
           '@type': 'ListItem',
           position: 4,
           name: post.title,
-          item: postUrl,
+          item: finalCanonical,
         },
       ],
     };
@@ -151,7 +182,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
     const articleSchema = {
       '@type': 'BlogPosting',
       headline: post.title,
-      description: post.excerpt,
+      description: finalDescription,
       image: [coverUrl],
       datePublished: post.publishedAt,
       dateModified: post.updatedAt || post.publishedAt,
@@ -167,16 +198,17 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': postUrl,
+        '@id': finalCanonical,
       },
     };
 
     const cleanup = updateMetaTags({
-      title: post.seo?.metaTitle || `${post.title} | sumestawsome.xyz`,
-      description: post.seo?.metaDescription || post.excerpt,
-      canonical: post.seo?.canonicalUrl || postUrl,
+      title: finalTitle,
+      description: finalDescription,
+      canonical: finalCanonical,
       ogImage: coverUrl,
       ogType: 'article',
+      keywords: finalKeywords,
       jsonLd: {
         '@context': 'https://schema.org',
         '@graph': [breadcrumbSchema, articleSchema],
