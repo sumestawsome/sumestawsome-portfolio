@@ -36,7 +36,7 @@ Setiap kali menyelesaikan tugas, perbaikan bug, atau penambahan fitur baru:
    - Gunakan selalu class semantik: `bg-semesta`, `text-semesta`, `border-semesta`, `hover:bg-semesta/90`.
    - Dilarang keras menulis kode warna heksa acak (seperti `bg-[#4F46E5]`, `bg-[#5b21b6]`, atau inline style heksa).
 2. **Tipografi Baku:**
-   - Gunakan keluarga font utama `"Canva Sans"` (`font-sans`) sesuai konfigurasi Tailwind.
+   - Gunakan keluarga font utama `"Inter"` (`font-sans`) sesuai konfigurasi Tailwind.
 3. **Geometri Tegas (Zero Rounded):**
    - Seluruh elemen antarmuka (kartu, tombol, formulir input, modal dialog, gambar) WAJIB bersudut tajam (`rounded-none` / `0px`).
    - Dilarang menambahkan utility `rounded`, `rounded-md`, `rounded-lg`, atau `rounded-full` kecuali untuk penanda avatar lingkaran khusus yang diizinkan secara eksplisit.

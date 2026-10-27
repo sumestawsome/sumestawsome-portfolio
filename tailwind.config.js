@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Canva Sans"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['"Inter"', 'sans-serif'],
       },
       colors: {
         semesta: '#5b21b6', // Konversi presisi dari oklch(43.2% 0.232 292.759)
