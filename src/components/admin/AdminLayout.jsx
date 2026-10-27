@@ -1,5 +1,5 @@
 import { useAuth } from '../../context/AuthContext';
-import { LogOut, Plus, FileText, ExternalLink, ShieldCheck, FolderGit2 } from 'lucide-react';
+import { LogOut, Plus, FileText, ExternalLink, ShieldCheck, FolderGit2, Users } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -72,6 +72,21 @@ export default function AdminLayout({
               >
                 <FileText className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Blog</span>
+              </button>
+
+              {/* Menu Penulis */}
+              <button
+                type="button"
+                onClick={() => onNavigate('admin-authors')}
+                className={`px-2.5 sm:px-3 py-1.5 transition-colors border rounded-none flex items-center gap-1.5 ${
+                  currentAdminView.startsWith('author')
+                    ? 'bg-semesta text-white border-semesta font-bold'
+                    : 'text-zinc-300 border-zinc-800 hover:border-zinc-700 hover:text-white bg-zinc-900'
+                }`}
+                title="Kelola Profil Penulis"
+              >
+                <Users className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Penulis</span>
               </button>
 
               <button

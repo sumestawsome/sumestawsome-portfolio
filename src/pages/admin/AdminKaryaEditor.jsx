@@ -135,7 +135,8 @@ export default function AdminKaryaEditor({ slug: initialSlug, onNavigate = () =>
     setUploadingCover(true);
     setErrorMessage(null);
     try {
-      const finalUrl = await uploadBlogImage(file);
+      const projectSlug = formData.slug || slugify(formData.title) || 'karya';
+      const finalUrl = await uploadBlogImage(file, `${projectSlug}-cover`);
       setFormData((prev) => ({
         ...prev,
         coverImage: finalUrl,

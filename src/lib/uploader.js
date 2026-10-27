@@ -1,10 +1,14 @@
+import { slugify } from '../utils/slugify';
+
 /**
- * Helper Unggah Gambar Blog Dua Tahap:
+ * Helper Unggah Gambar Blog / Media Dua Tahap:
  * 1. Upload ke Cloudinary REST API (Unsigned Preset) & transformasi WebP.
  * 2. Mengirim URL ke Rumahweb PHP CDN endpoint untuk caching/hosting final.
+ * 
+ * @param {File|Blob} file - Objek file gambar yang diunggah
+ * @param {string} [customFileName] - Nama slug atau prefix ramah SEO (misal: 'cara-mencari-tanggal-lahir-cover' atau 'avatar-putu-agus')
  */
-
-export async function uploadBlogImage(file) {
+export async function uploadBlogImage(file, customFileName = '') {
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   const rumahwebCdnUrl = import.meta.env.VITE_RUMAHWEB_CDN_URL;
@@ -14,10 +18,28 @@ export async function uploadBlogImage(file) {
     throw new Error('Konfigurasi Cloudinary belum lengkap di file environment.');
   }
 
+  // --- Penamaan File SEO-Friendly ---
+  let targetFile = file;
+  let cleanPublicId = '';
+
+  if (customFileName) {
+    const slugClean = slugify(customFileName);
+    const suffix = Date.now().toString().slice(-4);
+    cleanPublicId = `${slugClean}-${suffix}`;
+
+    if (typeof File !== 'undefined' && file instanceof File) {
+      const ext = file.name?.includes('.') ? file.name.split('.').pop() : 'webp';
+      targetFile = new File([file], `${cleanPublicId}.${ext}`, { type: file.type });
+    }
+  }
+
   // --- Tahap 1: Upload ke Cloudinary ---
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', targetFile);
   formData.append('upload_preset', uploadPreset);
+  if (cleanPublicId) {
+    formData.append('public_id', cleanPublicId);
+  }
 
   const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
   const cloudinaryRes = await fetch(cloudinaryEndpoint, {
@@ -58,7 +80,10 @@ export async function uploadBlogImage(file) {
       'Content-Type': 'application/json',
       ...(uploadSecretToken ? { Authorization: `Bearer ${uploadSecretToken}` } : {}),
     },
-    body: JSON.stringify({ image_url: cloudinaryUrl }),
+    body: JSON.stringify({
+      image_url: cloudinaryUrl,
+      ...(cleanPublicId ? { file_name: cleanPublicId, custom_name: cleanPublicId } : {}),
+    }),
   });
 
   if (!cdnRes.ok) {

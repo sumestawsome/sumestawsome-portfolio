@@ -14,6 +14,12 @@ service cloud.firestore {
       allow create, update, delete: if request.auth != null;
     }
 
+    // Koleksi profil penulis: Publik dapat membaca, perubahan hanya oleh admin terautentikasi
+    match /authors/{authorId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
     // Aturan global fallback
     match /{document=**} {
       allow read: if true;

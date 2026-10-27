@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { db, isFirebaseConfigured } from '../../lib/firebase';
@@ -21,30 +21,19 @@ import {
   X,
   FileJson,
   User,
+  Plus,
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { slugify } from '../../utils/slugify';
 
-const AUTHOR_PRESETS = [
-  {
-    id: 'agus',
-    name: 'Putu Agus Sumerta Yasa',
-    role: 'Frontend Developer & Graphic Designer',
-    avatar: 'https://ui-avatars.com/api/?name=Putu+Agus&background=2563eb&color=fff&bold=true',
-    url: 'https://sumestawsome.xyz',
-  },
-  {
-    id: 'admin',
-    name: 'Admin Sumesta',
-    role: 'Full-stack developer & tech enthusiast.',
-    avatar: 'https://ui-avatars.com/api/?name=Admin+Sumesta&background=0f172a&color=fff&bold=true',
-    url: 'https://sumestawsome.xyz',
-  },
-];
-
-const DEFAULT_AUTHOR = AUTHOR_PRESETS[1];
+const DEFAULT_AUTHOR = {
+  name: 'Admin Sumesta',
+  role: 'Full-stack developer & tech enthusiast.',
+  avatar: 'https://ui-avatars.com/api/?name=Admin+Sumesta&background=0f172a&color=fff&bold=true',
+  url: 'https://sumestawsome.xyz',
+};
 
 export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => {} }) {
   const isEditMode = Boolean(initialSlug);
@@ -61,8 +50,10 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
   const [jsonInput, setJsonInput] = useState('');
   const [jsonError, setJsonError] = useState(null);
 
-  // State Profil Penulis
-  const [selectedPresetId, setSelectedPresetId] = useState('admin');
+  // State Profil Penulis Dinamis dari Firestore
+  const [authors, setAuthors] = useState([]);
+  const [loadingAuthors, setLoadingAuthors] = useState(true);
+  const [selectedAuthorId, setSelectedAuthorId] = useState('admin');
   const [authorSettingsOpen, setAuthorSettingsOpen] = useState(false);
 
   // Mode editor: 'write' vs 'preview'
@@ -127,13 +118,13 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
           });
           const loadedAuthorName =
             data.author?.name || (typeof data.author === 'string' ? data.author : '');
-          const matchedPreset = AUTHOR_PRESETS.find(
-            (p) => p.name.toLowerCase() === loadedAuthorName.toLowerCase()
+          const matched = authors.find(
+            (a) => a.name?.toLowerCase() === loadedAuthorName.toLowerCase()
           );
-          if (matchedPreset) {
-            setSelectedPresetId(matchedPreset.id);
+          if (matched) {
+            setSelectedAuthorId(matched.id);
           } else if (loadedAuthorName) {
-            setSelectedPresetId('custom');
+            setSelectedAuthorId('custom');
           }
           setAutoSlug(false);
         } else {
@@ -150,25 +141,79 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
     loadExistingPost();
   }, [isEditMode, initialSlug]);
 
-  // Handle Author Preset Selection
-  const handleAuthorPresetChange = (presetId) => {
-    setSelectedPresetId(presetId);
-    if (presetId === 'custom') {
+  // Ambil daftar penulis secara real-time dari Firestore koleksi 'authors'
+  useEffect(() => {
+    async function fetchAuthors() {
+      if (!isFirebaseConfigured || !db) {
+        setLoadingAuthors(false);
+        return;
+      }
+      try {
+        const snap = await getDocs(collection(db, 'authors'));
+        const list = snap.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
+        }));
+        setAuthors(list);
+      } catch (err) {
+        console.error('Gagal mengambil daftar authors:', err);
+      } finally {
+        setLoadingAuthors(false);
+      }
+    }
+    fetchAuthors();
+  }, []);
+
+  // Sinkronisasi otomatis profil awal saat daftar authors berhasil dimuat
+  useEffect(() => {
+    if (authors.length === 0) return;
+    if (!isEditMode) {
+      const defaultMatched = authors.find((a) => a.id === 'admin') || authors[0];
+      if (defaultMatched) {
+        setSelectedAuthorId(defaultMatched.id);
+        setFormData((prev) => ({
+          ...prev,
+          author: {
+            name: defaultMatched.name,
+            bio: defaultMatched.role || defaultMatched.bio || '',
+            avatar: defaultMatched.avatar || '',
+            url: defaultMatched.url || 'https://sumestawsome.xyz',
+          },
+          authorRole: defaultMatched.role || defaultMatched.bio || '',
+          authorAvatar: defaultMatched.avatar || '',
+        }));
+      }
+    } else {
+      const currentAuthorName =
+        formData.author?.name || (typeof formData.author === 'string' ? formData.author : '');
+      const matched = authors.find(
+        (a) => a.name?.toLowerCase() === currentAuthorName.toLowerCase()
+      );
+      if (matched) {
+        setSelectedAuthorId(matched.id);
+      }
+    }
+  }, [authors]);
+
+  // Handle Author Selection dari Firestore
+  const handleAuthorSelect = (authorId) => {
+    setSelectedAuthorId(authorId);
+    if (authorId === 'custom') {
       setAuthorSettingsOpen(true);
       return;
     }
-    const preset = AUTHOR_PRESETS.find((p) => p.id === presetId);
-    if (preset) {
+    const matched = authors.find((a) => a.id === authorId);
+    if (matched) {
       setFormData((prev) => ({
         ...prev,
         author: {
-          name: preset.name,
-          bio: preset.role,
-          avatar: preset.avatar,
-          url: preset.url,
+          name: matched.name,
+          bio: matched.role || matched.bio || '',
+          avatar: matched.avatar || '',
+          url: matched.url || 'https://sumestawsome.xyz',
         },
-        authorRole: preset.role,
-        authorAvatar: preset.avatar,
+        authorRole: matched.role || matched.bio || '',
+        authorAvatar: matched.avatar || '',
       }));
     }
   };
@@ -308,13 +353,13 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
 
     const importedAuthorName =
       article.author?.name || (typeof article.author === 'string' ? article.author : '');
-    const matchedPreset = AUTHOR_PRESETS.find(
-      (p) => p.name.toLowerCase() === importedAuthorName.toLowerCase()
+    const matched = authors.find(
+      (a) => a.name?.toLowerCase() === importedAuthorName.toLowerCase()
     );
-    if (matchedPreset) {
-      setSelectedPresetId(matchedPreset.id);
+    if (matched) {
+      setSelectedAuthorId(matched.id);
     } else if (importedAuthorName) {
-      setSelectedPresetId('custom');
+      setSelectedAuthorId('custom');
     }
 
     setAutoSlug(false);
@@ -324,7 +369,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
     toast.success('Data artikel berhasil dimuat ke formulir!');
   };
 
-  // Upload Cover Image via 2-stage uploader
+  // Upload Cover Image via 2-stage uploader dengan penamaan ramah SEO
   const handleCoverUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -332,7 +377,8 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
     setUploadingCover(true);
     setErrorMessage(null);
     try {
-      const finalUrl = await uploadBlogImage(file);
+      const coverSlug = formData.slug || slugify(formData.title) || 'blog-cover';
+      const finalUrl = await uploadBlogImage(file, `${coverSlug}-cover`);
       setFormData((prev) => ({
         ...prev,
         coverImage: {
@@ -349,7 +395,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
     }
   };
 
-  // Upload Author Avatar via 2-stage uploader
+  // Upload Author Avatar via 2-stage uploader dengan penamaan ramah SEO
   const handleAvatarUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -357,13 +403,16 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
     setUploadingAvatar(true);
     setErrorMessage(null);
     try {
-      const finalUrl = await uploadBlogImage(file);
+      const authorPrefix = formData.author?.name ? `avatar-${formData.author.name}` : 'avatar-author';
+      const finalUrl = await uploadBlogImage(file, authorPrefix);
+      setSelectedAuthorId('custom');
       setFormData((prev) => ({
         ...prev,
         author: {
           ...prev.author,
           avatar: finalUrl,
         },
+        authorAvatar: finalUrl,
       }));
     } catch (err) {
       console.error('Gagal upload avatar:', err);
@@ -909,19 +958,34 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
 
               {/* Dropdown Pemilihan Cepat Profil */}
               <div>
-                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
-                  Pilih Profil Cepat
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-mono font-semibold text-zinc-300">
+                    Pilih Profil Penulis
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate('admin-authors')}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-semesta hover:underline underline-offset-4 cursor-pointer"
+                    title="Buka Halaman Kelola Penulis"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Kelola Penulis</span>
+                  </button>
+                </div>
                 <select
-                  value={selectedPresetId}
-                  onChange={(e) => handleAuthorPresetChange(e.target.value)}
+                  value={selectedAuthorId}
+                  onChange={(e) => handleAuthorSelect(e.target.value)}
                   className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono cursor-pointer"
                 >
-                  {AUTHOR_PRESETS.map((preset) => (
-                    <option key={preset.id} value={preset.id}>
-                      {preset.name} ({preset.role})
-                    </option>
-                  ))}
+                  {authors.length > 0 ? (
+                    authors.map((author) => (
+                      <option key={author.id} value={author.id}>
+                        {author.name} {author.role ? `(${author.role})` : ''}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="admin">Admin Sumesta (Full-stack developer)</option>
+                  )}
                   <option value="custom">Kustom (Isi Manual)</option>
                 </select>
               </div>
@@ -952,7 +1016,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       {formData.author?.name || DEFAULT_AUTHOR.name}
                     </span>
                     <span className="text-[10px] text-semesta bg-semesta/10 border border-semesta/20 px-1.5 py-0.5 rounded-none font-semibold">
-                      {selectedPresetId === 'custom' ? 'Kustom' : 'Preset'}
+                      {selectedAuthorId === 'custom' ? 'Kustom' : 'Tersinkron'}
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 truncate mt-0.5">
@@ -972,7 +1036,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       type="text"
                       value={formData.author?.name || ''}
                       onChange={(e) => {
-                        setSelectedPresetId('custom');
+                        setSelectedAuthorId('custom');
                         setFormData((prev) => ({
                           ...prev,
                           author: { ...prev.author, name: e.target.value },
@@ -990,7 +1054,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       type="text"
                       value={formData.author?.bio || ''}
                       onChange={(e) => {
-                        setSelectedPresetId('custom');
+                        setSelectedAuthorId('custom');
                         setFormData((prev) => ({
                           ...prev,
                           author: { ...prev.author, bio: e.target.value },
@@ -1009,7 +1073,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       type="url"
                       value={formData.author?.url || ''}
                       onChange={(e) => {
-                        setSelectedPresetId('custom');
+                        setSelectedAuthorId('custom');
                         setFormData((prev) => ({
                           ...prev,
                           author: { ...prev.author, url: e.target.value },
@@ -1033,7 +1097,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                             type="file"
                             accept="image/*"
                             onChange={(e) => {
-                              setSelectedPresetId('custom');
+                              setSelectedAuthorId('custom');
                               handleAvatarUpload(e);
                             }}
                             disabled={uploadingAvatar}
@@ -1051,7 +1115,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                         type="url"
                         value={formData.author?.avatar || ''}
                         onChange={(e) => {
-                          setSelectedPresetId('custom');
+                          setSelectedAuthorId('custom');
                           setFormData((prev) => ({
                             ...prev,
                             author: { ...prev.author, avatar: e.target.value },

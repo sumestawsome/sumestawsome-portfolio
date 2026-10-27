@@ -16,6 +16,7 @@ import AdminBlogList from './pages/admin/AdminBlogList';
 import AdminBlogEditor from './pages/admin/AdminBlogEditor';
 import AdminKaryaList from './pages/admin/AdminKaryaList';
 import AdminKaryaEditor from './pages/admin/AdminKaryaEditor';
+import AdminAuthors from './pages/admin/AdminAuthors';
 import AdminRouteGuard from './components/admin/AdminRouteGuard';
 import OtonanTool from './pages/tools/OtonanTool';
 
@@ -34,6 +35,7 @@ export default function App() {
       if (path === '/admin/karya/create' || path === '/admin/karya/editor') return 'admin-karya-create';
       if (path.startsWith('/admin/karya/edit/')) return 'admin-karya-edit';
       if (path === '/admin/karya') return 'admin-karya';
+      if (path === '/admin/authors') return 'admin-authors';
       if (path === '/admin/blog/create') return 'admin-blog-create';
       if (path.startsWith('/admin/blog/edit/')) return 'admin-blog-edit';
       if (path === '/admin/blog' || path === '/admin' || path === '/admin/') return 'admin-blog';
@@ -85,6 +87,8 @@ export default function App() {
       window.history.pushState(null, '', `/admin/karya/edit/${slug}`);
     } else if (view === 'admin-blog') {
       window.history.pushState(null, '', '/admin/blog');
+    } else if (view === 'admin-authors') {
+      window.history.pushState(null, '', '/admin/authors');
     } else if (view === 'admin-blog-create') {
       window.history.pushState(null, '', '/admin/blog/create');
     } else if (view === 'admin-blog-edit') {
@@ -130,6 +134,8 @@ export default function App() {
         setCurrentView('admin-karya-edit');
       } else if (path === '/admin/karya') {
         setCurrentView('admin-karya');
+      } else if (path === '/admin/authors') {
+        setCurrentView('admin-authors');
       } else if (path === '/admin/blog/create') {
         setCurrentView('admin-blog-create');
       } else if (path.startsWith('/admin/blog/edit/')) {
@@ -163,7 +169,9 @@ export default function App() {
 
     return (
       <AdminRouteGuard onNavigate={navigateTo}>
-        {currentView === 'admin-blog-create' ? (
+        {currentView === 'admin-authors' ? (
+          <AdminAuthors onNavigate={navigateTo} />
+        ) : currentView === 'admin-blog-create' ? (
           <AdminBlogEditor onNavigate={navigateTo} />
         ) : currentView === 'admin-blog-edit' ? (
           <AdminBlogEditor slug={currentSlug} onNavigate={navigateTo} />
