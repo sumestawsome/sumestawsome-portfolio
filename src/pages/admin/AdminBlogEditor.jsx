@@ -27,12 +27,24 @@ import {
 import { toast, Toaster } from 'sonner';
 import { slugify } from '../../utils/slugify';
 
-const DEFAULT_AUTHOR = {
-  name: 'Admin Sumesta',
-  role: 'Full-stack developer & tech enthusiast.',
-  avatar: 'https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp',
-  url: 'https://sumestawsome.xyz',
-};
+const AUTHOR_PRESETS = [
+  {
+    id: 'agus',
+    name: 'Putu Agus Sumerta Yasa',
+    role: 'Frontend Developer & Graphic Designer',
+    avatar: 'https://ui-avatars.com/api/?name=Putu+Agus&background=2563eb&color=fff&bold=true',
+    url: 'https://sumestawsome.xyz',
+  },
+  {
+    id: 'admin',
+    name: 'Admin Sumesta',
+    role: 'Full-stack developer & tech enthusiast.',
+    avatar: 'https://ui-avatars.com/api/?name=Admin+Sumesta&background=0f172a&color=fff&bold=true',
+    url: 'https://sumestawsome.xyz',
+  },
+];
+
+const DEFAULT_AUTHOR = AUTHOR_PRESETS[1];
 
 export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => {} }) {
   const isEditMode = Boolean(initialSlug);
@@ -49,7 +61,8 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
   const [jsonInput, setJsonInput] = useState('');
   const [jsonError, setJsonError] = useState(null);
 
-  // State collapsible Pengaturan Penulis
+  // State Profil Penulis
+  const [selectedPresetId, setSelectedPresetId] = useState('admin');
   const [authorSettingsOpen, setAuthorSettingsOpen] = useState(false);
 
   // Mode editor: 'write' vs 'preview'
@@ -112,6 +125,16 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                 : data.seo?.keywords || '',
             },
           });
+          const loadedAuthorName =
+            data.author?.name || (typeof data.author === 'string' ? data.author : '');
+          const matchedPreset = AUTHOR_PRESETS.find(
+            (p) => p.name.toLowerCase() === loadedAuthorName.toLowerCase()
+          );
+          if (matchedPreset) {
+            setSelectedPresetId(matchedPreset.id);
+          } else if (loadedAuthorName) {
+            setSelectedPresetId('custom');
+          }
           setAutoSlug(false);
         } else {
           setErrorMessage(`Artikel dengan slug "${initialSlug}" tidak ditemukan di database.`);
@@ -126,6 +149,29 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
 
     loadExistingPost();
   }, [isEditMode, initialSlug]);
+
+  // Handle Author Preset Selection
+  const handleAuthorPresetChange = (presetId) => {
+    setSelectedPresetId(presetId);
+    if (presetId === 'custom') {
+      setAuthorSettingsOpen(true);
+      return;
+    }
+    const preset = AUTHOR_PRESETS.find((p) => p.id === presetId);
+    if (preset) {
+      setFormData((prev) => ({
+        ...prev,
+        author: {
+          name: preset.name,
+          bio: preset.role,
+          avatar: preset.avatar,
+          url: preset.url,
+        },
+        authorRole: preset.role,
+        authorAvatar: preset.avatar,
+      }));
+    }
+  };
 
   // Handle title change & auto-generate slug
   const handleTitleChange = (e) => {
@@ -259,6 +305,17 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
         noIndex: Boolean(article.seo?.noIndex),
       },
     }));
+
+    const importedAuthorName =
+      article.author?.name || (typeof article.author === 'string' ? article.author : '');
+    const matchedPreset = AUTHOR_PRESETS.find(
+      (p) => p.name.toLowerCase() === importedAuthorName.toLowerCase()
+    );
+    if (matchedPreset) {
+      setSelectedPresetId(matchedPreset.id);
+    } else if (importedAuthorName) {
+      setSelectedPresetId('custom');
+    }
 
     setAutoSlug(false);
     setImportModalOpen(false);
@@ -850,12 +907,38 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                 </button>
               </div>
 
+              {/* Dropdown Pemilihan Cepat Profil */}
+              <div>
+                <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
+                  Pilih Profil Cepat
+                </label>
+                <select
+                  value={selectedPresetId}
+                  onChange={(e) => handleAuthorPresetChange(e.target.value)}
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono cursor-pointer"
+                >
+                  {AUTHOR_PRESETS.map((preset) => (
+                    <option key={preset.id} value={preset.id}>
+                      {preset.name} ({preset.role})
+                    </option>
+                  ))}
+                  <option value="custom">Kustom (Isi Manual)</option>
+                </select>
+              </div>
+
               {/* Status Ringkas Penulis Otomatis */}
               <div className="flex items-center gap-3.5 bg-zinc-950 p-3 border border-zinc-800/80 rounded-none">
-                {formData.author?.avatar ? (
+                {formData.author?.avatar || formData.authorAvatar ? (
                   <img
-                    src={formData.author.avatar}
+                    src={formData.author?.avatar || formData.authorAvatar}
                     alt={formData.author?.name || 'Admin'}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      const authorName = formData.author?.name || 'Admin';
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        authorName
+                      )}&background=2563eb&color=fff&bold=true`;
+                    }}
                     className="w-10 h-10 object-cover border border-zinc-700 rounded-none bg-zinc-800 flex-shrink-0"
                   />
                 ) : (
@@ -869,11 +952,11 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       {formData.author?.name || DEFAULT_AUTHOR.name}
                     </span>
                     <span className="text-[10px] text-semesta bg-semesta/10 border border-semesta/20 px-1.5 py-0.5 rounded-none font-semibold">
-                      Profil Utama
+                      {selectedPresetId === 'custom' ? 'Kustom' : 'Preset'}
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 truncate mt-0.5">
-                    {formData.author?.bio || DEFAULT_AUTHOR.role}
+                    {formData.author?.bio || formData.authorRole || DEFAULT_AUTHOR.role}
                   </p>
                 </div>
               </div>
@@ -888,12 +971,13 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                     <input
                       type="text"
                       value={formData.author?.name || ''}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        setSelectedPresetId('custom');
                         setFormData((prev) => ({
                           ...prev,
                           author: { ...prev.author, name: e.target.value },
-                        }))
-                      }
+                        }));
+                      }}
                       className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono"
                     />
                   </div>
@@ -905,12 +989,33 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                     <input
                       type="text"
                       value={formData.author?.bio || ''}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        setSelectedPresetId('custom');
                         setFormData((prev) => ({
                           ...prev,
                           author: { ...prev.author, bio: e.target.value },
-                        }))
-                      }
+                          authorRole: e.target.value,
+                        }));
+                      }}
+                      className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1">
+                      Tautan Profil (URL)
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.author?.url || ''}
+                      onChange={(e) => {
+                        setSelectedPresetId('custom');
+                        setFormData((prev) => ({
+                          ...prev,
+                          author: { ...prev.author, url: e.target.value },
+                        }));
+                      }}
+                      placeholder="https://sumestawsome.xyz"
                       className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs rounded-none outline-none font-mono"
                     />
                   </div>
@@ -927,7 +1032,10 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                           <input
                             type="file"
                             accept="image/*"
-                            onChange={handleAvatarUpload}
+                            onChange={(e) => {
+                              setSelectedPresetId('custom');
+                              handleAvatarUpload(e);
+                            }}
                             disabled={uploadingAvatar}
                             className="hidden"
                           />
@@ -942,13 +1050,15 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                       <input
                         type="url"
                         value={formData.author?.avatar || ''}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          setSelectedPresetId('custom');
                           setFormData((prev) => ({
                             ...prev,
                             author: { ...prev.author, avatar: e.target.value },
-                          }))
-                        }
-                        placeholder="https://cdn.sumestawsome.xyz/uploads/..."
+                            authorAvatar: e.target.value,
+                          }));
+                        }}
+                        placeholder="https://ui-avatars.com/api/?name=..."
                         className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs font-mono rounded-none outline-none"
                       />
                     </div>

@@ -79,12 +79,12 @@ const blogPostData = {
   },
   author: {
     name: 'Admin Sumesta',
-    avatar: 'https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp',
+    avatar: 'https://ui-avatars.com/api/?name=Admin+Sumesta&background=0f172a&color=fff&bold=true',
     bio: 'Full-stack developer & tech enthusiast.',
     url: 'https://sumestawsome.xyz',
   },
   authorRole: 'Full-stack developer & tech enthusiast.',
-  authorAvatar: 'https://cdn.sumestawsome.xyz/uploads/avatar-admin.webp',
+  authorAvatar: 'https://ui-avatars.com/api/?name=Admin+Sumesta&background=0f172a&color=fff&bold=true',
   seo: {
     metaTitle: 'Cara Mencari Tanggal Lahir dari Hari Otonan Bali (Bedah Logika dan Algoritma)',
     metaDescription:

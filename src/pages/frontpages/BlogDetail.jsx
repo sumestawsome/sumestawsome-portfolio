@@ -337,7 +337,12 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                     {post.author?.avatar || post.authorAvatar ? (
                       <img
                         src={post.author?.avatar || post.authorAvatar}
-                        alt={post.author?.name || 'Admin Sumesta'}
+                        alt={post.author?.name || (typeof post.author === 'string' ? post.author : 'Admin Sumesta')}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          const authorName = post.author?.name || (typeof post.author === 'string' ? post.author : 'Admin');
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2563eb&color=fff&bold=true`;
+                        }}
                         className="w-6 h-6 rounded-none border border-zinc-300 object-cover"
                       />
                     ) : (
@@ -561,7 +566,12 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
                 {post.author?.avatar || post.authorAvatar ? (
                   <img
                     src={post.author?.avatar || post.authorAvatar}
-                    alt={post.author?.name || 'Admin Sumesta'}
+                    alt={post.author?.name || (typeof post.author === 'string' ? post.author : 'Admin Sumesta')}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      const authorName = post.author?.name || (typeof post.author === 'string' ? post.author : 'Admin');
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2563eb&color=fff&bold=true`;
+                    }}
                     className="w-16 h-16 rounded-none border border-zinc-300 object-cover flex-shrink-0"
                   />
                 ) : (
