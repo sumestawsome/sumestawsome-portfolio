@@ -125,43 +125,38 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
   return (
     <article className="border border-zinc-200 bg-white hover:border-semesta/50 transition-colors flex flex-col justify-between rounded-none group h-full">
       <div>
-        {/* Cover Image & Media Area (3 Lapisan: Backdrop Blur + Badge Tengah + Inset Zoom) */}
+        {/* Cover Image & Media Area (Hover Zoom Blur + Slide-Left Badge + Center Read Button) */}
         <a
           href={`/blog/${post.slug}`}
           onClick={handleCardClick}
-          className="block aspect-[16/9] w-full overflow-hidden border-b border-zinc-200 relative bg-semesta/10 rounded-none"
+          className="block aspect-[16/9] w-full overflow-hidden border-b border-zinc-200 relative bg-zinc-100 rounded-none"
         >
-          {/* Lapisan 1: Latar Belakang Thumbnail Blur + Overlay Ungu Transparan */}
+          {/* 1. Gambar Thumbnail Penuh */}
           <img
             src={coverUrl}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover scale-110 blur-md transition-opacity duration-500 ease-out group-hover:opacity-0 rounded-none"
+            alt={coverAlt}
+            className="w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-105 group-hover:blur-sm rounded-none"
             loading="lazy"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = '/placeholder-blog.svg';
             }}
           />
-          <div className="absolute inset-0 bg-semesta/65 transition-opacity duration-500 ease-out group-hover:opacity-0" />
 
-          {/* Lapisan 2: Badge Kategori di Tengah Atas (Meluncur Naik & Menghilang saat Hover) */}
-          <span className="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 bg-white text-semesta border border-semesta/20 rounded-none shadow-none font-mono text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 whitespace-nowrap transition-all duration-500 ease-out group-hover:-translate-y-10 group-hover:opacity-0">
+          {/* 2. Lapisan Gelap Tipis Saat Hover */}
+          <div className="absolute inset-0 bg-zinc-950/0 transition-colors duration-300 ease-out group-hover:bg-zinc-950/35 pointer-events-none" />
+
+          {/* 3. Badge Kategori di Pojok Kiri Atas (Meluncur ke Kiri & Menghilang Saat Hover) */}
+          <span className="absolute top-2.5 left-2.5 z-20 bg-white/95 backdrop-blur text-semesta border border-semesta/20 font-mono text-[10px] font-bold px-2 py-0.5 rounded-none shadow-none transition-all duration-300 ease-out group-hover:-translate-x-8 group-hover:opacity-0">
             {post.category || 'Artikel'}
           </span>
 
-          {/* Lapisan 3: Thumbnail Utama Tajam (Inset di Bawah, Membesar Penuh saat Hover) */}
-          <div className="absolute bottom-0 left-5 right-5 top-10 sm:left-6 sm:right-6 sm:top-11 z-10 overflow-hidden bg-white transition-all duration-500 ease-out group-hover:top-0 group-hover:left-0 group-hover:right-0 rounded-none">
-            <img
-              src={coverUrl}
-              alt={coverAlt}
-              className="h-full w-full object-cover rounded-none"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = '/placeholder-blog.svg';
-              }}
-            />
+          {/* 4. Tombol "Baca Sekarang" di Tengah Thumbnail (Muncul Saat Hover) */}
+          <div className="absolute inset-0 z-20 flex items-center justify-center p-4 pointer-events-none">
+            <span className="inline-flex items-center gap-1.5 bg-semesta text-white border border-white/25 font-sans text-xs font-bold px-4 py-2 rounded-none shadow-none opacity-0 translate-y-2 scale-95 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100">
+              <span>Baca Sekarang</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
           </div>
         </a>
 
