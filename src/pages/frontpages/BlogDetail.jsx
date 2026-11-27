@@ -550,7 +550,7 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
 
                     return (
                       <code
-                        className="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-code font-normal text-[0.92em] px-1.5 py-0.5 rounded-none border border-zinc-300 dark:border-zinc-700 break-words before:content-none after:content-none shadow-none"
+                        className="bg-zinc-200/75 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-mono font-normal text-[0.9em] px-1.5 py-0.5 rounded-none border-0 shadow-none break-words before:content-none after:content-none"
                         {...props}
                       >
                         {children}

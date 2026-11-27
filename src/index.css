@@ -17,7 +17,7 @@
   }
 
   :not(pre) > code {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Mono', monospace;
     font-weight: 400;
   }
 
