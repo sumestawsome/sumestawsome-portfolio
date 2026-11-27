@@ -56,8 +56,14 @@ export default function AdminLogin({ onNavigate = () => {} }) {
       <div className="max-w-md w-full">
         {/* Header Branding */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-semesta/10 border-2 border-semesta mb-3 rounded-none text-semesta">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-semesta/10 border-2 border-semesta mb-4 rounded-none text-semesta">
             <Shield className="w-6 h-6" />
+          </div>
+          <div className="flex items-center justify-center gap-2.5 mb-2">
+            <span className="w-3.5 h-3.5 bg-semesta inline-block" />
+            <span className="font-sora text-xl sm:text-2xl font-bold tracking-tight text-white">
+              sumestawsome
+            </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
             Admin CMS Portal

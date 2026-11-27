@@ -73,7 +73,7 @@ export default function Navbar({ currentView = 'home', onNavigate = () => {} }) 
               alt="sumestawsome Logo"
               className="w-7 h-7 sm:w-8 sm:h-8 object-contain transition-transform duration-500 hover:rotate-180 group-hover:rotate-180 ease-in-out"
             />
-            <span className="font-mono text-base sm:text-lg font-bold tracking-tight text-slate-900 group-hover:text-semesta transition-colors">
+            <span className="font-sora text-lg sm:text-xl font-bold tracking-tight text-slate-900 group-hover:text-semesta transition-colors">
               sumestawsome
             </span>
           </a>

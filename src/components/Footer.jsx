@@ -101,10 +101,10 @@ export default function Footer({ currentView = 'home', onNavigate = () => {} }) 
                 onNavigate('home');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-2 mb-2 group inline-block"
+              className="flex items-center gap-2.5 mb-2 group inline-block"
             >
-              <span className="w-3 h-3 bg-semesta inline-block transition-transform duration-300 group-hover:rotate-45" />
-              <span className="font-mono text-lg font-bold tracking-tight text-slate-900 group-hover:text-semesta transition-colors">
+              <span className="w-3.5 h-3.5 bg-semesta inline-block transition-transform duration-300 group-hover:rotate-45" />
+              <span className="font-sora text-lg sm:text-xl font-bold tracking-tight text-slate-900 group-hover:text-semesta transition-colors">
                 sumestawsome
               </span>
             </a>

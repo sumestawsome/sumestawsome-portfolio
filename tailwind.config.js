@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Sora"', 'sans-serif'],
+        sora: ['"Sora"', 'sans-serif'],
         mono: ['"Roboto Mono"', 'monospace'],
       },
       colors: {

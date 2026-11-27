@@ -32,9 +32,9 @@ export default function AdminLayout({
                   e.preventDefault();
                   onNavigate('admin-blog');
                 }}
-                className="flex items-center gap-2 font-mono font-bold text-base tracking-tight text-white hover:text-semesta transition-colors"
+                className="flex items-center gap-2.5 font-sora font-bold text-base sm:text-lg tracking-tight text-white hover:text-semesta transition-colors"
               >
-                <span className="w-3 h-3 bg-semesta inline-block" />
+                <span className="w-3.5 h-3.5 bg-semesta inline-block" />
                 <span>sumestawsome</span>
               </a>
               <span className="bg-semesta/20 text-semesta border border-semesta/40 text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-none flex items-center gap-1">
