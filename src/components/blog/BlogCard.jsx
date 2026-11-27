@@ -23,6 +23,11 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const coverUrl =
+    post.coverImage?.url ||
+    (typeof post.coverImage === 'string' && post.coverImage.trim() ? post.coverImage : '/placeholder-blog.svg');
+  const coverAlt = post.coverImage?.alt || post.title || 'Thumbnail Blog';
+
   if (isFeatured) {
     return (
       <article className="border-2 border-semesta bg-white p-6 sm:p-8 rounded-none mb-10 transition-colors">
@@ -120,25 +125,44 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
   return (
     <article className="border border-zinc-200 bg-white hover:border-semesta/50 transition-colors flex flex-col justify-between rounded-none group h-full">
       <div>
-        {/* Cover Image */}
+        {/* Cover Image & Media Area (3 Lapisan: Backdrop Blur + Badge Tengah + Inset Zoom) */}
         <a
           href={`/blog/${post.slug}`}
           onClick={handleCardClick}
-          className="block overflow-hidden border-b border-zinc-200 aspect-[16/9] bg-zinc-100 rounded-none relative"
+          className="block aspect-[16/9] w-full overflow-hidden border-b border-zinc-200 relative bg-semesta/10 rounded-none"
         >
+          {/* Lapisan 1: Latar Belakang Thumbnail Blur + Overlay Ungu Transparan */}
           <img
-            src={post.coverImage?.url || (typeof post.coverImage === 'string' ? post.coverImage : '/placeholder-blog.svg')}
-            alt={post.coverImage?.alt || post.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-none"
+            src={coverUrl}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover scale-110 blur-md transition-opacity duration-500 ease-out group-hover:opacity-0 rounded-none"
             loading="lazy"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = '/placeholder-blog.svg';
             }}
           />
-          <span className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur text-semesta border border-semesta/20 text-[10px] font-bold px-2 py-0.5 rounded-none font-mono">
+          <div className="absolute inset-0 bg-semesta/65 transition-opacity duration-500 ease-out group-hover:opacity-0" />
+
+          {/* Lapisan 2: Badge Kategori di Tengah Atas (Meluncur Naik & Menghilang saat Hover) */}
+          <span className="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 bg-white text-semesta border border-semesta/20 rounded-none shadow-none font-mono text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 whitespace-nowrap transition-all duration-500 ease-out group-hover:-translate-y-10 group-hover:opacity-0">
             {post.category || 'Artikel'}
           </span>
+
+          {/* Lapisan 3: Thumbnail Utama Tajam (Inset di Bawah, Membesar Penuh saat Hover) */}
+          <div className="absolute bottom-0 left-5 right-5 top-10 sm:left-6 sm:right-6 sm:top-11 z-10 overflow-hidden bg-white transition-all duration-500 ease-out group-hover:top-0 group-hover:left-0 group-hover:right-0 rounded-none">
+            <img
+              src={coverUrl}
+              alt={coverAlt}
+              className="h-full w-full object-cover rounded-none"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/placeholder-blog.svg';
+              }}
+            />
+          </div>
         </a>
 
         {/* Card Content */}
