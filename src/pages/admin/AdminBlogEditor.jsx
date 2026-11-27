@@ -65,7 +65,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
     title: '',
     slug: '',
     excerpt: '',
-    category: 'Deployment & DevOps',
+    category: 'Frontend',
     tags: 'Vercel, Next.js, GitHub, Web Development',
     readingTime: 5,
     status: 'published',
@@ -271,7 +271,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
 
     const title = article.title?.trim() || '';
     const targetSlug = article.slug?.trim() || slugify(title);
-    const category = article.category?.trim() || formData.category || 'Deployment & DevOps';
+    const category = article.category?.trim() || formData.category || 'Frontend';
 
     let tags = '';
     if (Array.isArray(article.tags)) {
@@ -645,22 +645,20 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
 
               <div className="sm:col-span-4">
                 <label className="block text-xs font-mono font-semibold text-zinc-300 mb-1.5">
-                  Kategori
+                  Kategori <span className="text-red-400">*</span>
                 </label>
-                <input
-                  type="text"
-                  list="category-suggestions"
+                <select
                   value={formData.category}
                   onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
-                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs sm:text-sm font-mono rounded-none outline-none"
-                />
-                <datalist id="category-suggestions">
-                  <option value="Deployment & DevOps" />
-                  <option value="Web Development" />
-                  <option value="Frontend Engineering" />
-                  <option value="UI/UX & Visual" />
-                  <option value="Tutorial" />
-                </datalist>
+                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-white px-3 py-2 text-xs sm:text-sm font-mono rounded-none outline-none shadow-none cursor-pointer"
+                >
+                  <option value="Frontend">Frontend</option>
+                  <option value="Backend">Backend</option>
+                  <option value="Database">Database</option>
+                  <option value="Fullstack & AI">Fullstack & AI</option>
+                  <option value="DevOps & Deployment">DevOps & Deployment</option>
+                  <option value="Tutorial & Fundamental">Tutorial & Fundamental</option>
+                </select>
               </div>
             </div>
 

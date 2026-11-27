@@ -28,5 +28,6 @@ dist-ssr
 bahan_blog.md
 drafts/
 *.draft.md
+serviceAccountKey.json
 
 .codebase-memory/

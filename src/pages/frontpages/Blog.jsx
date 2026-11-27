@@ -73,8 +73,20 @@ export default function Blog({ onNavigate = () => {} }) {
     fetchPosts();
   }, []);
 
-  // Ekstrak kategori unik
-  const categories = ['Semua', ...new Set(posts.map((p) => p.category).filter(Boolean))];
+  // Daftar 6 kategori baku Sumestawsome
+  const STANDARD_CATEGORIES = [
+    'Frontend',
+    'Backend',
+    'Database',
+    'Fullstack & AI',
+    'DevOps & Deployment',
+    'Tutorial & Fundamental',
+  ];
+
+  // Ekstrak kategori unik dengan urutan baku
+  const uniqueCategories = new Set(posts.map((p) => p.category).filter(Boolean));
+  const orderedCategories = STANDARD_CATEGORIES.filter((c) => uniqueCategories.has(c));
+  const categories = ['Semua', ...orderedCategories];
 
   // Filter berdasarkan kategori yang dipilih
   const filteredPosts =
@@ -122,10 +134,10 @@ export default function Blog({ onNavigate = () => {} }) {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1.5 text-xs font-mono font-medium transition-colors rounded-none border ${
+                    className={`px-3 py-1.5 text-xs font-mono font-medium transition-colors rounded-none border shadow-none ${
                       selectedCategory === cat
                         ? 'bg-semesta text-white border-semesta font-bold'
-                        : 'bg-white text-zinc-700 border-zinc-200 hover:border-semesta hover:text-semesta'
+                        : 'bg-white text-zinc-700 border-zinc-300 hover:border-semesta hover:text-semesta'
                     }`}
                   >
                     {cat}
