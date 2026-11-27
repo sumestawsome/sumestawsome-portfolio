@@ -859,7 +859,7 @@ ${contentText}
                     </a>
                   ),
                   blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-semesta pl-4 py-2 italic my-6 text-zinc-600 bg-zinc-50 rounded-none">
+                    <blockquote className="rounded-none border-l-4 border-semesta bg-slate-100/90 dark:bg-zinc-900/90 px-4 py-3.5 my-6 text-sm text-zinc-700 dark:text-zinc-300 not-italic font-normal before:content-none after:content-none shadow-none [&>p]:my-0 [&>p]:leading-relaxed">
                       {children}
                     </blockquote>
                   ),

@@ -852,8 +852,8 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                   placeholder="# Tulis artikel Anda di sini menggunakan format Markdown...&#10;&#10;## Subheading 1&#10;Isi paragraf artikel...&#10;&#10;```javascript&#10;console.log('Halo Sumestawsome!');&#10;```"
                   className="w-full bg-zinc-950 border border-zinc-800 focus:border-semesta text-zinc-100 p-4 font-mono text-xs sm:text-sm leading-relaxed rounded-none outline-none resize-y"
                 />
-                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-500 mt-2">
-                  <span>Mendukung sintaks CommonMark & GitHub Flavored Markdown (GFM).</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono text-zinc-500 mt-2">
+                  <span>Mendukung sintaks CommonMark & GitHub Flavored Markdown (GFM). Gunakan awalan &gt; untuk membuat kotak catatan.</span>
                   <span>Estimasi baca: ~{formData.readingTime} menit</span>
                 </div>
               </div>
@@ -916,7 +916,7 @@ export default function AdminBlogEditor({ slug: initialSlug, onNavigate = () => 
                         </a>
                       ),
                       blockquote: ({ children }) => (
-                        <blockquote className="border-l-4 border-semesta pl-4 py-2 italic my-4 text-zinc-600 bg-zinc-50">
+                        <blockquote className="rounded-none border-l-4 border-semesta bg-slate-100/90 dark:bg-zinc-900/90 px-4 py-3.5 my-6 text-sm text-zinc-700 dark:text-zinc-300 not-italic font-normal before:content-none after:content-none shadow-none [&>p]:my-0 [&>p]:leading-relaxed">
                           {children}
                         </blockquote>
                       ),

@@ -28,3 +28,47 @@
     border-radius: 0px !important;
   }
 }
+
+/* Styling Scrollbar Gelap untuk Blok Kode */
+pre,
+.prose pre,
+.code-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 #18181b;
+}
+
+pre::-webkit-scrollbar,
+.prose pre::-webkit-scrollbar,
+.code-scroll::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+pre::-webkit-scrollbar-track,
+.prose pre::-webkit-scrollbar-track,
+.code-scroll::-webkit-scrollbar-track {
+  background: #18181b;
+  border-radius: 0px;
+}
+
+pre::-webkit-scrollbar-thumb,
+.prose pre::-webkit-scrollbar-thumb,
+.code-scroll::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 0px;
+}
+
+pre::-webkit-scrollbar-thumb:hover,
+.prose pre::-webkit-scrollbar-thumb:hover,
+.code-scroll::-webkit-scrollbar-thumb:hover {
+  background: #5b21b6;
+}
+
+/* Kotak Catatan (Callout Box) Markdown */
+blockquote {
+  quotes: none;
+}
+blockquote::before,
+blockquote::after {
+  content: none !important;
+}

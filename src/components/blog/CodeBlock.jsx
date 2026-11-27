@@ -69,23 +69,23 @@ export default function CodeBlock({ language, code, ...props }) {
       </div>
 
       {/* Wadah Syntax Highlighter Prism */}
-      <div className="overflow-x-auto max-w-full">
+      <div className="overflow-x-auto max-w-full code-scroll">
         <SyntaxHighlighter
           language={displayLanguage === 'rules' ? 'javascript' : displayLanguage}
           style={vscDarkPlus}
-          PreTag="div"
+          PreTag="pre"
           customStyle={{
             margin: 0,
-            padding: '1.25rem 1rem',
+            padding: '1.25rem 1rem 1.5rem 1rem',
             background: '#18181b',
             fontSize: '0.875rem',
             lineHeight: '1.6',
             borderRadius: '0px',
-            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+            fontFamily: '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
           }}
           codeTagProps={{
             style: {
-              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+              fontFamily: '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
             },
           }}
           {...props}
