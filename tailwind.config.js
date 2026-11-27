@@ -7,8 +7,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Inter"', 'sans-serif'],
+        sans: ['"Sora"', 'sans-serif'],
         mono: ['"DM Mono"', 'monospace'],
+        code: ['"Roboto"', 'sans-serif'],
+        roboto: ['"Roboto"', 'sans-serif'],
       },
       colors: {
         semesta: '#5b21b6', // Konversi presisi dari oklch(43.2% 0.232 292.759)
