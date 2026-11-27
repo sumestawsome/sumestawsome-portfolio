@@ -1,4 +1,4 @@
-import { Clock, Calendar, ArrowRight } from 'lucide-react';
+import { Clock, Calendar, ArrowRight, Eye } from 'lucide-react';
 
 export default function BlogCard({ post, onNavigate = () => {}, isFeatured = false }) {
   if (!post) return null;
@@ -61,6 +61,14 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
                 <span className="text-xs text-zinc-500 flex items-center gap-1 font-mono">
                   <Clock className="w-3 h-3 text-semesta" /> {post.readingTime || 5} mnt baca
                 </span>
+                {typeof post.views === 'number' && (
+                  <>
+                    <span className="text-zinc-400 text-xs">•</span>
+                    <span className="text-xs text-zinc-500 flex items-center gap-1 font-mono">
+                      <Eye className="w-3 h-3 text-semesta" /> {post.views} dilihat
+                    </span>
+                  </>
+                )}
               </div>
 
               <a href={`/blog/${post.slug}`} onClick={handleCardClick} className="block group">
@@ -143,6 +151,14 @@ export default function BlogCard({ post, onNavigate = () => {}, isFeatured = fal
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3 text-semesta" /> {post.readingTime || 5} mnt
             </span>
+            {typeof post.views === 'number' && (
+              <>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <Eye className="w-3 h-3 text-semesta" /> {post.views}
+                </span>
+              </>
+            )}
           </div>
 
           <a href={`/blog/${post.slug}`} onClick={handleCardClick} className="block">
