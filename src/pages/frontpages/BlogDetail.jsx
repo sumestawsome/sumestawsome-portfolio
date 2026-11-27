@@ -1,5 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
-import { doc, getDoc, collection, query, where, getDocs, limit, updateDoc, increment } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  limit,
+  updateDoc,
+  increment,
+  addDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { db, isFirebaseConfigured } from '../../lib/firebase';
@@ -24,6 +36,33 @@ import {
   FileCode,
   Link2,
 } from 'lucide-react';
+
+function detectTrafficSource() {
+  if (typeof window === 'undefined') return 'Direct / Langsung';
+  const params = new URLSearchParams(window.location.search);
+  const utm = (params.get('utm_source') || '').toLowerCase();
+  if (utm === 'whatsapp') return 'WhatsApp';
+  if (utm === 'instagram') return 'Instagram';
+  if (utm === 'linkedin') return 'LinkedIn';
+  if (utm === 'x' || utm === 'twitter') return 'X (Twitter)';
+  if (utm === 'facebook') return 'Facebook';
+
+  const ref = (document.referrer || '').toLowerCase();
+  if (ref.includes('google.')) return 'Google Search';
+  if (ref.includes('whatsapp.com') || ref.includes('wa.me')) return 'WhatsApp';
+  if (ref.includes('instagram.com')) return 'Instagram';
+  if (ref.includes('linkedin.com') || ref.includes('lnkd.in')) return 'LinkedIn';
+  if (ref.includes('t.co') || ref.includes('twitter.com') || ref.includes('x.com')) return 'X (Twitter)';
+  if (ref.includes('facebook.com') || ref.includes('fb.com')) return 'Facebook';
+  if (!ref || ref.includes('sumestawsome.xyz')) return 'Direct / Langsung';
+  return 'Lainnya';
+}
+
+function detectDeviceType() {
+  if (typeof window === 'undefined') return 'Desktop';
+  const isMobile = window.innerWidth < 768 || /Mobi|Android|iPhone/i.test(navigator.userAgent);
+  return isMobile ? 'Mobile' : 'Desktop';
+}
 
 export default function BlogDetail({ slug, onNavigate = () => {} }) {
   const [post, setPost] = useState(null);
@@ -98,6 +137,19 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
               .catch((err) => {
                 console.warn('Catatan view counter Firestore:', err.message);
               });
+
+            // Catat log kunjungan ke koleksi post_views untuk analitik dashboard admin
+            addDoc(collection(db, 'post_views'), {
+              postId: targetDocId,
+              slug: currentPost.slug || slug,
+              title: currentPost.title || slug,
+              category: currentPost.category || 'Umum',
+              source: detectTrafficSource(),
+              device: detectDeviceType(),
+              viewedAt: serverTimestamp(),
+            }).catch((err) => {
+              console.warn('Catatan post_views Firestore:', err.message);
+            });
           } catch (storageErr) {
             console.warn('SessionStorage tidak tersedia:', storageErr);
           }
@@ -278,11 +330,15 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
     };
   }, [shareOpen]);
 
-  const getArticleUrl = () => {
+  const getArticleUrl = (source = null) => {
+    let baseUrl = `https://sumestawsome.xyz/blog/${post?.slug || slug || ''}`;
     if (typeof window !== 'undefined') {
-      return window.location.href;
+      baseUrl = `${window.location.origin}/blog/${post?.slug || slug || ''}`;
     }
-    return `https://sumestawsome.xyz/blog/${post?.slug || ''}`;
+    if (source) {
+      return `${baseUrl}?utm_source=${encodeURIComponent(source)}`;
+    }
+    return baseUrl;
   };
 
   const getShareText = () => {
@@ -290,33 +346,33 @@ export default function BlogDetail({ slug, onNavigate = () => {} }) {
   };
 
   const handleShareWhatsApp = () => {
-    const url = getArticleUrl();
+    const url = getArticleUrl('whatsapp');
     const text = getShareText();
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`, '_blank', 'noopener,noreferrer');
     setShareOpen(false);
   };
 
   const handleShareLinkedIn = () => {
-    const url = getArticleUrl();
+    const url = getArticleUrl('linkedin');
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
     setShareOpen(false);
   };
 
   const handleShareX = () => {
-    const url = getArticleUrl();
+    const url = getArticleUrl('x');
     const text = getShareText();
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
     setShareOpen(false);
   };
 
   const handleShareFacebook = () => {
-    const url = getArticleUrl();
+    const url = getArticleUrl('facebook');
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
     setShareOpen(false);
   };
 
   const handleShareInstagram = async () => {
-    const url = getArticleUrl();
+    const url = getArticleUrl('instagram');
     const text = `${post?.title}\n${post?.excerpt || ''}\n${url}`;
 
     // Jalur mobile via Web Share API
